@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d5b3b204-fb71-4e98-9cb4-6363fbf91777" name="vomoloko.mvs.new" url="http://dev.vomoloko.ru/mvs/">
+        <fileTransfer host="vomoloko.ru" port="22" rootFolder="/home/vsftpd/psykarma/www_dev/mvs" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="aa9c37c6-2a68-461f-8087-6fad8cc9af0a" name="local" url="http://localhost/">
+        <fileTransfer port="0" mountedRoot="C:\work\env\Apache24\htdocs" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

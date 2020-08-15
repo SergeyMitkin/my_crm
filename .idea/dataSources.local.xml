@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL for 5.1 - vm_stat@vomoloko.ru" uuid="622f8910-046b-4e2b-b6d4-eb4e8f99a762">
+      <database-info product="MySQL" version="5.7.26" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" family="MYSQL" exact-version="5.7.26">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>vm_stat</user-name>
+      <introspection-schemas>*:vm_stat</introspection-schemas>
+    </data-source>
+    <data-source name="vm_stat_dev@vomoloko.ru" uuid="faae6402-34d3-403b-9b55-26de3a28c911">
+      <database-info product="MySQL" version="5.5.5-10.0.23-MariaDB-0+deb8u1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )" family="MARIADB" exact-version="5.5.5">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>vm_stat_dev</user-name>
+      <introspection-schemas>*:vm_stat_dev</introspection-schemas>
+    </data-source>
+    <data-source name="@localhost" uuid="6c83dc52-a834-4c25-ae21-7411bc15aef5">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" family="MYSQL" exact-version="0.0" />
+      <user-name>vm_stat</user-name>
+      <introspection-schemas>*:*</introspection-schemas>
+    </data-source>
+    <data-source name="vm_stat@vomoloko.ru [2]" uuid="2a260e42-0c84-4a0d-ad01-4355b89a0b1a">
+      <database-info product="MySQL" version="5.7.26" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.48 ( Revision: 29734982609c32d3ab7e5cac2e6acee69ff6b4aa )" family="MYSQL" exact-version="5.7.26">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>vm_stat</user-name>
+      <introspection-schemas>*:vm_stat</introspection-schemas>
+    </data-source>
+    <data-source name="vm_stat" uuid="3b759ba6-b250-4324-b8c6-81f59b7fa17a">
+      <database-info product="MySQL" version="5.7.26" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" family="MYSQL" exact-version="5.7.26">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>vm_stat</user-name>
+      <introspection-schemas>*:@</introspection-schemas>
+    </data-source>
+    <data-source name="VOMOLOKO" uuid="906eef3c-fe7c-493d-8837-e570231a76aa">
+      <database-info product="MySQL" version="5.7.26" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" family="MYSQL" exact-version="5.7.26">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>vomoloko</user-name>
+      <introspection-schemas>*:@</introspection-schemas>
+    </data-source>
+  </component>
+</project>
