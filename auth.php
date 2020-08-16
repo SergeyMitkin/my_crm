@@ -22,33 +22,99 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
-//var_dump($_POST[]);
-// Добавляем задачу
+// Добавляем или задачу
+function setTask(){
+    $response = '';
+    // $id_task = (int)$id_task;
+    // $date_now = time(); // Текущее время в Unix timestamp
+    $deadline_unix = strtotime((string)$_POST['deadline']); // Преобразовываем введённый срок выполнения в Unix timestamp
 
-function set_task($db){
-    try{
+    // Переменные для подготовленного выражения
+    try {
         $t = 'tasks';
         $v = array(
-            'task_title' => 'test',
-            'task_description' => 'test'
-        );
-        $sql = SQL::getInstance()->Insert($t, $v);
-        $response = 'Задача добавлена';
-    } catch (PDOException $e){
-        die("Error: ".$e->getMessage());
-    };
+            'task_title' => $_POST['task-title'],
+            'task_type' => $_POST['task-type'],
+            'deadline' => $deadline_unix,
+            'store_id' => $_POST['store'],
+            'marketer_id' => $_POST['marketer'],
+            'author' => 'менеджер',
+            'status_id' => 1,
+            'task_description' => $_POST['task_description']
 
+        );
+
+        // Если Id задачи больше 0, значит задача редактируется
+        /*if($id_task > 0) {
+
+            $w = "task_id =" . $id_task; // Id редактируемой задачи
+
+            // Обращаемся к БД
+            $sql = SQL::getInstance()->Update($t, $v, $w);
+            $response = 'Задача отредактирована';
+        }
+
+        // Иначе добавляем новую задачу
+        else{ */
+            $sql = SQL::getInstance()->Insert($t, $v);
+            $response = 'Задача добавлена';
+            header('Location:#'); // Возвращемся на исходную страницу без $_POST
+        //}
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+    return $response;
 }
 
 if (isset($_POST['task-title'])){
-    set_task($task_id);
+    setTask();
 }
-/*
-if($db===false) {
-    $db = new MysqlWrapper();
+
+// Получаем исполнителей
+function getMarketers(){
+    try {
+        $q = "SELECT id, `name` FROM marketers";
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    return $sql;
 }
-set_task($db);
-*/
+
+$marketers_data = getMarketers();
+
+// Получаем магазины
+function getStores(){
+    try {
+        $q = "SELECT id, `name` FROM stores";
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    return $sql;
+}
+
+$stores_data = getStores();
+
+// Получаем типы задач
+function getTaskTypes(){
+    try {
+        $q = "SELECT * FROM task_types";
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    return $sql;
+}
+
+$task_types_data = getTaskTypes();
 
 // Получаем список задач
 function get_tasks($db){

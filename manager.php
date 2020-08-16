@@ -491,15 +491,68 @@ if(!($db===false)){
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
 
+                <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                 <!-- Форма создания новой задачи -->
-                <form role="form" action="" method="post">
-                    <div class="form-group">
-                        <label for="task-title">Краткое содержание задачи</label>
-                        <input type="text" class="form-control" id="task-title-input"
-                        placeholder="Краткое содержание задачи" name="task-title">
-                    </div>
-                    <button type="submit" class="btn btn-success">Отправить</button>
-                </form>
+                <div id="task-create-form" hidden>
+                    <form role="form" action="" method="post"class="form-horizontal">
+
+                        <label for="task-title" class="control-label">Краткое содержание задачи</label>
+                        <div class="group">
+                            <input type="text" class="form-control" id="task-title-input"
+                                   placeholder="Краткое содержание задачи" name="task-title">
+                        </div>
+
+                        <div class="group">
+                            <label for="task-type">Выберете тип задачи</label>
+                            <select class="form-control" id="task-type-select" name="task-type">
+                                <?
+                                foreach($task_types_data as $task_type) {
+                                    echo '<option value="' . $task_type['task_type_id'] . '">'
+                                        . $task_type['task_type_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="group">
+                            <label for="deadline">Срок выполнения: </label>
+                            <input class="form-control" type="date" id="deadline" name="deadline"/>
+                        </div>
+
+                        <div class="group">
+                        <label for="store">Выберите магазин</label>
+                            <select class="form-control" name="store">
+                                <?
+                                foreach ($stores_data as $store) {
+                                    echo '<option value="' . $store['id'] . '">'
+                                        . $store['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="group">
+                            <label for="store">Выберите исполнителя</label>
+                            <select class="form-control" name="marketer">
+                                <?
+                                foreach ($marketers_data as $marketer) {
+                                    echo '<option value="' . $marketer['id'] . '">'
+                                        . $marketer['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="group">
+                            <label for="description">Введите инструкцию по выполнению</label>
+                            <textarea class="form-control" id="task_description_textarea" name="task_description"
+                                      placeholder="Описание задачи"></textarea>
+                        </div>
+
+                        </br>
+                        <button type="submit" class="btn btn-success">Отправить</button>
+                    </form>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-4">
@@ -512,8 +565,6 @@ if(!($db===false)){
                     </div>
                 </div>
             </div>
-
-
     </div>
 
     <script type="text/javascript">
@@ -1228,3 +1279,5 @@ if(!($db===false)){
 	  <?php } ?>
 	</div>
 </body>
+
+<script src="js/tasks_manager.js"></script>
