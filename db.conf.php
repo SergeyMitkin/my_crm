@@ -41,6 +41,8 @@ class MysqlWrapper {
         $this->conn->set_charset('utf8');
         return true;
     }
+
+
     public function query($sql,$empty_is_error=TRUE) {
         while (!$this->connected){
             $this->reconnect();

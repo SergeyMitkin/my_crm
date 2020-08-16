@@ -488,8 +488,19 @@ if(!($db===false)){
                 </div>
             </div>
         </div>
-
+            <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
+
+                <!-- Форма создания новой задачи -->
+                <form role="form" action="" method="post">
+                    <div class="form-group">
+                        <label for="task-title">Краткое содержание задачи</label>
+                        <input type="text" class="form-control" id="task-title-input"
+                        placeholder="Краткое содержание задачи" name="task-title">
+                    </div>
+                    <button type="submit" class="btn btn-success">Отправить</button>
+                </form>
+
                 <div class="row">
                     <div class="col-sm-4">
                         <h4>Список задач: </h4>
@@ -498,7 +509,6 @@ if(!($db===false)){
                                 echo '<option value="'.$task['task_id'].'">'.$task['task_title'].'</option>';
                         }
                         ?>
-
                     </div>
                 </div>
             </div>

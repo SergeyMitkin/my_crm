@@ -1,6 +1,7 @@
 <?php
 session_start(); // Открываем сессию
-require_once('db.conf.php'); // Подключаемся к БД
+require_once('db.conf.php'); // Подключаемся к БД через mysqli
+require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
 
 $db = false;
@@ -21,7 +22,35 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
+//var_dump($_POST[]);
+// Добавляем задачу
 
+function set_task($db){
+    try{
+        $t = 'tasks';
+        $v = array(
+            'task_title' => 'test',
+            'task_description' => 'test'
+        );
+        $sql = SQL::getInstance()->Insert($t, $v);
+        $response = 'Задача добавлена';
+    } catch (PDOException $e){
+        die("Error: ".$e->getMessage());
+    };
+
+}
+
+if (isset($_POST['task-title'])){
+    set_task($task_id);
+}
+/*
+if($db===false) {
+    $db = new MysqlWrapper();
+}
+set_task($db);
+*/
+
+// Получаем список задач
 function get_tasks($db){
     $tasks = array();
     $sql = "SELECT * FROM tasks";
