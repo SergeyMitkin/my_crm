@@ -16,12 +16,44 @@ if (isset($_POST['manager_password']) && md5($_POST['manager_password'].'VOMOLOK
     $_SESSION['manager_authorized'] = true;
 }
 
-var_dump($_POST['manager_password']);
-
 if (isset($_POST['manager_exit'])) {
     $_SESSION['manager_authorized'] = false;
     $_SESSION['shop_id'] = false;
 }
+
+
+function get_tasks($db){
+    $tasks = array();
+    $sql = "SELECT * FROM tasks";
+    $data = $db->query($sql);
+    //var_dump($data);
+
+     if (null != $data) {
+        while (null != ($row = $data->fetch_assoc())) {
+            //var_dump($row);
+
+            $tasks[] = array(
+                "task_id" => $row['task_id'],
+                "task_title" => $row['task_title'],
+                "task_type" => $row['task_type'],
+                "store_id" => $row['store_id'],
+                "author" => $row['author'],
+                "status_id" => $row['status_id'],
+                "task_description" => $row['task_description']
+            );
+
+        }
+    }
+    return $tasks;
+}
+
+//$tasks = get_tasks($db);
+if($db===false) {
+    $db = new MysqlWrapper();
+}
+$tasks = get_tasks($db);
+// var_dump($tasks);
+
 
 /**
  * @param $db

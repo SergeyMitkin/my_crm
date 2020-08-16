@@ -4,8 +4,6 @@ require_once('auth.php');
 include_once ('operations.php');
 include_once ('ReportManager.php');
 
-echo 'index.php';
-
 $db=false;
 
 $dates = date('Ymd');
@@ -71,7 +69,9 @@ if(!($db===false)){
     <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
 </head>
 <body>
-<div class="logo"><img src="images/logo.png"></div>
+
+<!-- <div class="logo"><img src="images/logo.png"></div> -->
+
 <div class="container-fluid main-wrapper">
     <div id="tabs">
         <div class="row">
@@ -80,6 +80,7 @@ if(!($db===false)){
                     <ul>
                         <li><a href="#tab-1">Касса</a></li>
                         <li><a href="#tab-2">Перемещения</a></li>
+                        <li><a href="#tab-3">Задачи</a></li>
                     </ul>
                 </div>
             </div>

@@ -70,6 +70,8 @@ if(!($db===false)){
 <body>
 	<!-- <div class="logo"><img src="images/logo.png"></div> -->
 	<div class="container-fluid main-wrapper">
+
+        <!-- Форма авторизации менеджера -->
 		<?php if (!isset($_SESSION['manager_authorized']) || $_SESSION['manager_authorized'] !== true) { ?>
 		<div class="well" style="margin-top:20px;">
 			<div class="row">
@@ -90,15 +92,18 @@ if(!($db===false)){
 				</div>
 			</div>
 		</div>
+
+            <!-- Когда менеджер авторизовался -->
 		<?php } else { ?>
 		<div id="tabs">
 			<div class="row">
-				<div class="col-sm-4" style="min-width: 300px;">
-					<div class="tabs-wrapper" id="tabs-wrapper"-->
+				<div class="col-sm-4" style="min-width: 400px;">
+					<div class="tabs-wrapper" id="tabs-wrapper"-- style="width: 400px">
 						<ul>
 							<li><a href="#tab-1" >Касса</a></li>
 							<li><a href="#tab-2">Перемещения</a></li>
 							<li><a href="#tab-3">Отчеты</a></li>
+                            <li><a href="#tab-4">Задачи</a></li>
 						</ul>
 					</div>
 				</div>
@@ -112,7 +117,7 @@ if(!($db===false)){
 		                </div>
 					</div>
 				</div>
-				<div class="col-sm-4 hide-on-tab3" style="padding-top: 0.2em;">
+				<div class="col-sm-3 hide-on-tab3" style="padding-top: 0.2em;">
 					<form action="" method="post" id="change_shop_manager">
 					<select class="form-control" name="shop_manager">
 						<option value="">Выберите магазин</option>
@@ -483,6 +488,22 @@ if(!($db===false)){
                 </div>
             </div>
         </div>
+
+            <div id="tab-4" class="tab">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4>Список задач: </h4>
+                        <?
+                        foreach($tasks as $task){
+                                echo '<option value="'.$task['task_id'].'">'.$task['task_title'].'</option>';
+                        }
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+
+
     </div>
 
     <script type="text/javascript">
