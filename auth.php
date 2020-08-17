@@ -44,22 +44,9 @@ function setTask(){
 
         );
 
-        // Если Id задачи больше 0, значит задача редактируется
-        /*if($id_task > 0) {
-
-            $w = "task_id =" . $id_task; // Id редактируемой задачи
-
-            // Обращаемся к БД
-            $sql = SQL::getInstance()->Update($t, $v, $w);
-            $response = 'Задача отредактирована';
-        }
-
-        // Иначе добавляем новую задачу
-        else{ */
             $sql = SQL::getInstance()->Insert($t, $v);
             $response = 'Задача добавлена';
             header('Location:#'); // Возвращемся на исходную страницу без $_POST
-        //}
     }
     catch(PDOException $e){
         die("Error: ".$e->getMessage());

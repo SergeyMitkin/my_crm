@@ -59,6 +59,8 @@ if(!($db===false)){
 	<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
 	<link href="css/autocomplete.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+    <link href="css/tasks.css" rel="stylesheet"> <!-- Стли для страниц "Задачи" -->
+
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
@@ -66,7 +68,12 @@ if(!($db===false)){
 	<script type="text/javascript" src="js/locale/ru.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
-</head>
+    <!-- Подключаем плагин select2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+
+   </head>
 <body>
 	<!-- <div class="logo"><img src="images/logo.png"></div> -->
 	<div class="container-fluid main-wrapper">
@@ -490,70 +497,78 @@ if(!($db===false)){
         </div>
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
+                <div class="row">
+                    <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
+                    <!-- Форма создания новой задачи -->
+                    <div id="task-create-form" hidden>
+                        <form role="form" action="" method="post"class="form-horizontal">
 
-                <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
-                <!-- Форма создания новой задачи -->
-                <div id="task-create-form" hidden>
-                    <form role="form" action="" method="post"class="form-horizontal">
+                            <label for="task-title" class="control-label">Краткое содержание задачи</label>
+                            <div class="group">
+                                <input type="text" class="form-control" id="task-title-input"
+                                       placeholder="Краткое содержание задачи" name="task-title">
+                            </div>
 
-                        <label for="task-title" class="control-label">Краткое содержание задачи</label>
-                        <div class="group">
-                            <input type="text" class="form-control" id="task-title-input"
-                                   placeholder="Краткое содержание задачи" name="task-title">
-                        </div>
+                            <div class="group">
+                                <label for="task-type">Выберете тип задачи</label>
+                                <select class="form-control" id="task-type-select" name="task-type">
+                                    <?
+                                    foreach($task_types_data as $task_type) {
+                                        echo '<option value="' . $task_type['task_type_id'] . '">'
+                                            . $task_type['task_type_name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
 
-                        <div class="group">
-                            <label for="task-type">Выберете тип задачи</label>
-                            <select class="form-control" id="task-type-select" name="task-type">
-                                <?
-                                foreach($task_types_data as $task_type) {
-                                    echo '<option value="' . $task_type['task_type_id'] . '">'
-                                        . $task_type['task_type_name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
+                            <div class="group">
+                                <label for="deadline">Срок выполнения: </label>
+                                <input class="form-control" type="date" id="deadline" name="deadline"/>
+                            </div>
 
-                        <div class="group">
-                            <label for="deadline">Срок выполнения: </label>
-                            <input class="form-control" type="date" id="deadline" name="deadline"/>
-                        </div>
+                            <div class="col-md-12">
+                            <label for="store">Выберите магазин</label>
+                                <select multiple class="form-control mul-select" name="store" id="select-store">
+                                    <?
+                                    foreach ($stores_data as $store) {
+                                        echo '<option value="' . $store['id'] . '">'
+                                            . $store['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <input type="checkbox" id="checkbox-store" >Выбрать все
 
-                        <div class="group">
-                        <label for="store">Выберите магазин</label>
-                            <select class="form-control" name="store">
-                                <?
-                                foreach ($stores_data as $store) {
-                                    echo '<option value="' . $store['id'] . '">'
-                                        . $store['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
+                            </div>
 
-                        <div class="group">
-                            <label for="store">Выберите исполнителя</label>
-                            <select class="form-control" name="marketer">
-                                <?
-                                foreach ($marketers_data as $marketer) {
-                                    echo '<option value="' . $marketer['id'] . '">'
-                                        . $marketer['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
 
-                        <div class="group">
-                            <label for="description">Введите инструкцию по выполнению</label>
-                            <textarea class="form-control" id="task_description_textarea" name="task_description"
-                                      placeholder="Описание задачи"></textarea>
-                        </div>
+                            <div class="col-md-12">
+                                <label for="marketer">Выберите исполнителя</label>
+                                <select multiple name="marketer" id="select-marketer" class="mul-select">
+                                    <?
+                                    foreach ($marketers_data as $marketer) {
+                                        echo '<option value="' . $marketer['id'] . '">'
+                                            . $marketer['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <input type="checkbox" id="checkbox-marketer" >Выбрать всех
 
-                        </br>
-                        <button type="submit" class="btn btn-success">Отправить</button>
-                    </form>
+                                <!-- <input type="button" id="button" value="check Selected"> -->
+
+                            </div>
+
+                            <div class="group">
+                                <label for="description">Введите инструкцию по выполнению</label>
+                                <textarea class="form-control" id="task_description_textarea" name="task_description"
+                                          placeholder="Описание задачи"></textarea>
+                            </div>
+
+                            </br>
+                            <button type="submit" class="btn btn-success">Отправить</button>
+                        </form>
+                    </div>
+
                 </div>
-
                 <div class="row">
                     <div class="col-sm-4">
                         <h4>Список задач: </h4>
@@ -1280,4 +1295,4 @@ if(!($db===false)){
 	</div>
 </body>
 
-<script src="js/tasks_manager.js"></script>
+<script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи -->
