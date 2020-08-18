@@ -22,35 +22,50 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
+//var_dump($_POST);
+
 // Добавляем или задачу
 function setTask(){
     $response = '';
-    // $id_task = (int)$id_task;
-    // $date_now = time(); // Текущее время в Unix timestamp
     $deadline_unix = strtotime((string)$_POST['deadline']); // Преобразовываем введённый срок выполнения в Unix timestamp
 
-    // Переменные для подготовленного выражения
+    // Добавляем данные в таблицу tasks
     try {
         $t = 'tasks';
         $v = array(
             'task_title' => $_POST['task-title'],
-            'task_type' => $_POST['task-type'],
+            'type_id' => $_POST['task-type'],
             'deadline' => $deadline_unix,
-            'store_id' => $_POST['store'],
-            'marketer_id' => $_POST['marketer'],
             'author' => 'менеджер',
             'status_id' => 1,
             'task_description' => $_POST['task_description']
 
         );
-
             $sql = SQL::getInstance()->Insert($t, $v);
-            $response = 'Задача добавлена';
-            header('Location:#'); // Возвращемся на исходную страницу без $_POST
     }
     catch(PDOException $e){
         die("Error: ".$e->getMessage());
     }
+
+    // Добавляем данные в таблицу task_marketers
+    try {
+        $t = 'task_marketers';
+        $marketers_count = count($_POST['marketer']);
+        
+        for ($i=0; $i<$marketers_count; $i++){
+            $v = array(
+                'task_id' => $sql,
+                'marketer_id' => $_POST['marketer'][$i],
+            );
+            SQL::getInstance()->Insert($t, $v);
+        }
+
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+    $response = 'Задача добавлена';
+    header('Location:#'); // Возвращемся на исходную страницу без $_POST
     return $response;
 }
 

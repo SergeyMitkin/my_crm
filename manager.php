@@ -543,7 +543,7 @@ if(!($db===false)){
 
                             <div class="col-md-12">
                                 <label for="marketer">Выберите исполнителя</label>
-                                <select multiple name="marketer" id="select-marketer" class="mul-select">
+                                <select multiple name="marketer[]" id="select-marketer" class="mul-select">
                                     <?
                                     foreach ($marketers_data as $marketer) {
                                         echo '<option value="' . $marketer['id'] . '">'
@@ -552,6 +552,7 @@ if(!($db===false)){
                                     ?>
                                 </select>
                                 <input type="checkbox" id="checkbox-marketer" >Выбрать всех
+
 
                                 <!-- <input type="button" id="button" value="check Selected"> -->
 
