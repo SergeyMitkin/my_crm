@@ -500,18 +500,18 @@ if(!($db===false)){
                 <div class="row">
                     <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     <!-- Форма создания новой задачи -->
-                    <div id="task-create-form" hidden>
-                        <form role="form" action="" method="post"class="form-horizontal">
+                    <div id="div-task-create-form" hidden>
+                        <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
                             <label for="task-title" class="control-label">Краткое содержание задачи</label>
                             <div class="group">
                                 <input type="text" class="form-control" id="task-title-input"
-                                       placeholder="Краткое содержание задачи" name="task-title">
+                                       placeholder="Краткое содержание задачи" name="task_title">
                             </div>
 
                             <div class="group">
-                                <label for="task-type">Выберете тип задачи</label>
-                                <select class="form-control" id="task-type-select" name="task-type">
+                                <label for="task_type">Выберете тип задачи</label>
+                                <select class="form-control" id="task-type-select" name="task_type">
                                     <?
                                     foreach($task_types_data as $task_type) {
                                         echo '<option value="' . $task_type['task_type_id'] . '">'
@@ -528,7 +528,7 @@ if(!($db===false)){
 
                             <div class="col-md-12">
                             <label for="store">Выберите магазин</label>
-                                <select multiple class="form-control mul-select" name="store" id="select-store">
+                                <select multiple class="form-control mul-select" name="store[]" id="select-store">
                                     <?
                                     foreach ($stores_data as $store) {
                                         echo '<option value="' . $store['id'] . '">'
@@ -539,7 +539,6 @@ if(!($db===false)){
                                 <input type="checkbox" id="checkbox-store" >Выбрать все
 
                             </div>
-
 
                             <div class="col-md-12">
                                 <label for="marketer">Выберите исполнителя</label>
@@ -552,10 +551,6 @@ if(!($db===false)){
                                     ?>
                                 </select>
                                 <input type="checkbox" id="checkbox-marketer" >Выбрать всех
-
-
-                                <!-- <input type="button" id="button" value="check Selected"> -->
-
                             </div>
 
                             <div class="group">
@@ -565,11 +560,11 @@ if(!($db===false)){
                             </div>
 
                             </br>
-                            <button type="submit" class="btn btn-success">Отправить</button>
+                            <button id="task-create-post" class="btn btn-success">Отправить</button>
                         </form>
                     </div>
-
                 </div>
+
                 <div class="row">
                     <div class="col-sm-4">
                         <h4>Список задач: </h4>

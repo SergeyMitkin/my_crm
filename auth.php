@@ -22,36 +22,29 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
-//var_dump($_POST);
 
 // Добавляем или задачу
 function setTask(){
     $response = '';
-    $deadline_unix = strtotime((string)$_POST['deadline']); // Преобразовываем введённый срок выполнения в Unix timestamp
 
     // Добавляем данные в таблицу tasks
     try {
         $t = 'tasks';
         $v = array(
-            'task_title' => $_POST['task-title'],
-            'type_id' => $_POST['task-type'],
-            'deadline' => $deadline_unix,
+            'task_title' => $_POST['task_title'],
+            'type_id' => $_POST['task_type'],
+            'deadline' => $_POST['deadline'],
             'author' => 'менеджер',
             'status_id' => 1,
             'task_description' => $_POST['task_description']
 
         );
             $sql = SQL::getInstance()->Insert($t, $v);
-    }
-    catch(PDOException $e){
-        die("Error: ".$e->getMessage());
-    }
 
-    // Добавляем данные в таблицу task_marketers
-    try {
-        $t = 'task_marketers';
+        // Добавляем данные в таблицу task-marketers
+        $t= 'task_marketers';
         $marketers_count = count($_POST['marketer']);
-        
+
         for ($i=0; $i<$marketers_count; $i++){
             $v = array(
                 'task_id' => $sql,
@@ -60,17 +53,44 @@ function setTask(){
             SQL::getInstance()->Insert($t, $v);
         }
 
+        // Добавляем данные в таблицу task-marketers
+        $t = 'task_stores';
+        $marketers_count = count($_POST['store']);
+
+        for ($i=0; $i<$marketers_count; $i++){
+            $v = array(
+                'task_id' => $sql,
+                'store_id' => $_POST['store'][$i],
+            );
+            SQL::getInstance()->Insert($t, $v);
+        }
+
     }
     catch(PDOException $e){
         die("Error: ".$e->getMessage());
     }
+
     $response = 'Задача добавлена';
-    header('Location:#'); // Возвращемся на исходную страницу без $_POST
     return $response;
 }
 
-if (isset($_POST['task-title'])){
-    setTask();
+// Получем ajax-запрос из get или post параметра
+function getAjax(){
+    $isAjax = '';
+
+    if (isset($_GET['ajax'])){
+        $isAjax = $_GET['ajax'];
+    }elseif (isset($_POST['ajax'])){
+        $isAjax = $_POST['ajax'];
+    }else{
+        $isAjax = false;
+    }
+
+    return $isAjax;
+};
+
+if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
+    echo setTask();
 }
 
 // Получаем исполнителей
@@ -82,7 +102,6 @@ function getMarketers(){
     catch(PDOException $e){
         die("Error: ".$e->getMessage());
     }
-
     return $sql;
 }
 
