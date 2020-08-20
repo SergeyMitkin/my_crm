@@ -1,6 +1,14 @@
 .mul-select{
     width: 300px;
 }
+
 .select2-search__field{
     width: 300px !important;
+}
+
+.task-option, .task-edit-button{
+    display: inline-block;
+}
+.task-edit-button{
+    margin-left: 40px;
 }

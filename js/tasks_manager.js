@@ -62,14 +62,13 @@ $(document).ready(function() {
     addEvent(elCreateTaskForm, 'submit', function (e) {
         e.preventDefault(); // Останавливаем отправку
         var elements = this.elements; // Элементы формы
-        var task_title = elements.task_title.value;
-        var task_type = elements.task_type.value;
-        var deadline_value = elements.deadline.value;
-        var deadline = +new Date(deadline_value) / 1000; // Переводим дату в Unix
+        var task_title = elements.task_title.value; // Краткое описание
+        var task_type = elements.task_type.value; // Тип задачи
+        var deadline_value = elements.deadline.value; // Срок исполнения
+        var deadline = +new Date(deadline_value) / 1000; // Переводим срок исполнения в Unix
         var store = $("#select-store").val(); // Получаем массив с id выбранных магазинов
         var marketer = $("#select-marketer").val(); // Получаем массив с id выбранных пользователей
         var task_description = elements.task_description.value; // Инструкция по выполнению
-        // console.log(task_description);
 
         var action = "taskCreate"
         $.ajax({
@@ -88,13 +87,20 @@ $(document).ready(function() {
                 alert('Что-то пошло не так!');
             },
             success: function (response) {
-                alert(response);
-                //var obj = jQuery.parseJSON(response); // Данные задачи
-                //console.log(response);
-                //var task_id = obj['id_task']; // Id задачи
+                var elDivTaskCreateForm = document.getElementById("div-task-create-form"); // Div с формой создания задачи
+
+                elDivTaskCreateForm.setAttribute("hidden", ""); // Скрываем форму создания задачи
+                var obj = jQuery.parseJSON(response)[0]; // Данные задачи
+                var elTaskRow = document.getElementById("tasks-row");
+                var elLastTaskOption = document.createElement("option");
+                elLastTaskOption.setAttribute("value", obj['task_id'])
+                elLastTaskOption.textContent = obj['task_title'];
+                elTaskRow.appendChild(elLastTaskOption); // Добавляем последнюю введённую задачу на страницу
+            },
+            complete: function () {
+                alert("Задача добавлена");
             }
         })
-
     })
 })
 

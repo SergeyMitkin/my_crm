@@ -3,6 +3,7 @@ session_start(); // Открываем сессию
 require_once('db.conf.php'); // Подключаемся к БД через mysqli
 require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
+require_once ('madals/m_tasks.php');
 
 $db = false;
 $shop_id = false;
@@ -22,75 +23,17 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
+$tasks = getTasks();
 
-// Добавляем или задачу
-function setTask(){
-    $response = '';
-
-    // Добавляем данные в таблицу tasks
-    try {
-        $t = 'tasks';
-        $v = array(
-            'task_title' => $_POST['task_title'],
-            'type_id' => $_POST['task_type'],
-            'deadline' => $_POST['deadline'],
-            'author' => 'менеджер',
-            'status_id' => 1,
-            'task_description' => $_POST['task_description']
-
-        );
-            $sql = SQL::getInstance()->Insert($t, $v);
-
-        // Добавляем данные в таблицу task-marketers
-        $t= 'task_marketers';
-        $marketers_count = count($_POST['marketer']);
-
-        for ($i=0; $i<$marketers_count; $i++){
-            $v = array(
-                'task_id' => $sql,
-                'marketer_id' => $_POST['marketer'][$i],
-            );
-            SQL::getInstance()->Insert($t, $v);
-        }
-
-        // Добавляем данные в таблицу task-marketers
-        $t = 'task_stores';
-        $marketers_count = count($_POST['store']);
-
-        for ($i=0; $i<$marketers_count; $i++){
-            $v = array(
-                'task_id' => $sql,
-                'store_id' => $_POST['store'][$i],
-            );
-            SQL::getInstance()->Insert($t, $v);
-        }
-
-    }
-    catch(PDOException $e){
-        die("Error: ".$e->getMessage());
-    }
-
-    $response = 'Задача добавлена';
-    return $response;
-}
-
-// Получем ajax-запрос из get или post параметра
-function getAjax(){
-    $isAjax = '';
-
-    if (isset($_GET['ajax'])){
-        $isAjax = $_GET['ajax'];
-    }elseif (isset($_POST['ajax'])){
-        $isAjax = $_POST['ajax'];
-    }else{
-        $isAjax = false;
-    }
-
-    return $isAjax;
-};
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
-    echo setTask();
+    $last_inserted_task_id = setTask();
+    if ($last_inserted_task_id !== false){
+        $last_inserted_task = getTask($last_inserted_task_id);
+        echo json_encode($last_inserted_task);
+        //echo $last_inserted_task[0];
+        //'Задача добавлена';
+    }
 }
 
 // Получаем исполнителей
@@ -121,54 +64,6 @@ function getStores(){
 }
 
 $stores_data = getStores();
-
-// Получаем типы задач
-function getTaskTypes(){
-    try {
-        $q = "SELECT * FROM task_types";
-        $sql = SQL::getInstance()->Select($q);
-    }
-    catch(PDOException $e){
-        die("Error: ".$e->getMessage());
-    }
-
-    return $sql;
-}
-
-$task_types_data = getTaskTypes();
-
-// Получаем список задач
-function get_tasks($db){
-    $tasks = array();
-    $sql = "SELECT * FROM tasks";
-    $data = $db->query($sql);
-    //var_dump($data);
-
-     if (null != $data) {
-        while (null != ($row = $data->fetch_assoc())) {
-            //var_dump($row);
-
-            $tasks[] = array(
-                "task_id" => $row['task_id'],
-                "task_title" => $row['task_title'],
-                "task_type" => $row['task_type'],
-                "store_id" => $row['store_id'],
-                "author" => $row['author'],
-                "status_id" => $row['status_id'],
-                "task_description" => $row['task_description']
-            );
-
-        }
-    }
-    return $tasks;
-}
-
-//$tasks = get_tasks($db);
-if($db===false) {
-    $db = new MysqlWrapper();
-}
-$tasks = get_tasks($db);
-// var_dump($tasks);
 
 
 /**

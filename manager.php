@@ -566,11 +566,13 @@ if(!($db===false)){
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-12" id="tasks-row">
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
-                                echo '<option value="'.$task['task_id'].'">'.$task['task_title'].'</option>';
+                                echo '<option class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
+                                    '<button type="button" class="btn btn-info task-edit-button">Редактировать</button>' .
+                                '</br></br>';
                         }
                         ?>
                     </div>
