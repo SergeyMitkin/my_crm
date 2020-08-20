@@ -571,7 +571,10 @@ if(!($db===false)){
                         <?
                         foreach($tasks as $task){
                                 echo '<option class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
-                                    '<button type="button" class="btn btn-info task-edit-button">Редактировать</button>' .
+                                    '<button type="button" class="btn btn-primary task-edit-button"
+                                    id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
+                                    '<button type="button" class="btn btn-danger task-delete-button"
+                                    id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
                                 '</br></br>';
                         }
                         ?>
@@ -1293,4 +1296,5 @@ if(!($db===false)){
 	</div>
 </body>
 
-<script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи -->
+<script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
+<!-- <script src="js/task_edit.js"></script> --> <!-- JS редактирования задачи -->
