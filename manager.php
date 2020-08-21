@@ -498,8 +498,10 @@ if(!($db===false)){
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
                 <div class="row">
+                    <div id="div-task-create-button">
                     <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
-                    <!-- Форма создания новой задачи -->
+                    </div>
+                        <!-- Форма создания новой задачи -->
                     <div id="div-task-create-form" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
@@ -523,7 +525,7 @@ if(!($db===false)){
 
                             <div class="group">
                                 <label for="deadline">Срок выполнения: </label>
-                                <input class="form-control" type="date" id="deadline" name="deadline"/>
+                                <input class="form-control" type="date" id="deadline-input" name="deadline"/>
                             </div>
 
                             <div class="col-md-12">
@@ -545,7 +547,7 @@ if(!($db===false)){
                                 <select multiple name="marketer[]" id="select-marketer" class="mul-select">
                                     <?
                                     foreach ($marketers_data as $marketer) {
-                                        echo '<option value="' . $marketer['id'] . '">'
+                                        echo '<option class="selected-marketers" value="' . $marketer['id'] . '">'
                                             . $marketer['name'] . '</option>';
                                     }
                                     ?>
@@ -556,7 +558,7 @@ if(!($db===false)){
                             <div class="group">
                                 <label for="description">Введите инструкцию по выполнению</label>
                                 <textarea class="form-control" id="task_description_textarea" name="task_description"
-                                          placeholder="Описание задачи"></textarea>
+                                         placeholder="Описание задачи"></textarea>
                             </div>
 
                             </br>
@@ -1297,4 +1299,4 @@ if(!($db===false)){
 </body>
 
 <script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
-<!-- <script src="js/task_edit.js"></script> --> <!-- JS редактирования задачи -->
+<script src="js/task_edit.js"></script> <!-- JS редактирования задачи -->

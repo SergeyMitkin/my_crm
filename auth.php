@@ -25,15 +25,17 @@ if (isset($_POST['manager_exit'])) {
 
 $tasks = getTasks();
 
-
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     $last_inserted_task_id = setTask();
     if ($last_inserted_task_id !== false){
         $last_inserted_task = getTask($last_inserted_task_id);
         echo json_encode($last_inserted_task);
-        //echo $last_inserted_task[0];
-        //'Задача добавлена';
     }
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
+    $task_data = getTask($_GET['task_id']);
+    echo json_encode($task_data);
 }
 
 // Получаем исполнителей
@@ -59,7 +61,6 @@ function getStores(){
     catch(PDOException $e){
         die("Error: ".$e->getMessage());
     }
-
     return $sql;
 }
 

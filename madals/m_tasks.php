@@ -17,10 +17,8 @@ function setTask(){
             'author' => 'менеджер',
             'status_id' => 1,
             'task_description' => $_POST['task_description']
-
         );
         $sql = SQL::getInstance()->Insert($t, $v);
-        $last_inserted_task = $sql;
 
         // Добавляем данные в таблицу task-marketers
         $t= 'task_marketers';
@@ -85,7 +83,10 @@ function getTasks(){
 function getTask($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT * FROM tasks WHERE task_id = " . $task_id;
+        $q = "SELECT * FROM tasks 
+        LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id
+        LEFT JOIN task_types ON tasks.type_id = task_types.task_type_id
+        WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
