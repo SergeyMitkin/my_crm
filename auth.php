@@ -33,11 +33,6 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     }
 }
 
-if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
-    $task_data = getTask($_GET['task_id']);
-    echo json_encode($task_data);
-}
-
 // Получаем исполнителей
 function getMarketers(){
     try {
@@ -66,6 +61,15 @@ function getStores(){
 
 $stores_data = getStores();
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
+    $response = array();
+
+    $task_data = getTask($_GET['task_id']);
+    $selected_stores = getSelectedStores($_GET['task_id']);
+    $selected_marketers = getSelectedMarketers($_GET['task_id']);
+    array_push($response, $task_data, $stores_data, $selected_stores, $marketers_data, $selected_marketers);
+    echo json_encode($response);
+}
 
 /**
  * @param $db

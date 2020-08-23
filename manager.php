@@ -516,7 +516,7 @@ if(!($db===false)){
                                 <select class="form-control" id="task-type-select" name="task_type">
                                     <?
                                     foreach($task_types_data as $task_type) {
-                                        echo '<option value="' . $task_type['task_type_id'] . '">'
+                                        echo '<option class="task-type-option" value="option_type_' . $task_type['task_type_id'] . '">'
                                             . $task_type['task_type_name'] . '</option>';
                                     }
                                     ?>
@@ -528,23 +528,24 @@ if(!($db===false)){
                                 <input class="form-control" type="date" id="deadline-input" name="deadline"/>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-12" id="group-for-select-store">
                             <label for="store">Выберите магазин</label>
-                                <select multiple class="form-control mul-select" name="store[]" id="select-store">
-                                    <?
-                                    foreach ($stores_data as $store) {
-                                        echo '<option value="' . $store['id'] . '">'
-                                            . $store['name'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
+                                <div id="div-for-select-store">
+                                    <select multiple class="form-control mul-select" name="store[]" id="select-store">
+                                        <?
+                                        foreach ($stores_data as $store) {
+                                            echo '<option class="selected-stores" value="' . $store['id'] . '">'
+                                                . $store['name'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <input type="checkbox" id="checkbox-store" >Выбрать все
-
                             </div>
 
                             <div class="col-md-12">
                                 <label for="marketer">Выберите исполнителя</label>
-                                <select multiple name="marketer[]" id="select-marketer" class="mul-select">
+                                <select multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
                                     <?
                                     foreach ($marketers_data as $marketer) {
                                         echo '<option class="selected-marketers" value="' . $marketer['id'] . '">'

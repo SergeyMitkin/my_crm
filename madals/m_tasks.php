@@ -12,7 +12,7 @@ function setTask(){
         $t = 'tasks';
         $v = array(
             'task_title' => $_POST['task_title'],
-            'type_id' => $_POST['task_type'],
+            'type_id' => $_POST['task_type_id'],
             'deadline' => $_POST['deadline'],
             'author' => 'менеджер',
             'status_id' => 1,
@@ -94,4 +94,27 @@ function getTask($task_id){
     return $sql;
 }
 
+// Функция выбора исполнителей задачи
+function getSelectedMarketers($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT marketer_id FROM task_marketers WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
+// Функция выбора магазинов задачи
+function getSelectedStores($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT store_id FROM task_stores WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
 
