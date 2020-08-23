@@ -26,7 +26,7 @@ if (isset($_POST['manager_exit'])) {
 $tasks = getTasks();
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
-    $last_inserted_task_id = setTask();
+    $last_inserted_task_id = setTask($_POST['task_id']);
     if ($last_inserted_task_id !== false){
         $last_inserted_task = getTask($last_inserted_task_id);
         echo json_encode($last_inserted_task);

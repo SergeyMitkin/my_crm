@@ -4,7 +4,7 @@ require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
 
 // Добавляем или задачу
-function setTask(){
+function setTask($task_id = 0){
     $response = '';
 
     // Добавляем данные в таблицу tasks
@@ -18,7 +18,29 @@ function setTask(){
             'status_id' => 1,
             'task_description' => $_POST['task_description']
         );
+
+        // Если Id задачи больше 0, значит задача редактируется
+        if($task_id > 0) {
+            $w = "task_id =" . $task_id; // Id редактируемой задачи
+            // Обращаемся к БД
+            $sql = SQL::getInstance()->Update($t, $v, $w);
+            $response = $task_id;
+        }
+
+        // Иаче добавляем новую задачу
+        else {
         $sql = SQL::getInstance()->Insert($t, $v);
+        $task_id = $sql;
+        $response = $sql;
+        }
+
+        // Если задача редактируется, удаляем предыдущих пользователей
+        if($task_id > 0){
+            $table = 'task_marketers';
+            $where = "task_id = " . $task_id;
+            $sql = SQL::getInstance()->Delete($table, $where);
+            $response_marketers = 'Предыдущие исполнители удалены';
+        }
 
         // Добавляем данные в таблицу task-marketers
         $t= 'task_marketers';
@@ -26,10 +48,18 @@ function setTask(){
 
         for ($i=0; $i<$marketers_count; $i++){
             $v = array(
-                'task_id' => $sql,
+                'task_id' => $task_id,
                 'marketer_id' => $_POST['marketer'][$i],
             );
             SQL::getInstance()->Insert($t, $v);
+        }
+
+        // Если задача редактируется, удаляем предыдущие магазины
+        if($task_id > 0){
+            $table = 'task_stores';
+            $where = "task_id = " . $task_id;
+            $sql = SQL::getInstance()->Delete($table, $where);
+            $response_stores = 'Предыдущие магазины удалены';
         }
 
         // Добавляем данные в таблицу task-marketers
@@ -38,7 +68,7 @@ function setTask(){
 
         for ($i=0; $i<$marketers_count; $i++){
             $v = array(
-                'task_id' => $sql,
+                'task_id' => $task_id,
                 'store_id' => $_POST['store'][$i],
             );
             SQL::getInstance()->Insert($t, $v);
@@ -49,7 +79,7 @@ function setTask(){
         die("Error: ".$e->getMessage());
     }
 
-    return $sql;
+    return $response;
 }
 
 // Получаем типы задач

@@ -8,6 +8,9 @@ function taskEdit(task_id){
     var elTaskCreateButton = document.getElementById("div-task-create-button");
     elTaskCreateButton.setAttribute("hidden", "");
 
+    // Помещаем id задачи в скрытый input
+    $("#form-create-task_id").val(task_id);
+
     // ajax-запрос для получения данных выбранной задачи
     var url = "auth.php";
     var action = "getTask";

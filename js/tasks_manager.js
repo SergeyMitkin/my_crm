@@ -19,6 +19,16 @@ function multiselect() {
             $("#select-store").trigger("change");// Trigger change to select 2
         }
     });
+
+    $("#checkbox-marketer").click(function(){
+        if($("#checkbox-marketer").is(':checked') ){
+            $("#select-marketer > option").prop("selected","selected");// Select All Options
+            $("#select-marketer").trigger("change");// Trigger change to select 2
+        }else{
+            $("#select-marketer > option").removeAttr("selected");
+            $("#select-marketer").trigger("change");// Trigger change to select 2
+        }
+    });
 }
 
 // Множественный выбор магазинов
@@ -43,8 +53,7 @@ function selectMarketer(){
     });
 }
 
-
-// Создаём задачу
+// Создаём или редактируем задачу
 $(document).ready(function() {
     var elCreateTaskForm = document.getElementById("task-create-form"); // Форма создания задачи
     selectStore();
@@ -53,6 +62,7 @@ $(document).ready(function() {
     addEvent(elCreateTaskForm, 'submit', function (e) {
         e.preventDefault(); // Останавливаем отправку
         var elements = this.elements; // Элементы формы
+        var task_id = elements.task_id.value; // Id задачи
         var task_title = elements.task_title.value; // Краткое описание
         var task_type_id = elements.task_type.value.split("_")[2]; // Id типа задачи
         var deadline_value = elements.deadline.value; // Срок исполнения
@@ -61,12 +71,14 @@ $(document).ready(function() {
         var marketer = $("#select-marketer").val(); // Получаем массив с id выбранных пользователей
         var task_description = elements.task_description.value; // Инструкция по выполнению
 
+        console.log(task_id);
         var action = "taskCreate"
         $.ajax({
             url: 'auth.php',
             type: "POST",
             data: {
                 ajax: action,
+                task_id: task_id,
                 task_title: task_title,
                 task_type_id: task_type_id,
                 deadline: deadline,
@@ -81,48 +93,66 @@ $(document).ready(function() {
                 var elDivTaskCreateForm = document.getElementById("div-task-create-form"); // Div с формой создания задачи
                 elDivTaskCreateForm.setAttribute("hidden", ""); // Скрываем форму создания задачи
 
+                console.log(response);
                 var obj = jQuery.parseJSON(response)[0]; // Данные задачи
                 var elTaskRow = document.getElementById("tasks-row");
                 var elLastTaskOption = document.createElement("option");
 
-                // Выводим краткое описание последней добавленной задачи
-                elLastTaskOption.setAttribute("value", obj['task_id']);
-                elLastTaskOption.setAttribute("class", "task-option");
-                elLastTaskOption.textContent = obj['task_title'];
-                elTaskRow.appendChild(elLastTaskOption); // Добавляем последнюю введённую задачу на страницу
+                // Если задача редактировалась выводим новое описание задачи
+                if (task_id>0){
+                    var task_option_id = "task_option_" + task_id;
+                    document.getElementById(task_option_id).textContent = obj['task_title'];
+                }
+                // Если создана новая, помещаем её в конец списка
+                else {
+                    // Выводим краткое описание последней добавленной задачи
+                    var created_task_id = "task_option_" + obj['task_id'];
 
-                // Добавляем кнопку "Редактировать"
-                var elLastTaskEditButton = document.createElement("button");
-                elLastTaskEditButton.setAttribute("type", "button");
-                elLastTaskEditButton.setAttribute("class", "btn btn-primary task-edit-button");
-                var editButtonId = "edit-task-button_" + obj['task_id'];
-                elLastTaskEditButton.setAttribute("id", editButtonId);
-                elLastTaskEditButton.textContent = "Редактировать";
-                elTaskRow.appendChild(elLastTaskEditButton);
+                    elLastTaskOption.setAttribute("value", obj['task_id']);
+                    elLastTaskOption.setAttribute("class", "task-option");
+                    elLastTaskOption.setAttribute("id", created_task_id);
+                    elLastTaskOption.textContent = obj['task_title'];
+                    elTaskRow.appendChild(elLastTaskOption); // Добавляем последнюю введённую задачу на страницу
 
-                // Прикрепляем к кнопке функцию редактирования
-                addEvent(elLastTaskEditButton, 'click', function (e) {
-                    var task_id = obj['task_id'];
-                    taskEdit(task_id);
-                })
+                    // Добавляем кнопку "Редактировать"
+                    var elLastTaskEditButton = document.createElement("button");
+                    elLastTaskEditButton.setAttribute("type", "button");
+                    elLastTaskEditButton.setAttribute("class", "btn btn-primary task-edit-button");
+                    var editButtonId = "edit-task-button_" + obj['task_id'];
+                    elLastTaskEditButton.setAttribute("id", editButtonId);
+                    elLastTaskEditButton.textContent = "Редактировать";
+                    elTaskRow.appendChild(elLastTaskEditButton);
 
-                // Добавляем кнопку "Удалить"
-                var elLastTaskDeleteButton = document.createElement("button");
-                elLastTaskDeleteButton.setAttribute("type", "button");
-                elLastTaskDeleteButton.setAttribute("class", "btn btn-danger task-delete-button");
-                var deleteButtonId = "delete-task-button_" + obj['task_id'];
-                elLastTaskDeleteButton.setAttribute("id", deleteButtonId);
-                elLastTaskDeleteButton.textContent = "Удалить";
-                elTaskRow.appendChild(elLastTaskDeleteButton);
+                    // Прикрепляем к кнопке функцию редактирования
+                    addEvent(elLastTaskEditButton, 'click', function (e) {
+                        var task_id = obj['task_id'];
+                        taskEdit(task_id);
+                    })
 
-                // Перемещвем задачу на 2 строки вниз
-                var elBr = document.createElement("br");
-                var elBrSecond = document.createElement("br");
-                elTaskRow.appendChild(elBr);
-                elTaskRow.appendChild(elBrSecond);
+                    // Добавляем кнопку "Удалить"
+                    var elLastTaskDeleteButton = document.createElement("button");
+                    elLastTaskDeleteButton.setAttribute("type", "button");
+                    elLastTaskDeleteButton.setAttribute("class", "btn btn-danger task-delete-button");
+                    var deleteButtonId = "delete-task-button_" + obj['task_id'];
+                    elLastTaskDeleteButton.setAttribute("id", deleteButtonId);
+                    elLastTaskDeleteButton.textContent = "Удалить";
+                    elTaskRow.appendChild(elLastTaskDeleteButton);
+
+                    // Перемещвем задачу на 2 строки вниз
+                    var elBr = document.createElement("br");
+                    var elBrSecond = document.createElement("br");
+                    elTaskRow.appendChild(elBr);
+                    elTaskRow.appendChild(elBrSecond);
+                }
             },
             complete: function () {
-                alert("Задача добавлена"); // После выполнения запроса, выводим информацию о добавлении задачи
+                // После выполнения запроса, выводим информацию о добавлении задачи
+                if (task_id>0){
+                    alert("Задача отредактирована");
+                } else
+                {
+                    alert("Задача добавлена");
+                }
             }
         })
     })

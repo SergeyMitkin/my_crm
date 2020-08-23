@@ -505,6 +505,10 @@ if(!($db===false)){
                     <div id="div-task-create-form" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
+                            <div class="group">
+                                <input type="hidden" id="form-create-task_id" name="task_id" value="0">
+                            </div>
+
                             <label for="task-title" class="control-label">Краткое содержание задачи</label>
                             <div class="group">
                                 <input type="text" class="form-control" id="task-title-input"
@@ -573,7 +577,7 @@ if(!($db===false)){
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
-                                echo '<option class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
+                                echo '<option id="task_option_'.$task['task_id'].'" class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
                                     '<button type="button" class="btn btn-primary task-edit-button"
                                     id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
                                     '<button type="button" class="btn btn-danger task-delete-button"
