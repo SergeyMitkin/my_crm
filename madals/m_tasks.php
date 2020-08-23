@@ -3,7 +3,7 @@ require_once('db.conf.php'); // Подключаемся к БД через mysq
 require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
 
-// Добавляем или задачу
+// Добавляем или редактируем задачу
 function setTask($task_id = 0){
     $response = '';
 
@@ -39,7 +39,6 @@ function setTask($task_id = 0){
             $table = 'task_marketers';
             $where = "task_id = " . $task_id;
             $sql = SQL::getInstance()->Delete($table, $where);
-            $response_marketers = 'Предыдущие исполнители удалены';
         }
 
         // Добавляем данные в таблицу task-marketers
@@ -59,7 +58,6 @@ function setTask($task_id = 0){
             $table = 'task_stores';
             $where = "task_id = " . $task_id;
             $sql = SQL::getInstance()->Delete($table, $where);
-            $response_stores = 'Предыдущие магазины удалены';
         }
 
         // Добавляем данные в таблицу task-marketers
@@ -122,6 +120,44 @@ function getTask($task_id){
         die("Error: " . $e->getMessage());
     }
     return $sql;
+}
+
+function deleteTask($task_id){
+    $response = '';
+    $task_id = (int)$task_id;
+
+    // Удаляем задачу из таблицы tasks
+    try{
+        $table = 'tasks';
+        $where = "task_id = " . $task_id;
+        $sql = SQL::getInstance()->Delete($table, $where);
+        $response = 'Задача удалена';
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    // Удаляем магазины из таблицы task_stores
+    try{
+        $table = 'task_stores';
+        $where = "task_id = " . $task_id;
+        $sql = SQL::getInstance()->Delete($table, $where);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    // Удаляем иполнителей из таблицы task_marketers
+    try{
+        $table = 'task_marketers';
+        $where = "task_id = " . $task_id;
+        $sql = SQL::getInstance()->Delete($table, $where);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    return $response;
 }
 
 // Функция выбора исполнителей задачи

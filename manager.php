@@ -577,12 +577,16 @@ if(!($db===false)){
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
-                                echo '<option id="task_option_'.$task['task_id'].'" class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
-                                    '<button type="button" class="btn btn-primary task-edit-button"
-                                    id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
-                                    '<button type="button" class="btn btn-danger task-delete-button"
-                                    id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
-                                '</br></br>';
+                                echo
+                                    '<div id="div-task-option_'.$task['task_id'].'" class = "div-task-option">'.
+                                        '<option id="task_option_'.$task['task_id'].'" class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
+                                        '<button type="button" class="btn btn-primary task-edit-button"
+                                        id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
+                                        '<button type="button" class="btn btn-danger task-delete-button"
+                                        id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
+                                        '</br></br>'.
+                                    '</div>'
+                                ;
                         }
                         ?>
                     </div>
@@ -1305,3 +1309,4 @@ if(!($db===false)){
 
 <script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
 <script src="js/task_edit.js"></script> <!-- JS редактирования задачи -->
+<script src="js/task_delete.js"></script> <!-- JS удаления задачи -->

@@ -33,6 +33,13 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     }
 }
 
+if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskDelete'){
+    $task_id = $_POST['task_id'];
+    $response = deleteTask($task_id);
+    echo json_encode($response);
+}
+
+
 // Получаем исполнителей
 function getMarketers(){
     try {
