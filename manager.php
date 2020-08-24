@@ -511,7 +511,7 @@ if(!($db===false)){
 
                             <label for="task-title" class="control-label">Краткое содержание задачи</label>
                             <div class="group">
-                                <input type="text" class="form-control" id="task-title-input"
+                                <input required type="text" class="form-control" id="task-title-input"
                                        placeholder="Краткое содержание задачи" name="task_title">
                             </div>
 
@@ -529,13 +529,13 @@ if(!($db===false)){
 
                             <div class="group">
                                 <label for="deadline">Срок выполнения: </label>
-                                <input class="form-control" type="date" id="deadline-input" name="deadline"/>
+                                <input class="form-control" type="date" id="deadline-input" name="deadline" required/>
                             </div>
 
                             <div class="col-md-12" id="group-for-select-store">
                             <label for="store">Выберите магазин</label>
                                 <div id="div-for-select-store">
-                                    <select multiple class="form-control mul-select" name="store[]" id="select-store">
+                                    <select required multiple class="form-control mul-select" name="store[]" id="select-store">
                                         <?
                                         foreach ($stores_data as $store) {
                                             echo '<option class="selected-stores" value="' . $store['id'] . '">'
@@ -549,7 +549,7 @@ if(!($db===false)){
 
                             <div class="col-md-12">
                                 <label for="marketer">Выберите исполнителя</label>
-                                <select multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
+                                <select required multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
                                     <?
                                     foreach ($marketers_data as $marketer) {
                                         echo '<option class="selected-marketers" value="' . $marketer['id'] . '">'
