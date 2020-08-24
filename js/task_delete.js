@@ -15,25 +15,14 @@ function taskDelete(task_id){
         error: function () {
             alert('Что-то пошло не так!');
         },
-        success: function (response) {
+        success: function () {
 
-            //var elTaskRow = document.getElementById("task-row")
-            var task_option_id = "div-task-option_" + task_id;
-            var elTaskOption = document.getElementById(task_option_id);
+            var task_span_id = "div-task-span_" + task_id;
+            var elTaskDiv = document.getElementById(task_span_id);
+            elTaskDiv.remove();
 
-            elTaskOption.remove();
-
-           /* var obj = jQuery.parseJSON(response);
-            var res = obj['updated_value'];
-
-            // Если задача удалена, перезагружаем страницу
-            if (res == "Задача удалена") {
-                window.location.reload();
-            } else {
-                alert('Что-то пошло не так!!!');
-            }*/
         },
-        complete: function (response) {
+        complete: function () {
             alert ("Задача удалена");
         }
         //dataType : "json"

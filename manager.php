@@ -497,12 +497,12 @@ if(!($db===false)){
         </div>
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
-                <div class="row">
+                <div class="row" id="manager-task-page">
                     <div id="div-task-create-button">
                     <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     </div>
                         <!-- Форма создания новой задачи -->
-                    <div id="div-task-create-form" hidden>
+                    <div id="div-task-create-form" class="col-md-11" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
                             <div class="group">
@@ -573,18 +573,21 @@ if(!($db===false)){
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12" id="tasks-row">
+                    <div class="col-md-8" id="tasks-row">
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
                                 echo
-                                    '<div id="div-task-option_'.$task['task_id'].'" class = "div-task-option">'.
-                                        '<option id="task_option_'.$task['task_id'].'" class="task-option" value="'.$task['task_id'].'">'.$task['task_title'].'</option>' .
-                                        '<button type="button" class="btn btn-primary task-edit-button"
-                                        id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
-                                        '<button type="button" class="btn btn-danger task-delete-button"
-                                        id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
-                                        '</br></br>'.
+                                    '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
+                                        '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+
+                                        '<div id="task-edit-buttons_' . $task['task_id'] . '" class="col-md-6">' .
+                                            '<button type="button" class="btn btn-primary task-edit-button"
+                                            id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
+
+                                            '<button type="button" class="btn btn-danger task-delete-button"
+                                            id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
+                                        '</div>'.
                                     '</div>'
                                 ;
                         }

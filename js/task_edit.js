@@ -2,11 +2,12 @@
 function taskEdit(task_id){
 
     var elCreateForm = document.getElementById('div-task-create-form');
-    elCreateForm.removeAttribute("hidden");
 
-    // Скрываем кнопку "Создать задачу"
-    var elTaskCreateButton = document.getElementById("div-task-create-button");
-    elTaskCreateButton.setAttribute("hidden", "");
+    var div_task_span_id = "div-task-span_" + task_id;
+    var elDivTaskSpan = document.getElementById(div_task_span_id);
+    elDivTaskSpan.appendChild(elCreateForm);
+
+    elCreateForm.removeAttribute("hidden");
 
     // Помещаем id задачи в скрытый input
     $("#form-create-task_id").val(task_id);

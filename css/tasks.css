@@ -6,7 +6,7 @@
     width: 300px !important;
 }
 
-.task-option, .task-edit-button{
+.task-span, .task-edit-buttons, .task-edit-button, task-delete-button{
     display: inline-block;
 }
 .task-edit-button{
@@ -16,3 +16,19 @@
 .task-delete-button{
     margin-left: 5px;
 }
+
+.div-task-span{
+    border: gray 1px solid;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 5px;
+}
+
+#div-task-create-form{
+    border: gray 1px solid;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 15px;
+}
+
+
