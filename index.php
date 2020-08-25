@@ -60,6 +60,8 @@ if(!($db===false)){
     <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
     <link href="css/autocomplete.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/tasks.css" rel="stylesheet"> <!-- Стли для страниц "Задачи" -->
+
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.autocomplete.js"></script>
@@ -78,10 +80,12 @@ if(!($db===false)){
             <div class="col-sm-4" style="min-width: 300px;">
                 <div class="tabs-wrapper">
                     <ul>
-                        <li><a href="#tab-1">Касса</a></li>
-                        <li><a href="#tab-2">Перемещения</a></li>
-                        <li><a href="#tab-3">Задачи</a></li>
+                        <li><a id="href-tab-1" href="#tab-1">Касса</a></li>
+                        <li><a id="href-tab-2" href="#tab-2">Перемещения</a></li>
+                        <li><a id="href-tab-3" href="#tab-3">Задачи</a></li>
                     </ul>
+                    <!-- Определяем, какая ссылка активна для использования календаря -->
+                    <span id="marketer-active-href" hidden>1</span>
                 </div>
             </div>
             <div class="col-sm-2 hide-on-tab3" style="padding-top: 0.2em;min-width: 170px;">
@@ -324,6 +328,33 @@ if(!($db===false)){
             </form>
         </div>
 
+
+        <!-- Вкладка "Задачи" -->
+        <div id="tab-3" class="tab">
+
+            <div class="row" id="marketer-task-page">
+                <h4>Список задач: </h4>
+
+                <div class="col-md-8" id="marketer-tasks-row">
+                    <?
+                    foreach($tasks as $task){
+                        echo
+                            '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
+                                '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+
+                                '<div id="task-status' . $task['task_id'] . '" class="col-md-6">' .
+                                    '<span>Статус: '. $task['status_name'] .' </span>' .
+                                '</div>'.
+                            '</div>'
+                        ;
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     </div>
 </div>
 
@@ -392,22 +423,6 @@ if(!($db===false)){
 
 
 
-        $('#date').datetimepicker({
-            locale: 'ru',
-            defaultDate: new Date(),
-            format: 'DD.MM.YYYY'
-        });
-
-        reload_operations($('#date').data("date"));
-
-        $('#date').on("dp.change", function(e) {
-            var op_type;
-            reload_operations($('#date').data("date"));
-            op_type = $('#operation').val();
-            if(op_type != ''){
-                load_report(op_type,$('#date').data("date"));
-            }
-        });
 
         $('#item').autocomplete({
             serviceUrl: 'suggestions.php',
@@ -535,6 +550,24 @@ if(!($db===false)){
             }
             if (event.which == 13) event.preventDefault();
         });
+
+        reload_operations($('#date').data("date"));
+
+        function reload_operations(date) {
+            $.ajax({
+                url: 'getoperations.php',
+                type: 'POST',
+                data: 'date=' + date,
+                dataType: 'json',
+                success: function(response) {
+                    load_opertaions_response(response);
+                },
+                error: function(xhr, status, errorThrown) {
+                    alert(xhr.status + "\r\n" + xhr.responseText + "\r\n" + status + "\r\n" + errorThrown);
+                }
+            });
+        }
+
 
         /*$(document).on('click', '.button-edit-item', function(e) {
             var item = $(this).parents('tr').find('td:nth-child(3)').html();
@@ -791,20 +824,6 @@ if(!($db===false)){
         }, 5000);
     });
 
-    function reload_operations(date) {
-        $.ajax({
-            url: 'getoperations.php',
-            type: 'POST',
-            data: 'date=' + date,
-            dataType: 'json',
-            success: function(response) {
-                load_opertaions_response(response);
-            },
-            error: function(xhr, status, errorThrown) {
-                alert(xhr.status + "\r\n" + xhr.responseText + "\r\n" + status + "\r\n" + errorThrown);
-            }
-        });
-    }
 
     function load_opertaions_response(response) {
         $('#previous-end-amount').html(response.pea);
@@ -995,3 +1014,6 @@ if(!($db===false)){
     </div>
 </div>
 </body>
+
+<script src="js/date_operations.js"></script> <!-- JS для операций с датами -->
+<script src="js/tasks_marketer.js"></script> <!-- JS для работы с задачами -->

@@ -4,11 +4,7 @@ $(document).ready(function () {
 
         var elManagerTaskPage = document.getElementById("manager-task-page") // Страница с задачами
         var elCreateForm = document.getElementById('div-task-create-form'); // Форма создания задачи
-
-        // Если форма была открыта для редактирования, перемещаем её наверх страницы
-        if ($("#form-create-task_id").val() !== '0') {
-            elManagerTaskPage.appendChild(elCreateForm);
-        }
+        elManagerTaskPage.appendChild(elCreateForm);
 
         elCreateForm.removeAttribute("hidden"); // Показываем форму
 
@@ -24,51 +20,6 @@ $(document).ready(function () {
     })
 })
 
-// Функция множественного выбора в <select>
-function multiselect() {
-    $("#checkbox-store").click(function(){
-        if($("#checkbox-store").is(':checked') ){
-            $("#select-store > option").prop("selected","selected");// Select All Options
-            $("#select-store").trigger("change");// Trigger change to select 2
-        }else{
-            $("#select-store > option").removeAttr("selected");
-            $("#select-store").trigger("change");// Trigger change to select 2
-        }
-    });
-
-    $("#checkbox-marketer").click(function(){
-        if($("#checkbox-marketer").is(':checked') ){
-            $("#select-marketer > option").prop("selected","selected");// Select All Options
-            $("#select-marketer").trigger("change");// Trigger change to select 2
-        }else{
-            $("#select-marketer > option").removeAttr("selected");
-            $("#select-marketer").trigger("change");// Trigger change to select 2
-        }
-    });
-}
-
-// Множественный выбор магазинов
-function selectStore(){
-    $("#select-store").select2();
-    multiselect();
-    $("#select-store").select2({
-        placeholder: "Выберите магазин", //placeholder
-        tags: true,
-        tokenSeparators: ['/',',',';'," "],
-    });
-}
-
-// Множественный выбор иполнителей
-function selectMarketer(){
-    $("#select-marketer").select2();
-    multiselect();
-    $("#select-marketer").select2({
-        placeholder: "Выберите исполнителя", //placeholder
-        tags: true,
-        tokenSeparators: ['/',',',';'," "],
-    });
-}
-
 // Создаём или редактируем задачу
 $(document).ready(function() {
     var elCreateTaskForm = document.getElementById("task-create-form"); // Форма создания задачи
@@ -81,13 +32,13 @@ $(document).ready(function() {
         var task_id = elements.task_id.value; // Id задачи
         var task_title = elements.task_title.value; // Краткое описание
         var task_type_id = elements.task_type.value.split("_")[2]; // Id типа задачи
-        var deadline_value = elements.deadline.value; // Срок исполнения
-        var deadline = +new Date(deadline_value) / 1000; // Переводим срок исполнения в Unix
+        var deadline = elements.deadline.value; // Срок исполнения
+
         var store = $("#select-store").val(); // Получаем массив с id выбранных магазинов
         var marketer = $("#select-marketer").val(); // Получаем массив с id выбранных пользователей
         var task_description = elements.task_description.value; // Инструкция по выполнению
 
-        console.log(task_id);
+
         var action = "taskCreate"
         $.ajax({
             url: 'auth.php',
@@ -190,6 +141,53 @@ $(document).ready(function() {
     })
 })
 
+
+// Функция множественного выбора в <select>
+function multiselect() {
+    $("#checkbox-store").click(function(){
+        if($("#checkbox-store").is(':checked') ){
+            $("#select-store > option").prop("selected","selected");// Select All Options
+            $("#select-store").trigger("change");// Trigger change to select 2
+        }else{
+            $("#select-store > option").removeAttr("selected");
+            $("#select-store").trigger("change");// Trigger change to select 2
+        }
+    });
+
+    $("#checkbox-marketer").click(function(){
+        if($("#checkbox-marketer").is(':checked') ){
+            $("#select-marketer > option").prop("selected","selected");// Select All Options
+            $("#select-marketer").trigger("change");// Trigger change to select 2
+        }else{
+            $("#select-marketer > option").removeAttr("selected");
+            $("#select-marketer").trigger("change");// Trigger change to select 2
+        }
+    });
+}
+
+// Множественный выбор магазинов
+function selectStore(){
+    $("#select-store").select2();
+    multiselect();
+    $("#select-store").select2({
+        placeholder: "Выберите магазин", //placeholder
+        tags: true,
+        tokenSeparators: ['/',',',';'," "],
+    });
+}
+
+// Множественный выбор иполнителей
+function selectMarketer(){
+    $("#select-marketer").select2();
+    multiselect();
+    $("#select-marketer").select2({
+        placeholder: "Выберите исполнителя", //placeholder
+        tags: true,
+        tokenSeparators: ['/',',',';'," "],
+    });
+}
+
+
 // Вспомогательная функция для добавления обработчика событий
 function addEvent (el, event, callback) {
     if ('addEventListener' in el) {                  // Если addEventListener работает
@@ -212,34 +210,4 @@ function removeEvent(el, event, callback) {
         el[event + callback] = null;
         el['e' + event + callback] = null;
     }
-}
-
-// Функция для преобразования Unix timestamp в дату и время
-function timestampToDate(unixtimestamp){
-
-    // Convert timestamp to milliseconds
-    var date = new Date(unixtimestamp*1000);
-
-    // Year
-    var year = date.getFullYear();
-
-    // Month
-    var month = ('0'+(date.getMonth()+1)).slice(-2); // Ставим 0 перед месяцем
-
-    // Day
-    var day = ('0'+(date.getDate())).slice(-2); // Ставим 0 перед днём
-
-    // Hours
-    var hours = date.getHours();
-
-    // Minutes
-    var minutes = "0" + date.getMinutes();
-
-    // Seconds
-    var seconds = "0" + date.getSeconds();
-
-    // Display date time in yyyy-MM-dd h:m:s format
-    var convdataTime = year+'-'+month+'-'+day+' ' +hours+ ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-    return convdataTime;
 }

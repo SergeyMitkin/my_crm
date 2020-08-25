@@ -23,7 +23,7 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
-$tasks = getTasks();
+$tasks = getTasks($date);
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     $last_inserted_task_id = setTask($_POST['task_id']);
@@ -76,6 +76,12 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
     $selected_marketers = getSelectedMarketers($_GET['task_id']);
     array_push($response, $task_data, $stores_data, $selected_stores, $marketers_data, $selected_marketers);
     echo json_encode($response);
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByDate'){
+
+    $tasks = getTasks($data);
+    echo json_encode($tasks);
 }
 
 /**

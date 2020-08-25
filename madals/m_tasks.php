@@ -96,11 +96,13 @@ function getTaskTypes(){
 $task_types_data = getTaskTypes();
 
 // Получаем список задач
-function getTasks(){
+function getTasks($date = 'all'){
     // Получаем данные задач на странице из БД
     try {
         // Подготовленное выражение
-        $q = "SELECT * FROM tasks";
+        $q = "SELECT * FROM tasks
+            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id 
+            ";
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());

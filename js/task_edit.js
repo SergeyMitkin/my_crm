@@ -7,6 +7,9 @@ function taskEdit(task_id){
     var elDivTaskSpan = document.getElementById(div_task_span_id);
     elDivTaskSpan.appendChild(elCreateForm);
 
+    $("#select-store").empty(); // Очищаем <select> для выбора магазинов
+    $("#select-marketer").empty(); // Очищаем <select> для выбора исполнителей
+
     elCreateForm.removeAttribute("hidden");
 
     // Помещаем id задачи в скрытый input
@@ -30,7 +33,7 @@ function taskEdit(task_id){
             var obj = jQuery.parseJSON(response); // Данные задачи
 
             var task_title = obj[0][0]['task_title'];
-            var deadline = timestampToDate(obj[0][0]['deadline']).substr(0, 10);
+            var deadline = obj[0][0]['deadline'].split(" ")[0];
             var task_description = obj[0][0]['task_description'];
             var task_type_id = obj[0][0]['task_type_id'];
             var stores_data = obj[1]; // Все магазины
@@ -83,8 +86,7 @@ function taskEdit(task_id){
 $(".task-edit-button").on('click', function () {
     var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
 
-    $("#select-store").empty(); // Очищаем <select> для выбора магазинов
-    $("#select-marketer").empty(); // Очищаем <select> для выбора исполнителей
+    console.log('edit');
 
     taskEdit(task_id); // Функция редактирования
 })
