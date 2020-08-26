@@ -23,7 +23,7 @@ if (isset($_POST['manager_exit'])) {
     $_SESSION['shop_id'] = false;
 }
 
-$tasks = getTasks($date);
+$tasks = getTasks();
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     $last_inserted_task_id = setTask($_POST['task_id']);
@@ -79,8 +79,8 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
 }
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByDate'){
-
-    $tasks = getTasks($data);
+    $date = $_GET['date'];
+    $tasks = getTasksByDate($date);
     echo json_encode($tasks);
 }
 

@@ -96,13 +96,27 @@ function getTaskTypes(){
 $task_types_data = getTaskTypes();
 
 // Получаем список задач
-function getTasks($date = 'all'){
+function getTasks(){
     // Получаем данные задач на странице из БД
     try {
         // Подготовленное выражение
         $q = "SELECT * FROM tasks
-            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id 
-            ";
+            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id";
+        $sql = SQL::getInstance()->Select($q); // Обращение к БД
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
+function getTasksByDate($date){
+
+    try {
+        // Подготовленное выражение
+        $q = "SELECT * FROM tasks
+            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id
+            WHERE deadline = '" . $date."'";
+
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());

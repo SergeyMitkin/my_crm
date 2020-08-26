@@ -86,7 +86,5 @@ function taskEdit(task_id){
 $(".task-edit-button").on('click', function () {
     var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
 
-    console.log('edit');
-
     taskEdit(task_id); // Функция редактирования
 })
