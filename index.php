@@ -333,13 +333,16 @@ if(!($db===false)){
         <div id="tab-3" class="tab">
 
             <div class="row" id="marketer-task-page">
-                <h4>Список задач: </h4>
+                <h4>Список задач на <span id="task-date-span"></span>: </h4>
 
                 <div class="col-md-8" id="marketer-tasks-row">
                     <?
                     foreach($tasks as $task){
                         echo
-                            '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
+                            '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12"
+                            data-toggle="modal" data-target="#taskModal"
+                            >'.
+
                                 '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
                                 '<div id="task-status' . $task['task_id'] . '" class="col-md-6">' .
@@ -351,6 +354,51 @@ if(!($db===false)){
                     ?>
                 </div>
             </div>
+
+            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- id задачи -->
+                            <p id="task_modal_id" hidden></p>
+
+                            <!-- Краткое описание задачи -->
+                            <h4 class="modal-title initial-value card-title" id="task_modal_title">Описание задачи</h4>
+
+                            <!-- Кнопка закрытия модального окна -->
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <p>Инструкция по выполнению задачи</p>
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <!-- Форма изменения статуса -->
+                            <form class="edit-form" id="edit-task_modal_user-form" hidden>
+                                <div class="group">
+                                    <label for="task_modal_user-select">Выберете ответственного</label>
+                                    <select id="task_modal_user-select" name="task-user-select"></select>
+                                </div>
+
+                                <input id="hidden-user" class="hidden-task-id" name="hidden_user" type="hidden">
+                                <input id="hidden-user-id" name="hidden_user_id" type="hidden">
+
+                                <div class="group" align="center">
+                                    <button id="edit-user-post" class="btn btn-outline-light">Отправить</button>
+                                </div>
+                            </form>
+
+                            <button class="btn btn-outline-light edit-button edit-body-button" id="edit-task_modal_user-button" hidden>Изменить статус</button>
+                        </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -1017,3 +1065,4 @@ if(!($db===false)){
 
 <script src="js/date_operations.js"></script> <!-- JS для операций с датами -->
 <script src="js/tasks_marketer.js"></script> <!-- JS для работы с задачами -->
+<script src="js/modal-values.js"></script> <!-- JS модального окна задачи -->
