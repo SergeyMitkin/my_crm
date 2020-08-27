@@ -107,7 +107,7 @@ if(!($db===false)){
 				<div class="col-sm-4" style="min-width: 400px;">
 					<div class="tabs-wrapper" id="tabs-wrapper"-- style="width: 400px">
 						<ul>
-							<li><a href="#tab-1" >Касса</a></li>
+							<li><a href="#tab-1">Касса</a></li>
 							<li><a href="#tab-2">Перемещения</a></li>
 							<li><a href="#tab-3">Отчеты</a></li>
                             <li><a href="#tab-4">Задачи</a></li>
@@ -502,7 +502,7 @@ if(!($db===false)){
                     <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     </div>
                         <!-- Форма создания новой задачи -->
-                    <div id="div-task-create-form" class="col-md-11" hidden>
+                    <div id="div-task-create-form" class="col-md-11 div-edit-form" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
                             <div class="group">

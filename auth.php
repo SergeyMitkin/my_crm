@@ -84,6 +84,16 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByDate'){
     echo json_encode($tasks);
 }
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getStatuses'){
+    $statuses = getStatuses();
+    echo json_encode($statuses);
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getMarketers'){
+    $marketers = getMarketers();
+    echo json_encode($marketers);
+}
+
 /**
  * @param $db
  * @return array

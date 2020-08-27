@@ -24,7 +24,7 @@
     padding: 5px;
 }
 
-#div-task-create-form{
+.div-edit-form, .edit-form{
     border: gray 1px solid;
     border-radius: 3px;
     margin: 5px;

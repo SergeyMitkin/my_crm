@@ -343,11 +343,11 @@ if(!($db===false)){
                             data-toggle="modal" data-target="#taskModal"
                             >'.
 
-                                '<span id="task-span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+                            '<span id="task-span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
-                                '<div id="div-task-status_' . $task['task_id'] . '" class="col-md-6">' .
-                                    '<span id="span-task-status_">Статус: '. $task['status_name'] .' </span>' .
-                                '</div>'.
+                            '<div id="div-task-status_' . $task['task_id'] . '" class="col-md-6">' .
+                            '<span id="span-task-status_">Статус: '. $task['status_name'] .' </span>' .
+                            '</div>'.
                             '</div>'
                         ;
                     }
@@ -373,36 +373,41 @@ if(!($db===false)){
                         </div>
 
                         <div class="modal-body">
+                            <h4>Инструкция по выполнению задачи: </h4>
                             <p id="task-modal-description">Инструкция по выполнению задачи</p>
                         </div>
 
                         <div class="modal-footer">
+                            <p>Статус задачи: <span id="task-modal-status-span"></span></p>
 
                             <!-- Форма изменения статуса -->
-                            <form class="edit-form" id="edit-task_modal_user-form" hidden>
+                            <form class="edit-form" id="edit-task-modal-status-form" hidden>
                                 <div class="group">
-                                    <label for="task_modal_user-select">Выберете ответственного</label>
-                                    <select id="task_modal_user-select" name="task-user-select"></select>
+                                    <label for="task-modal-marketer-select">Выберете исполнителя</label>
+                                    <select id="task-modal-marketer-select" name="task-modal-marketer-select"></select>
                                 </div>
 
-                                <input id="hidden-user" class="hidden-task-id" name="hidden_user" type="hidden">
-                                <input id="hidden-user-id" name="hidden_user_id" type="hidden">
+                                <div class="group">
+                                    <label for="task-modal-status-select">Выберете статус</label>
+                                    <select id="task-modal-status-select" name="task-modal-status-select"></select>
+                                </div>
+
+                                <input id="hidden-marketer-id" name="hidden-marketer-id" type="hidden">
+                                <input id="hidden-status-id" name="hidden-status-id" type="hidden">
 
                                 <div class="group" align="center">
                                     <button id="edit-user-post" class="btn btn-outline-light">Отправить</button>
                                 </div>
                             </form>
 
-                            <button class="btn btn-outline-light edit-button edit-body-button" id="edit-task_modal_user-button" hidden>Изменить статус</button>
+                            <button class="btn btn-outline-light" id="edit-task-modal-status-button" hidden>Изменить статус</button>
                         </div>
 
+                    </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
-
-
     </div>
 </div>
 
@@ -1065,5 +1070,5 @@ if(!($db===false)){
 
 <script src="js/date_operations.js"></script> <!-- JS для операций с датами -->
 <script src="js/tasks_marketer.js"></script> <!-- JS для работы с задачами -->
-
 <script src="js/modal-values.js"></script> <!-- JS модального окна задачи -->
+<script src="js/implementations.js"></script> <!-- JS модального окна задачи -->

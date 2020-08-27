@@ -1,11 +1,3 @@
-
-function getTaskData(task_id) {
-
-    console.log(task_id);
-    // ajax-запрос для получения данных выбранной задачи
-
-}
-
 // Выводим данные задачи в модальном окне
 $(document).ready(function () {
 
@@ -38,11 +30,11 @@ $(document).ready(function () {
                 var elTaskModalTitle = document.getElementById("task-modal-title");
                 elTaskModalTitle.textContent = task_title;
 
-                console.log(getTaskData(task_id));
-
                 var elTaskModalDescription = document.getElementById("task-modal-description");
                 elTaskModalDescription.textContent = task_description;
 
+                var elTaskModalStatus = document.getElementById("task-modal-status-span");
+                elTaskModalStatus.textContent = obj[0][0]['status_name'];
             }
         })
     }

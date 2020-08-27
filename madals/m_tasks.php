@@ -200,3 +200,15 @@ function getSelectedStores($task_id){
     return $sql;
 }
 
+// Данные таблицы task_statuses
+function getStatuses(){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT * FROM task_statuses";
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
