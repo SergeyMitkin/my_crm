@@ -35,8 +35,12 @@ function getTasksByDate(task_date) {
             d_t_s.classList="col-md-6";
 
             for (var i = 0; i < obj.length; i++) {
+                d_t.id="div-task-span_" + obj[i]['task_id'];
                 s.textContent=obj[i]['task_title'];
+                s.id="task-span_" + obj[i]['task_id'];
                 s_s.textContent="Статус: "+ obj[i]['status_name'];
+                s_s.id="span-task-status_"+ obj[i]['task_id'];
+                d_t_s.id="div-task-status_"+ obj[i]['task_id'];
                 d.appendChild(d_t.cloneNode(true));
             }
         }

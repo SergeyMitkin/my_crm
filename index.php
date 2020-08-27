@@ -343,10 +343,10 @@ if(!($db===false)){
                             data-toggle="modal" data-target="#taskModal"
                             >'.
 
-                                '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+                                '<span id="task-span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
-                                '<div id="task-status' . $task['task_id'] . '" class="col-md-6">' .
-                                    '<span>Статус: '. $task['status_name'] .' </span>' .
+                                '<div id="div-task-status_' . $task['task_id'] . '" class="col-md-6">' .
+                                    '<span id="span-task-status_">Статус: '. $task['status_name'] .' </span>' .
                                 '</div>'.
                             '</div>'
                         ;
@@ -355,15 +355,15 @@ if(!($db===false)){
                 </div>
             </div>
 
-            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModal" aria-hidden="true">
+            <div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <!-- id задачи -->
-                            <p id="task_modal_id" hidden></p>
+                            <span id="task_modal_id" hidden></span>
 
                             <!-- Краткое описание задачи -->
-                            <h4 class="modal-title initial-value card-title" id="task_modal_title">Описание задачи</h4>
+                            <h4 class="modal-title initial-value card-title" id="task-modal-title">Описание задачи</h4>
 
                             <!-- Кнопка закрытия модального окна -->
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -373,7 +373,7 @@ if(!($db===false)){
                         </div>
 
                         <div class="modal-body">
-                            <p>Инструкция по выполнению задачи</p>
+                            <p id="task-modal-description">Инструкция по выполнению задачи</p>
                         </div>
 
                         <div class="modal-footer">
@@ -1065,4 +1065,5 @@ if(!($db===false)){
 
 <script src="js/date_operations.js"></script> <!-- JS для операций с датами -->
 <script src="js/tasks_marketer.js"></script> <!-- JS для работы с задачами -->
+
 <script src="js/modal-values.js"></script> <!-- JS модального окна задачи -->
