@@ -3,6 +3,28 @@ require_once('db.conf.php'); // Подключаемся к БД через mysq
 require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
 
+// Добавляем реализацию
+function setImplement($task_id, $marketer_id, $store_id, $status_id)
+{
+    try {
+        $t = 'implements';
+        $v = array(
+            'task_id' => $task_id,
+            'marketer_id' => $marketer_id,
+            'store_id' => $store_id,
+            'status_id' => $status_id
+        );
+
+        $sql = SQL::getInstance()->Insert($t, $v);
+        $response = $sql;
+    }
+    catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $response;
+}
+
+
 // Добавляем или редактируем задачу
 function setTask($task_id = 0){
     $response = '';
@@ -15,7 +37,6 @@ function setTask($task_id = 0){
             'type_id' => $_POST['task_type_id'],
             'deadline' => $_POST['deadline'],
             'author' => 'менеджер',
-            'status_id' => 1,
             'task_description' => $_POST['task_description']
         );
 
@@ -100,8 +121,7 @@ function getTasks(){
     // Получаем данные задач на странице из БД
     try {
         // Подготовленное выражение
-        $q = "SELECT * FROM tasks
-            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id";
+        $q = "SELECT * FROM tasks";
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -114,7 +134,6 @@ function getTasksByDate($date){
     try {
         // Подготовленное выражение
         $q = "SELECT * FROM tasks
-            LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id
             WHERE deadline = '" . $date."'";
 
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
@@ -127,8 +146,7 @@ function getTasksByDate($date){
 function getTask($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT * FROM tasks 
-        LEFT JOIN task_statuses ON tasks.status_id = task_statuses.status_id
+        $q = "SELECT * FROM tasks
         LEFT JOIN task_types ON tasks.type_id = task_types.task_type_id
         WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q); // Обращение к БД

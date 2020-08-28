@@ -33,6 +33,15 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     }
 }
 
+if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
+   $task_id = $_POST['task_id'];
+   $marketer_id = $_POST['marketer_id'];
+   $store_id = $_POST['store_id'];
+   $status_id = $_POST['status_id'];
+   
+   echo json_encode(setImplement($task_id, $marketer_id, $store_id, $status_id));
+}
+
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskDelete'){
     $task_id = $_POST['task_id'];
     $response = deleteTask($task_id);

@@ -382,6 +382,9 @@ if(!($db===false)){
 
                             <!-- Форма изменения статуса -->
                             <form class="edit-form" id="edit-task-modal-status-form" hidden>
+
+                                <input type="hidden" id="form-change-status-task_id" name="task_id" value="0">
+
                                 <div class="group">
                                     <label for="task-modal-marketer-select">Выберете исполнителя</label>
                                     <select id="task-modal-marketer-select" name="task-modal-marketer-select"></select>

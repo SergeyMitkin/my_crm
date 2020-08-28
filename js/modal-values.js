@@ -9,6 +9,9 @@ $(document).ready(function () {
         var elTaskModalId = document.getElementById("task_modal_id");
         elTaskModalId.textContent = task_id;
 
+        var elTaskChangeStatusId= document.getElementById("form-change-status-task_id");
+        elTaskChangeStatusId.value = task_id;
+
         var url = "auth.php";
         var action = "getTask";
 

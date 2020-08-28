@@ -33,7 +33,6 @@ $(document).ready(function () {
                     options += '<option value="' + obj[i]['status_id'] + '">' + obj[i]['status_name'] + '</option>';
                 }
                 elStatusSelect.innerHTML = options;
-
             },
         });
 
@@ -61,59 +60,76 @@ $(document).ready(function () {
                     options += '<option value="' + obj[i]['id'] + '">' + obj[i]['name'] + '</option>';
                 }
                 elMarketerSelect.innerHTML = options;
-
             },
         });
+    })
+})
 
+// Меняем статус задачи
+$(document).ready(function() {
+    var elChangeStatusForm = document.getElementById("edit-task-modal-status-form"); // Форма создания задачи
 
+    addEvent(elChangeStatusForm, 'submit', function (e) {
+        e.preventDefault(); // Останавливаем отправку
+        var elements = this.elements; // Элементы формы
+        var task_id = elements.task_id.value; // Id задачи
 
+        // Определяем исполнителя
+        var elSelectedMarketer = document.getElementById("task-modal-marketer-select").options.selectedIndex;
+        var marketer_id = document.getElementById("task-modal-marketer-select").options[elSelectedMarketer].value;
 
-        /*
+        // Определяем статус
+        var elSelectedStatus = document.getElementById("task-modal-status-select").options.selectedIndex;
+        var status_id = document.getElementById("task-modal-status-select").options[elSelectedStatus].value;
+
+        // Магазин по умолчанию
+        var store_id = 75538;
+
         var action = "changeStatus";
 
         $.ajax({
-            url: 'index.php',
+            url: 'auth.php',
             type: "POST",
             data: {
                 ajax: action,
-                id_task: task_id,
-                update: 'status',
-                initial_value: updated_status_id
+                task_id: task_id,
+                marketer_id: marketer_id,
+                store_id: store_id,
+                status_id: status_id
             },
             error: function () {
                 alert('Что-то пошло не так!');
             },
             success: function (response) {
-                // Получаем id задачи и id статуса
-                var obj = jQuery.parseJSON(response);
 
-                var task_id = obj['id_task'];
-                var status_id = obj['updated_value'];
+                //var obj = jQuery.parseJSON(response); // Данные новой задачи
+                console.log(response);
 
-                // Получаем элемент превью
-                var idStatusCardPreview = "status_task_" + task_id;
-                var elStatusCardPreview = document.getElementById(idStatusCardPreview);
-
-                var idColumnTask = document.getElementById("column_task_" + task_id); // Получаем id превью задачи
-
-                // Устанавливаем обозначения для обновлённого статуса
-                // Если задача "Не выполнена"
-                if (status_id == 1) {
-                    elStatus.textContent = "выполнена" // Статус в карточке задачи
-                    elCompleteButton.textContent = "Не выполнена"; // На кнопке о выполнении
-                    elCompleteButton.classList.replace('btn-success', 'btn-warning'); // Стиль для кнопки о выполнении
-                    elStatusCardPreview.setAttribute('src', 'img/completed.png'); // Значок о выполнении в превью задачи
-                    idColumnTask.setAttribute("data-sortStatus", "выпонена"); // Обновляем параметр для сортировки
-                } else {
-                    elStatus.textContent = "не выполнена"; // Статус в карточке задачи
-                    elCompleteButton.textContent = "Выполнена"; // На кнопке о выполнении
-                    elCompleteButton.classList.replace('btn-warning', 'btn-success'); // Стиль для кнопки о выполнении
-                    elStatusCardPreview.setAttribute('src', 'img/uncompleted.png'); // Значок о выполнении в превью задачи
-                    idColumnTask.setAttribute("data-sortStatus", "не выполнена"); // Обновляем параметр для сортировки
-                }
-            },
-            //dataType : "json"
-        });
-        */
+            }
+        })
     })
 })
+
+// Вспомогательная функция для добавления обработчика событий
+function addEvent (el, event, callback) {
+    if ('addEventListener' in el) {                  // Если addEventListener работает
+        el.addEventListener(event, callback, false);   // Используем его
+    } else {                                         // В противном случае
+        el['e' + event + callback] = callback;         // Создаем специальный код для IE
+        el[event + callback] = function () {
+            el['e' + event + callback](window.event);
+        };
+        el.attachEvent('on' + event, el[event + callback]); // Используем attachEvent()
+    }  // для вызова второй функции, которая потом вызывает первую
+}
+
+// Вспомогательная функция для удаления обработчика событий
+function removeEvent(el, event, callback) {
+    if ('removeEventListener' in el) {                      // If removeEventListener works
+        el.removeEventListener(event, callback, false);       // Используем его
+    } else {                                                // В противном случае
+        el.detachEvent('on' + event, el[event + callback]);   // Создаем специальный код для IE
+        el[event + callback] = null;
+        el['e' + event + callback] = null;
+    }
+}
