@@ -79,7 +79,14 @@ $stores_data = getStores();
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskCreateAndDisplayDate'){
     $task_id = $_GET['task_id'];
-    $task_data = getTaskCreateAndDisplayDate($_GET['task_id']);
+    $task_data = getTaskCreateAndDisplayDate($task_id);
+
+    echo json_encode($task_data);
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getImplements'){
+    $task_id = $_GET['task_id'];
+    $task_data = getImplements($task_id);
 
     echo json_encode($task_data);
 }

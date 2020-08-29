@@ -31,6 +31,18 @@
     padding: 15px;
 }
 
+.implement-li{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.p-close{
+    width: 50px;
+}
+.p-close:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 
 

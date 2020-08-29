@@ -592,15 +592,14 @@ if(!($db===false)){
                                         '<button type="button" class="btn btn-danger task-delete-button"
                                             id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
                                     '</div>'.
-                                    '<div id="div-task-implements-list-test_' . $task['task_id'] . '" class="col-md-12">
+                                    '<div id="div-task-implements-list-test_' . $task['task_id'] . '" class="col-md-12" hidden>
                                             <p>Создана: <span>Created at</span></p>
                                             <p>Первое отображение: <span>Created at</span></p>
-                                            <ul id="task-implements-list">
+                                            <ol id="task-implements-list">Реализации: 
                                                 <li>1-я реализация</li>
                                                 <li>2-я реализация</li>
                                                 <li>3-я реализация</li>
-                                            </ul>
-                                            <p id="close-task-implements-list_' . $task['task_id'] . '">Скрыть</p>
+                                            </ol>
                                     </div>' .
                                 '</div>'
                             ;

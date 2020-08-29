@@ -24,6 +24,26 @@ function setImplement($task_id, $marketer_id, $store_id, $status_id)
     return $response;
 }
 
+// Получаем реализации
+
+function getImplements($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT implements.created_at, marketers.name AS marketer_name,
+        stores.name AS store_name, status_name
+        FROM implements 
+        LEFT JOIN marketers ON implements.marketer_id = marketers.id
+        LEFT JOIN stores ON implements.store_id = stores.id
+        LEFT JOIN task_statuses ON implements.status_id = task_statuses.status_id
+        WHERE task_id = " . $task_id;
+
+        $sql = SQL::getInstance()->Select($q); // Обращение к БД
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
 
 // Добавляем или редактируем задачу
 function setTask($task_id = 0){
@@ -50,9 +70,9 @@ function setTask($task_id = 0){
 
         // Иаче добавляем новую задачу
         else {
-        $sql = SQL::getInstance()->Insert($t, $v);
-        $task_id = $sql;
-        $response = $sql;
+            $sql = SQL::getInstance()->Insert($t, $v);
+            $task_id = $sql;
+            $response = $sql;
         }
 
         // Если задача редактируется, удаляем предыдущих пользователей
