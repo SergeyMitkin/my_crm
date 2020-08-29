@@ -21,25 +21,17 @@ function getTasksByDate(task_date) {
             var d = document.getElementById("marketer-tasks-row");
             var s = document.createElement("span");
             var d_t = document.createElement("div");
-            var d_t_s = document.createElement("div");
-            var s_s = document.createElement("span");
 
             d_t.appendChild(s);
-            d_t.appendChild(d_t_s);
-            d_t_s.appendChild(s_s);
             d_t.classList="div-task-span col-md-12";
             d_t.setAttribute("data-toggle", "modal");
             d_t.setAttribute("data-target", "#taskModal");
             s.classList="task-span col-md-6";
-            d_t_s.classList="col-md-6";
 
             for (var i = 0; i < obj.length; i++) {
                 d_t.id="div-task-span_" + obj[i]['task_id'];
                 s.textContent=obj[i]['task_title'];
                 s.id="task-span_" + obj[i]['task_id'];
-                s_s.textContent="Статус: "+ obj[i]['status_name'];
-                s_s.id="span-task-status_"+ obj[i]['task_id'];
-                d_t_s.id="div-task-status_"+ obj[i]['task_id'];
                 d.appendChild(d_t.cloneNode(true));
             }
         }

@@ -156,6 +156,18 @@ function getTask($task_id){
     return $sql;
 }
 
+function getTaskCreateAndDisplayDate($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT created_at, first_display FROM tasks
+        WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q); // Обращение к БД
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
 function deleteTask($task_id){
     $response = '';
     $task_id = (int)$task_id;

@@ -342,12 +342,7 @@ if(!($db===false)){
                             '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12"
                             data-toggle="modal" data-target="#taskModal"
                             >'.
-
                             '<span id="task-span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
-
-                            '<div id="div-task-status_' . $task['task_id'] . '" class="col-md-6">' .
-                            '<span id="span-task-status_">Статус: '. $task['status_name'] .' </span>' .
-                            '</div>'.
                             '</div>'
                         ;
                     }
@@ -356,7 +351,7 @@ if(!($db===false)){
             </div>
 
             <div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModal" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-md" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <!-- id задачи -->
@@ -378,7 +373,7 @@ if(!($db===false)){
                         </div>
 
                         <div class="modal-footer">
-                            <p>Статус задачи: <span id="task-modal-status-span"></span></p>
+                            <p id="task-modal-status-p"></p>
 
                             <!-- Форма изменения статуса -->
                             <form class="edit-form" id="edit-task-modal-status-form" hidden>
@@ -402,7 +397,6 @@ if(!($db===false)){
                                     <button id="edit-user-post" class="btn btn-outline-light">Отправить</button>
                                 </div>
                             </form>
-
                             <button class="btn btn-outline-light" id="edit-task-modal-status-button" hidden>Изменить статус</button>
                         </div>
 

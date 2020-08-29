@@ -38,7 +38,7 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
    $marketer_id = $_POST['marketer_id'];
    $store_id = $_POST['store_id'];
    $status_id = $_POST['status_id'];
-   
+
    echo json_encode(setImplement($task_id, $marketer_id, $store_id, $status_id));
 }
 
@@ -76,6 +76,13 @@ function getStores(){
 }
 
 $stores_data = getStores();
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskCreateAndDisplayDate'){
+    $task_id = $_GET['task_id'];
+    $task_data = getTaskCreateAndDisplayDate($_GET['task_id']);
+
+    echo json_encode($task_data);
+}
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
     $response = array();

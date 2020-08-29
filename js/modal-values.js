@@ -35,9 +35,6 @@ $(document).ready(function () {
 
                 var elTaskModalDescription = document.getElementById("task-modal-description");
                 elTaskModalDescription.textContent = task_description;
-
-                var elTaskModalStatus = document.getElementById("task-modal-status-span");
-                elTaskModalStatus.textContent = obj[0][0]['status_name'];
             }
         })
     }

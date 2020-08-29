@@ -2,10 +2,11 @@
 $(document).ready(function () {
     $("#edit-task-modal-status-button").on('click', function () {
 
-        var elStatus = document.getElementById("task-modal-status-span"); // Элемент, выводящий статус задачи в модальном окне
+        var elStatusResponse = document.getElementById("task-modal-status-p"); // Элемент, выводящий информацию об изменении статуса
         var elStatusButton = document.getElementById("edit-task-modal-status-button"); // Кнопка "Изменить статус"
         var elEditStatusForm = document.getElementById("edit-task-modal-status-form"); // Форма изменения статуса
         elEditStatusForm.removeAttribute("hidden");
+        elStatusResponse.textContent = "";
 
         var task_id = document.getElementById("task_modal_id").textContent; // Id задачи
 
@@ -68,6 +69,7 @@ $(document).ready(function () {
 // Меняем статус задачи
 $(document).ready(function() {
     var elChangeStatusForm = document.getElementById("edit-task-modal-status-form"); // Форма создания задачи
+    var elStatusResponse = document.getElementById("task-modal-status-p"); // Элемент, выводящий информацию об изменении статуса
 
     addEvent(elChangeStatusForm, 'submit', function (e) {
         e.preventDefault(); // Останавливаем отправку
@@ -100,15 +102,117 @@ $(document).ready(function() {
             error: function () {
                 alert('Что-то пошло не так!');
             },
-            success: function (response) {
-
-                //var obj = jQuery.parseJSON(response); // Данные новой задачи
-                console.log(response);
-
+            success: function () {
+                elStatusResponse.textContent = "Статус задачи изменён";
+                elChangeStatusForm.setAttribute("hidden", " " );
             }
         })
     })
 })
+
+// Выводим список реализаций
+function implementsList(task_id){
+    // Div задачи
+    var div_task_span_id = "div-task-span_" + task_id;
+    var elTaskDiv = document.getElementById(div_task_span_id);
+
+    // P "Скрыть"
+    var close_list_p = "close-task-implements-list_" + task_id;
+    var elCloseP = document.getElementById(close_list_p);
+
+    // ajax-запрос для получения данных задачи
+    var url = "auth.php";
+    var action = "getTaskCreateAndDisplayDate";
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {
+            ajax: action,
+            task_id: task_id
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function (data) {
+
+            var obj = jQuery.parseJSON(data); // Получаем данные задачи
+            console.log(obj);
+
+            // Создаём элементы вывода статистики
+            var d_i = document.createElement("div");
+            d_i.classList = "col-md-12";
+
+            var p_c_a = document.createElement("p");
+            var s_c_a = document.createElement("span");
+            p_c_a.textContent = "Создана: "
+            p_c_a.appendChild(s_c_a);
+            s_c_a.textContent = obj[0]['created_at'];
+
+            var p_f_d = document.createElement("p");
+            var s_f_d = document.createElement("span");
+            p_f_d.textContent = "Первое отображение: "
+            p_f_d.appendChild(s_f_d);
+            s_f_d.textContent = obj[0]['first_display'];
+
+            d_i.appendChild(p_c_a);
+            d_i.appendChild(p_f_d);
+
+            elTaskDiv.appendChild(d_i);
+        },
+    });
+
+    // ajax-запрос для поучения списка реализаций
+
+            /*
+            var statuses_number = obj.length; // Количество пользователей
+
+            var elStatusSelect = document.getElementById('task-modal-status-select') // Select для выбора пользователя
+            var options = '<option value = "' + obj[0]['status_id'] + ' " >' + obj[0]['status_name'] + '</option>'; // Помещаем исходного ответственного в первый <option>
+
+            // Помещаем в <option> статусы
+            for (var i = 1; i < statuses_number; i++) {
+                options += '<option value="' + obj[i]['status_id'] + '">' + obj[i]['status_name'] + '</option>';
+            }
+            elStatusSelect.innerHTML = options;
+        },
+    });
+
+    // ajax-запрос для получения исполнителей
+    var url = "auth.php";
+    var action = "getMarketers";
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {
+            ajax: action,
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function (data) {
+            var obj = jQuery.parseJSON(data); // Получаем данные таблицы marketers
+            var marketers_number = obj.length; // Количество пользователей
+
+            var elMarketerSelect = document.getElementById('task-modal-marketer-select') // Select для выбора пользователя
+            var options = '<option value = "' + obj[0]['id'] + ' " >' + obj[0]['name'] + '</option>'; // Помещаем исходного ответственного в первый <option>
+
+            // Помещаем в <option> исполнителей
+            for (var i = 1; i < marketers_number; i++) {
+                options += '<option value="' + obj[i]['id'] + '">' + obj[i]['name'] + '</option>';
+            }
+            elMarketerSelect.innerHTML = options;
+        },
+    });
+    */
+}
+
+
+// Выводим список реализаций задачи
+$(".task-statement-button").on('click', function () {
+    var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
+    implementsList(task_id); // Функция редактирования
+})
+
 
 // Вспомогательная функция для добавления обработчика событий
 function addEvent (el, event, callback) {

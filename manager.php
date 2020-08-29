@@ -573,23 +573,37 @@ if(!($db===false)){
                 </div>
 
                 <div class="row">
-                    <div class="col-md-8" id="tasks-row">
+                    <div class="col-md-10" id="tasks-row">
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
-                                echo
-                                    '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
-                                        '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+                            echo
+                                '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
+                                    '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-4" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
-                                        '<div id="task-edit-buttons_' . $task['task_id'] . '" class="col-md-6">' .
-                                            '<button type="button" class="btn btn-primary task-edit-button"
+                                    '<button type="button" class="btn btn-secondary col-md-2 task-statement-button"
+                                        id="task-statement-button_' . $task['task_id'] . '"
+                                         >Реализации</button>' .
+
+                                    '<div id="task-edit-buttons_' . $task['task_id'] . '" class="col-md-4">' .
+                                        '<button type="button" class="btn btn-primary task-edit-button"
                                             id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
 
-                                            '<button type="button" class="btn btn-danger task-delete-button"
+                                        '<button type="button" class="btn btn-danger task-delete-button"
                                             id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
-                                        '</div>'.
-                                    '</div>'
-                                ;
+                                    '</div>'.
+                                    '<div id="div-task-implements-list-test_' . $task['task_id'] . '" class="col-md-12">
+                                            <p>Создана: <span>Created at</span></p>
+                                            <p>Первое отображение: <span>Created at</span></p>
+                                            <ul id="task-implements-list">
+                                                <li>1-я реализация</li>
+                                                <li>2-я реализация</li>
+                                                <li>3-я реализация</li>
+                                            </ul>
+                                            <p id="close-task-implements-list_' . $task['task_id'] . '">Скрыть</p>
+                                    </div>' .
+                                '</div>'
+                            ;
                         }
                         ?>
                     </div>
@@ -1313,3 +1327,4 @@ if(!($db===false)){
 <script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
 <script src="js/task_edit.js"></script> <!-- JS редактирования задачи -->
 <script src="js/task_delete.js"></script> <!-- JS удаления задачи -->
+<script src="js/implementations.js"></script> <!-- JS удаления задачи -->
