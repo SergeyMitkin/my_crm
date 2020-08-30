@@ -581,7 +581,7 @@ if(!($db===false)){
                         <div id="div-task-type-filter">
                             <label for="select-task-type-filter">Задачи по типу</label>
                             <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
-                                <option>Выберите тип</option>
+                                <option value="all">Выберите тип задачи</option>
                                 <?
                                 foreach($task_types_data as $task_type) {
                                     echo '<option class="task-type-option" value="' . $task_type['task_type_id'] . '">'
@@ -590,31 +590,48 @@ if(!($db===false)){
                                 ?>
                             </select>
                         </div>
+
+                        <!-- Фильтр по исполнителю задачи -->
+                        <div id="div-task-type-filter">
+                            <label for="select-marketer-filter">Задачи по исполнителю</label>
+                            <select id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
+                                <option value="all">Выберите исполнителя</option>
+                                <?
+                                foreach ($marketers_data as $marketer) {
+                                    echo '<option value="' . $marketer['id'] . '">'
+                                        . $marketer['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
                     </div>
 
                     <div class="col-md-10" id="tasks-row">
                         <h4>Список задач: </h4>
-                        <?
-                        foreach($tasks as $task){
-                            echo
-                                '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12 filter-type_' . $task['type_id'] . '">'.
-                                    '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-4" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+                        <div id="manager-task-raw">
+                            <?
+                            foreach($tasks as $task){
+                                echo
+                                    '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12 filter-type_' . $task['type_id'] . '">'.
+                                        '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-4" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
-                                    '<button type="button" class="btn btn-secondary col-md-2 task-statement-button"
-                                        id="task-statement-button_' . $task['task_id'] . '"
-                                         >Реализации</button>' .
+                                        '<button type="button" class="btn btn-secondary col-md-2 task-statement-button"
+                                            id="task-statement-button_' . $task['task_id'] . '"
+                                             >Реализации</button>' .
 
-                                    '<div id="task-edit-buttons_' . $task['task_id'] . '" class="col-md-4">' .
-                                        '<button type="button" class="btn btn-primary task-edit-button"
-                                            id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
+                                        '<div id="task-edit-buttons_' . $task['task_id'] . '" class="col-md-4">' .
+                                            '<button type="button" class="btn btn-primary task-edit-button"
+                                                id="edit-task-button_' . $task['task_id'] . '">Редактировать</button>' .
 
-                                        '<button type="button" class="btn btn-danger task-delete-button"
-                                            id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
-                                    '</div>'.
-                                '</div>'
-                            ;
-                        }
-                        ?>
+                                            '<button type="button" class="btn btn-danger task-delete-button"
+                                                id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
+                                        '</div>'.
+                                    '</div>'
+                                ;
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

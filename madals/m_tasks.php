@@ -150,11 +150,24 @@ function getTasks(){
 }
 
 function getTasksByDate($date){
-
     try {
         // Подготовленное выражение
         $q = "SELECT * FROM tasks
             WHERE deadline = '" . $date."'";
+
+        $sql = SQL::getInstance()->Select($q); // Обращение к БД
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
+function getTasksByMarketer($marketer_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT task_marketers.task_id, tasks.task_title, tasks.type_id FROM task_marketers
+            LEFT JOIN tasks ON task_marketers.task_id = tasks.task_id
+            WHERE marketer_id = '" . $marketer_id."'";
 
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {

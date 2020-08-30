@@ -1,5 +1,6 @@
 // Получаем задачи по дате
 function getTasksByDate(task_date) {
+
     // ajax-запрос для получения данных выбранной задачи
     var url = "auth.php";
     var action = "getTasksByDate";
@@ -37,7 +38,6 @@ function getTasksByDate(task_date) {
         }
     })
 }
-
 
 $(document).ready(function () {
     $("#href-tab-3").on('click', function () {

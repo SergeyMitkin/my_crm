@@ -107,6 +107,17 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByDate'){
     echo json_encode($tasks);
 }
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByMarketer'){
+    $marketer_id = $_GET['marketer_id'];
+    $tasks = getTasksByMarketer($marketer_id);
+    echo json_encode($tasks);
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasks'){
+    $tasks = getTasks();
+    echo json_encode($tasks);
+}
+
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getStatuses'){
     $statuses = getStatuses();
     echo json_encode($statuses);
