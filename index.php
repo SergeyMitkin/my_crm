@@ -1068,4 +1068,5 @@ if(!($db===false)){
 <script src="js/date_operations.js"></script> <!-- JS для операций с датами -->
 <script src="js/tasks_marketer.js"></script> <!-- JS для работы с задачами -->
 <script src="js/modal-values.js"></script> <!-- JS модального окна задачи -->
-<script src="js/implementations.js"></script> <!-- JS модального окна задачи -->
+<script src="js/marketer_implementations.js"></script> <!-- JS модального окна задачи -->
+<script src="js/task_utilities.js"></script> <!-- вспомогательные функции -->

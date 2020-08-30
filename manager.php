@@ -498,9 +498,11 @@ if(!($db===false)){
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
                 <div class="row" id="manager-task-page">
+
                     <div id="div-task-create-button">
                     <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     </div>
+
                         <!-- Форма создания новой задачи -->
                     <div id="div-task-create-form" class="col-md-11 div-edit-form" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
@@ -573,12 +575,29 @@ if(!($db===false)){
                 </div>
 
                 <div class="row">
+                    <div class="task-filters">
+
+                        <!-- Фильтр по типу задачи -->
+                        <div id="div-task-type-filter">
+                            <label for="select-task-type-filter">Задачи по типу</label>
+                            <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
+                                <option>Выберите тип</option>
+                                <?
+                                foreach($task_types_data as $task_type) {
+                                    echo '<option class="task-type-option" value="' . $task_type['task_type_id'] . '">'
+                                        . $task_type['task_type_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-md-10" id="tasks-row">
                         <h4>Список задач: </h4>
                         <?
                         foreach($tasks as $task){
                             echo
-                                '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12">'.
+                                '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12 filter-type_' . $task['type_id'] . '">'.
                                     '<span id="task_span_'.$task['task_id'].'" class="task-span col-md-4" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
 
                                     '<button type="button" class="btn btn-secondary col-md-2 task-statement-button"
@@ -592,15 +611,6 @@ if(!($db===false)){
                                         '<button type="button" class="btn btn-danger task-delete-button"
                                             id="delete-task-button_' . $task['task_id'] . '">Удалить</button>' .
                                     '</div>'.
-                                    '<div id="div-task-implements-list-test_' . $task['task_id'] . '" class="col-md-12" hidden>
-                                            <p>Создана: <span>Created at</span></p>
-                                            <p>Первое отображение: <span>Created at</span></p>
-                                            <ol id="task-implements-list">Реализации: 
-                                                <li>1-я реализация</li>
-                                                <li>2-я реализация</li>
-                                                <li>3-я реализация</li>
-                                            </ol>
-                                    </div>' .
                                 '</div>'
                             ;
                         }
@@ -1326,4 +1336,7 @@ if(!($db===false)){
 <script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
 <script src="js/task_edit.js"></script> <!-- JS редактирования задачи -->
 <script src="js/task_delete.js"></script> <!-- JS удаления задачи -->
-<script src="js/implementations.js"></script> <!-- JS удаления задачи -->
+<script src="js/manager-implementations.js"></script> <!-- JS удаления задачи -->
+<script src="js/task_filter.js"></script> <!-- JS фильтров -->
+<script src="js/task_utilities.js"></script> <!-- Вспомогательные функции -->
+
