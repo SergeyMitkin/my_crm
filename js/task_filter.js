@@ -5,14 +5,40 @@ function onTypeSelectionChange(select) {
     var selectedOption = select.options[select.selectedIndex].value;
 
     filterBox.forEach( elem => {
+
+        elem.classList.remove('t-h');
+
+        if (!elem.classList.contains("m-h")){
         elem.classList.remove('hide');
-        if (elem.attributes["data-filter-type"].value !== selectedOption){
+    }
+        if (elem.attributes["data-filter-type"].value !== selectedOption && selectedOption !== 'all'){
             elem.classList.add('hide');
+            elem.classList.add('t-h');
         }
     });
 }
 
 function onMarketerSelectionChange(select) {
+
+    var selectedOption = select.options[select.selectedIndex].value;
+    var str = ' ' + selectedOption + ' ';
+
+    filterBox.forEach( elem => {
+
+        elem.classList.remove("m-h");
+
+    if (!elem.classList.contains("t-h")){
+        elem.classList.remove('hide');
+    }
+
+    if (!elem.attributes["data-filter-marketers"].value.includes(str) && selectedOption !== 'all'){
+        elem.classList.add('hide');
+        elem.classList.add('m-h');
+    }
+});
+}
+
+function onMarketerSelectionChangeOld(select) {
     var selectedOption = select.options[select.selectedIndex].value;
 
     //var taskRow = $("#manager-task-raw").detach(); // Очищаем div с задачами

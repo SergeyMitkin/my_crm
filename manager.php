@@ -581,10 +581,10 @@ if(!($db===false)){
                         <div id="div-task-type-filter">
                             <label for="select-task-type-filter">Задачи по типу</label>
                             <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
-                                <option value="all">Выберите тип задачи</option>
+                                <option class="select-task-type-option" value="all">Выберите тип задачи</option>
                                 <?
                                 foreach($task_types_data as $task_type) {
-                                    echo '<option class="task-type-option" value="' . $task_type['task_type_id'] . '">'
+                                    echo '<option class="select-task-type-option" value="' . $task_type['task_type_id'] . '">'
                                         . $task_type['task_type_name'] . '</option>';
                                 }
                                 ?>
@@ -616,7 +616,7 @@ if(!($db===false)){
                                          data-filter-type="<?=$task['type_id']?>"
                                          data-filter-marketers="<?
                                     foreach (getSelectedMarketers($task['task_id']) as $marketer){
-                                        echo $marketer['marketer_id'] . ' ';
+                                        echo ' ' . $marketer['marketer_id'] . ' ';
                                     }
                                     ?>">
                                         <span id="task_span_<?=$task['task_id']?>" class="task-span col-md-4" value="<?=$task['task_id']?>"><?=$task['task_title']?></span>
@@ -624,7 +624,7 @@ if(!($db===false)){
                                         <button type="button" class="btn btn-secondary col-md-2 task-statement-button"
                                             id="task-statement-button_<?=$task['task_id']?>">Реализации</button>
 
-                                        <div id="task-edit-buttons_<?=$task['task_id']?>" class="col-md-4">
+                                        <div id="task-edit-buttons_<?=$task['task_id']?>" class="col-md-6">
                                             <button type="button" class="btn btn-primary task-edit-button"
                                                 id="edit-task-button_<?=$task['task_id']?>">Редактировать</button>
 
