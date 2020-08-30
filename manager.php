@@ -579,9 +579,9 @@ if(!($db===false)){
 
                         <!-- Фильтр по типу задачи -->
                         <div id="div-task-type-filter">
-                            <label for="select-task-type-filter">Задачи по типу</label>
+                            <label for="select-task-type-filter">Все типы</label>
                             <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
-                                <option class="select-task-type-option" value="all">Выберите тип задачи</option>
+                                <option class="select-task-type-option" value="all">Все типы</option>
                                 <?
                                 foreach($task_types_data as $task_type) {
                                     echo '<option class="select-task-type-option" value="' . $task_type['task_type_id'] . '">'
@@ -592,14 +592,28 @@ if(!($db===false)){
                         </div>
 
                         <!-- Фильтр по исполнителю задачи -->
-                        <div id="div-task-type-filter">
+                        <div id="div-task-marketer-filter">
                             <label for="select-marketer-filter">Задачи по исполнителю</label>
                             <select id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
-                                <option value="all">Выберите исполнителя</option>
+                                <option value="all">Все исполнители</option>
                                 <?
                                 foreach ($marketers_data as $marketer) {
                                     echo '<option value="' . $marketer['id'] . '">'
                                         . $marketer['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <!-- Фильтр по магазину -->
+                        <div id="div-task-store-filter">
+                            <label for="select-store-filter">Задачи по магазину</label>
+                            <select id="select-store-filter" onchange="onStoreSelectionChange (this)">
+                                <option value="all">Все магазины</option>
+                                <?
+                                foreach ($stores_data as $store) {
+                                    echo '<option value="' . $store['id'] . '">'
+                                        . $store['name'] . '</option>';
                                 }
                                 ?>
                             </select>
@@ -618,7 +632,14 @@ if(!($db===false)){
                                     foreach (getSelectedMarketers($task['task_id']) as $marketer){
                                         echo ' ' . $marketer['marketer_id'] . ' ';
                                     }
-                                    ?>">
+                                    ?>"
+                                         data-filter-store="
+                                    <?
+                                    foreach (getSelectedStores($task['task_id']) as $store){
+                                        echo ' ' . $store['store_id'] . ' ';
+                                    }
+                                    ?>
+                                    ">
                                         <span id="task_span_<?=$task['task_id']?>" class="task-span col-md-4" value="<?=$task['task_id']?>"><?=$task['task_title']?></span>
 
                                         <button type="button" class="btn btn-secondary col-md-2 task-statement-button"

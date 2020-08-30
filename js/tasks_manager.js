@@ -81,19 +81,35 @@ $(document).ready(function() {
                     elLastTaskDiv.setAttribute("class", "div-task-span col-md-12");
                     var selected_marketers_string = ' ' + marketer.join(' ') + ' ';
                     elLastTaskDiv.setAttribute("data-filter-marketers", selected_marketers_string);
+                    var selected_stores_string = ' ' + store.join(' ') + ' ';
+                    elLastTaskDiv.setAttribute("data-filter-store", selected_stores_string);
                     elLastTaskDiv.setAttribute("data-filter-type", task_type_id);
 
                     // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
                     var created_task_id = "task_span_" + obj['task_id'];
                     elLastTaskSpan.setAttribute("value", obj['task_id']);
-                    elLastTaskSpan.setAttribute("class", "task-span col-md-6");
+                    elLastTaskSpan.setAttribute("class", "task-span col-md-4");
                     elLastTaskSpan.setAttribute("id", created_task_id);
                     elLastTaskSpan.textContent = obj['task_title'];
+
+                    // Добавляем кнопку "Реализации"
+                    var elLastTaskImplementButton = document.createElement("button");
+                    elLastTaskImplementButton.setAttribute("type", "button");
+                    elLastTaskImplementButton.setAttribute("class", "btn btn-secondary col-md-2 task-statement-button");
+                    var implementButtionId = "task-statement-button_" + obj['task_id'];
+                    elLastTaskImplementButton.setAttribute("id", implementButtionId);
+                    elLastTaskImplementButton.textContent = "Реализации";
+
+                    // Выводим список реализаций
+                    addEvent(elLastTaskImplementButton, 'click', function (e) {
+                        var task_id = obj['task_id'];
+                        implementsList(task_id);
+                    })
 
                     // Добавляем кнопку "Редактировать"
                     var div_edit_buttons_id = "task-edit-buttons_" + obj['task_id'];
                     elDivTaskEditButtons.setAttribute("id", div_edit_buttons_id);
-                    elDivTaskEditButtons.setAttribute("class", "col-md-6")
+                    elDivTaskEditButtons.setAttribute("class", "col-md-6");
 
                     var elLastTaskEditButton = document.createElement("button");
                     elLastTaskEditButton.setAttribute("type", "button");
@@ -126,6 +142,7 @@ $(document).ready(function() {
                     elDivTaskEditButtons.appendChild(elLastTaskDeleteButton);
 
                     elLastTaskDiv.appendChild(elLastTaskSpan);
+                    elLastTaskDiv.appendChild(elLastTaskImplementButton);
                     elLastTaskDiv.appendChild(elDivTaskEditButtons);
 
                     elTaskRow.appendChild(elLastTaskDiv);
@@ -143,7 +160,6 @@ $(document).ready(function() {
         })
     })
 })
-
 
 // Функция множественного выбора в <select>
 function multiselect() {
