@@ -128,6 +128,9 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getMarketers'){
     echo json_encode($marketers);
 }
 
+//$selected_marketers = getSelectedMarketers(208);
+//var_dump($selected_marketers);
+
 /**
  * @param $db
  * @return array

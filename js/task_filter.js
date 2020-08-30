@@ -1,22 +1,24 @@
 var filterBox = document.querySelectorAll(".div-task-span");
 
 function onTypeSelectionChange(select) {
+
     var selectedOption = select.options[select.selectedIndex].value;
-    var filterClass = 'filter-type_' + selectedOption;
 
     filterBox.forEach( elem => {
         elem.classList.remove('hide');
-       if(!elem.classList.contains(filterClass) && selectedOption !== 'all'){
-           elem.classList.add('hide');
-    }
+        if (elem.attributes["data-filter-type"].value !== selectedOption){
+            elem.classList.add('hide');
+        }
     });
 }
 
 function onMarketerSelectionChange(select) {
     var selectedOption = select.options[select.selectedIndex].value;
 
+    //var taskRow = $("#manager-task-raw").detach(); // Очищаем div с задачами
 
-    $("#manager-task-raw").empty(); // Очищаем div с задачами
+    $("#manager-task-raw").empty();
+    //console.log(taskRow);
 
     getTasksByMarketer(selectedOption); // Получаем задачи на определённую дату
 }

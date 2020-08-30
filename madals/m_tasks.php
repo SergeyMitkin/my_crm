@@ -136,6 +136,8 @@ function getTaskTypes(){
 
 $task_types_data = getTaskTypes();
 
+// Получаем исполнителей задачи
+
 // Получаем список задач
 function getTasks(){
     // Получаем данные задач на странице из БД

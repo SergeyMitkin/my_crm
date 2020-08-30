@@ -79,6 +79,9 @@ $(document).ready(function() {
                     var last_task_div_id = "div-task-span_" + obj['task_id'];
                     elLastTaskDiv.setAttribute("id", last_task_div_id);
                     elLastTaskDiv.setAttribute("class", "div-task-span col-md-12");
+                    var selected_marketers_string = marketer.join(' ');
+                    elLastTaskDiv.setAttribute("data-filter-marketers", selected_marketers_string);
+                    elLastTaskDiv.setAttribute("data-filter-type", task_type_id);
 
                     // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
                     var created_task_id = "task_span_" + obj['task_id'];
