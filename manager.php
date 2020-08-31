@@ -575,71 +575,83 @@ if(!($db===false)){
                 </div>
 
                 <div class="row">
-                    <div class="task-filters">
+                    <div class="task-filters col-md-10">
+                        <table>
+                            <tr>
+                                <td>
+                                    <!-- Фильтр по типу задачи -->
+                                    <div id="div-task-type-filter">
+                                        <label for="select-task-type-filter">Тип задачи</label>
+                                        <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
+                                            <option class="select-task-type-option" value="all">Все типы</option>
+                                            <?
+                                            foreach($task_types_data as $task_type) {
+                                                echo '<option class="select-task-type-option" value="' . $task_type['task_type_id'] . '">'
+                                                    . $task_type['task_type_name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </td>
 
-                        <!-- Фильтр по типу задачи -->
-                        <div id="div-task-type-filter">
-                            <label for="select-task-type-filter">Все типы</label>
-                            <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
-                                <option class="select-task-type-option" value="all">Все типы</option>
-                                <?
-                                foreach($task_types_data as $task_type) {
-                                    echo '<option class="select-task-type-option" value="' . $task_type['task_type_id'] . '">'
-                                        . $task_type['task_type_name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
+                                <td>
+                                    <!-- Фильтр по исполнителю задачи -->
+                                    <div id="div-task-marketer-filter">
+                                        <label for="select-marketer-filter">Исполнители</label>
+                                        <select id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
+                                            <option value="all">Все исполнители</option>
+                                            <?
+                                            foreach ($marketers_data as $marketer) {
+                                                echo '<option value="' . $marketer['id'] . '">'
+                                                    . $marketer['name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </td>
 
-                        <!-- Фильтр по исполнителю задачи -->
-                        <div id="div-task-marketer-filter">
-                            <label for="select-marketer-filter">Задачи по исполнителю</label>
-                            <select id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
-                                <option value="all">Все исполнители</option>
-                                <?
-                                foreach ($marketers_data as $marketer) {
-                                    echo '<option value="' . $marketer['id'] . '">'
-                                        . $marketer['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
+                                <td>
+                                    <!-- Фильтр по магазину -->
+                                    <div id="div-task-store-filter">
+                                        <label for="select-store-filter">Магазины</label>
+                                        <select id="select-store-filter" onchange="onStoreSelectionChange (this)">
+                                            <option value="all">Все магазины</option>
+                                            <?
+                                            foreach ($stores_data as $store) {
+                                                echo '<option value="' . $store['id'] . '">'
+                                                    . $store['name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </td>
 
-                        <!-- Фильтр по магазину -->
-                        <div id="div-task-store-filter">
-                            <label for="select-store-filter">Задачи по магазину</label>
-                            <select id="select-store-filter" onchange="onStoreSelectionChange (this)">
-                                <option value="all">Все магазины</option>
-                                <?
-                                foreach ($stores_data as $store) {
-                                    echo '<option value="' . $store['id'] . '">'
-                                        . $store['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
+                                <td>
+                                    <!-- Фильтр по статусу -->
+                                    <div id="div-task-status-filter">
+                                        <label for="select-status-filter">Статусы</label>
+                                        <select id="select-status-filter" onchange="onStatusSelectionChange (this)">
+                                            <option value="all">Все статусы</option>
+                                            <?
+                                            foreach ($statuses as $status) {
+                                                echo '<option value="' . $status['status_id'] . '">'
+                                                    . $status['status_name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </td>
 
-                        <!-- Фильтр по статусу -->
-                        <div id="div-task-status-filter">
-                            <label for="select-status-filter">Задачи по магазину</label>
-                            <select id="select-status-filter" onchange="onStatusSelectionChange (this)">
-                                <option value="all">Все статусы</option>
-                                <?
-                                foreach ($statuses as $status) {
-                                    echo '<option value="' . $status['status_id'] . '">'
-                                        . $status['status_name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-
-                        <!-- Фильтр по дате -->
-                        <div id="div-task-date-filter">
-                            <label for="select-date-filter">Задачи по дате</label>
-                            <input class="form-control" type="date" id="select-date-filter" name="deadline"
-                                   onchange="onDateSelectionChange (this)"/>
-                        </div>
-
+                                <td>
+                                    <!-- Фильтр по дате -->
+                                    <div id="div-task-date-filter">
+                                        <label for="select-date-filter">Срок исполнения</label>
+                                        <input class="form-control" type="date" id="select-date-filter" name="deadline"
+                                               onchange="onDateSelectionChange (this)"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
                     <div class="col-md-10" id="tasks-row">

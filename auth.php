@@ -49,6 +49,12 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskDelete'){
     echo json_encode($response);
 }
 
+if (isset($_POST['ajax']) && $_POST['ajax'] == 'coverImplement'){
+    $implement_id = $_POST['implement_id'];
+    $response = coverImplement($implement_id);
+    echo json_encode($response);
+}
+
 
 // Получаем исполнителей
 function getMarketers(){

@@ -74,12 +74,19 @@ function implementsList(task_id){
             var li = '';
             // Помещаем в <li> реализации
             for (var i = 0; i < obj.length; i++) {
-                li += '<li class="col-md-12 implement-li">' +
+                li += '<li class="col-md-12 implement-li" id="implement-li_' + + obj[i]['implement_id'] + '">' +
                     'Магазин: ' + obj[i]['store_name'] + '</br>' +
                     'Исполнитель: ' +obj[i]['marketer_name'] + '</br>' +
                     'Статус: ' + obj[i]['status_name'] + '</br>' +
                     'Дата: ' + obj[i]['created_at']
-                '</li>'
+                '</li>';
+                if (obj[i]['status_id'] == 4){
+                    if (obj[i]['is_covered'] == 0){
+                        li += '</br><button class="button-cover-implement" id="button-cover-implement_' + obj[i]['implement_id'] + '">Подтвердить выполнение</button>'
+                    }else {
+                        li += '</br><u>Выполнение подтверждено</u>'
+                    }
+                }
             }
 
             elTaskImplementOl.innerHTML = li;
@@ -94,6 +101,13 @@ function implementsList(task_id){
             elDivImplements.appendChild(p_close);
 
             elTaskDiv.appendChild(elDivImplements);
+
+            var elCoverButtons = document.querySelectorAll(".button-cover-implement");
+            elCoverButtons.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                coverImplement(elem.attributes["id"].value.split("_")[1])
+               })
+            })
 
             // P "Скрыть"
             // Прикрепляем к параграфу функцию скрытия списка реализаций
@@ -110,12 +124,43 @@ function implementsList(task_id){
     })
 }
 
-
 // Выводим список реализаций задачи
 $(".task-statement-button").on('click', function () {
-    var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
+    var task_id = this.id.split('_')[1]; // Получаем id задачи из id кнопки
 
     $(this).attr("disabled", true);
 
-    implementsList(task_id); // Функция редактирования
+    implementsList(task_id);
 })
+
+function coverImplement(implement_id) {
+
+    // ajax-запрос
+    var action = "coverImplement";
+
+    $.ajax({
+        url: 'auth.php',
+        type: "POST",
+        data: {
+            ajax: action,
+            implement_id: implement_id,
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function (response) {
+            var implement_li_item = "implement-li_" + implement_id;
+            var elImplementLiItem = document.getElementById(implement_li_item);
+
+            var implement_cover_button = "button-cover-implement_" + implement_id;
+            var elImplementButton = document.getElementById(implement_cover_button);
+
+            var elSpanIsCovered = document.createElement("u");
+            elSpanIsCovered.textContent = "Выполнение подтверждено";
+
+            elImplementLiItem.replaceChild(elSpanIsCovered, elImplementButton);
+
+        }
+    });
+}
+

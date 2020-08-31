@@ -24,6 +24,24 @@ function setImplement($task_id, $marketer_id, $store_id, $status_id)
     return $response;
 }
 
+function coverImplement($implement_id){
+
+    try {
+        $t = 'implements';
+        $v = array(
+            'is_covered' => 1,
+        );
+        $w = "implement_id =" . $implement_id;
+
+        $sql = SQL::getInstance()->Update($t, $v, $w);
+        $response = 1;
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+    return $response;
+}
+
 function getStatusesByTask($task_id){
 
     try {
@@ -42,7 +60,7 @@ function getStatusesByTask($task_id){
 function getImplements($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT implements.created_at, marketers.name AS marketer_name,
+        $q = "SELECT implements.implement_id, implements.created_at, implements.status_id, is_covered, marketers.name AS marketer_name,
         stores.name AS store_name, status_name
         FROM implements 
         LEFT JOIN marketers ON implements.marketer_id = marketers.id

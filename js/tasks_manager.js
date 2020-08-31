@@ -84,6 +84,8 @@ $(document).ready(function() {
                     var selected_stores_string = ' ' + store.join(' ') + ' ';
                     elLastTaskDiv.setAttribute("data-filter-store", selected_stores_string);
                     elLastTaskDiv.setAttribute("data-filter-type", task_type_id);
+                    var task_filter_date = obj['deadline'].substr(0, 10);
+                    elLastTaskDiv.setAttribute("data-filter-date", task_filter_date);
 
                     // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
                     var created_task_id = "task_span_" + obj['task_id'];
