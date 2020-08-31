@@ -633,6 +633,13 @@ if(!($db===false)){
                             </select>
                         </div>
 
+                        <!-- Фильтр по дате -->
+                        <div id="div-task-date-filter">
+                            <label for="select-date-filter">Задачи по дате</label>
+                            <input class="form-control" type="date" id="select-date-filter" name="deadline"
+                                   onchange="onDateSelectionChange (this)"/>
+                        </div>
+
                     </div>
 
                     <div class="col-md-10" id="tasks-row">
@@ -642,6 +649,7 @@ if(!($db===false)){
                             foreach($tasks as $task){ ?>
                                     <div id="div-task-span_<?=$task['task_id']?>" class="div-task-span col-md-12"
                                          data-filter-type="<?=$task['type_id']?>"
+                                         data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
                                          data-filter-status="<?
                                     foreach (getStatusesByTask($task['task_id']) as $status) {
                                         echo ' ' . $status['status_id'] . ' ';

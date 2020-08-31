@@ -11,7 +11,9 @@ function onTypeSelectionChange(select) {
         if (!elem.classList.contains("m-h")){
             if (!elem.classList.contains("s-h")){
                 if (!elem.classList.contains("st-h")){
-                    elem.classList.remove('hide');
+                    if (!elem.classList.contains("st-h")) {
+                        elem.classList.remove('hide');
+                    }
                 }
             }
         }
@@ -35,7 +37,9 @@ function onMarketerSelectionChange(select) {
         if (!elem.classList.contains("t-h")){
             if(!elem.classList.contains("s-h")){
                 if (!elem.classList.contains("st-h")){
-                    elem.classList.remove('hide');
+                    if (!elem.classList.contains("d-h")){
+                        elem.classList.remove('hide');
+                    }
                 }
             }
         }
@@ -59,7 +63,9 @@ function onStoreSelectionChange(select){
         if (!elem.classList.contains("t-h")){
             if (!elem.classList.contains("m-h")){
                 if (!elem.classList.contains("st-h")){
-                    elem.classList.remove('hide');
+                    if (!elem.classList.contains("d-h")){
+                        elem.classList.remove('hide');
+                    }
                 }
             }
         }
@@ -83,7 +89,9 @@ function onStatusSelectionChange(select){
         if (!elem.classList.contains("t-h")){
             if (!elem.classList.contains("m-h")){
                 if (!elem.classList.contains("s-h")){
-                    elem.classList.remove('hide');
+                    if (!elem.classList.contains("d-h")) {
+                        elem.classList.remove('hide');
+                    }
                 }
             }
         }
@@ -93,4 +101,36 @@ function onStatusSelectionChange(select){
             elem.classList.add('st-h');
         }
     });
+}
+
+function onDateSelectionChange(select){
+
+    var selectedDate = select.value;
+
+    filterBox.forEach( elem => {
+
+        elem.classList.remove("d-h");
+
+    if (!elem.classList.contains("t-h")){
+        if (!elem.classList.contains("m-h")){
+            if (!elem.classList.contains("s-h")){
+                if (!elem.classList.contains("st-h")) {
+                    elem.classList.remove('hide');
+                }
+            }
+        }
+    }
+
+        if (elem.attributes["data-filter-date"].value !== selectedDate && !isEmpty(selectedDate)){
+        elem.classList.add('d-h');
+        elem.classList.add('hide');
+        }
+    })
+}
+
+function isEmpty(str) {
+    if (str.trim() == '')
+        return true;
+
+    return false;
 }
