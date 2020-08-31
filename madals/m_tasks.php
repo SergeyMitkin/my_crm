@@ -24,8 +24,21 @@ function setImplement($task_id, $marketer_id, $store_id, $status_id)
     return $response;
 }
 
-// Получаем реализации
+function getStatusesByTask($task_id){
 
+    try {
+        $q = "SELECT DISTINCT status_id FROM implements WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    return $sql;
+
+}
+
+// Получаем реализации
 function getImplements($task_id){
     try {
         // Подготовленное выражение

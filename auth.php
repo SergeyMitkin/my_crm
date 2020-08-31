@@ -24,6 +24,7 @@ if (isset($_POST['manager_exit'])) {
 }
 
 $tasks = getTasks();
+$statuses = getStatuses();
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
     $last_inserted_task_id = setTask($_POST['task_id']);
@@ -128,8 +129,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getMarketers'){
     echo json_encode($marketers);
 }
 
-//$selected_marketers = getSelectedMarketers(208);
-//var_dump($selected_marketers);
 
 /**
  * @param $db

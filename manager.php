@@ -619,6 +619,20 @@ if(!($db===false)){
                             </select>
                         </div>
 
+                        <!-- Фильтр по статусу -->
+                        <div id="div-task-status-filter">
+                            <label for="select-status-filter">Задачи по магазину</label>
+                            <select id="select-status-filter" onchange="onStatusSelectionChange (this)">
+                                <option value="all">Все статусы</option>
+                                <?
+                                foreach ($statuses as $status) {
+                                    echo '<option value="' . $status['status_id'] . '">'
+                                        . $status['status_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+
                     </div>
 
                     <div class="col-md-10" id="tasks-row">
@@ -628,6 +642,11 @@ if(!($db===false)){
                             foreach($tasks as $task){ ?>
                                     <div id="div-task-span_<?=$task['task_id']?>" class="div-task-span col-md-12"
                                          data-filter-type="<?=$task['type_id']?>"
+                                         data-filter-status="<?
+                                    foreach (getStatusesByTask($task['task_id']) as $status) {
+                                        echo ' ' . $status['status_id'] . ' ';
+                                    }
+                                         ?>"
                                          data-filter-marketers="<?
                                     foreach (getSelectedMarketers($task['task_id']) as $marketer){
                                         echo ' ' . $marketer['marketer_id'] . ' ';
