@@ -75,6 +75,7 @@ $(document).ready(function() {
         e.preventDefault(); // Останавливаем отправку
         var elements = this.elements; // Элементы формы
         var task_id = elements.task_id.value; // Id задачи
+        console.log(task_id);
 
         // Определяем исполнителя
         var elSelectedMarketer = document.getElementById("task-modal-marketer-select").options.selectedIndex;
@@ -103,8 +104,11 @@ $(document).ready(function() {
                 alert('Что-то пошло не так!');
             },
             success: function () {
-                elStatusResponse.textContent = "Статус задачи изменён";
+                // elStatusResponse.textContent = "Статус задачи изменён";
                 elChangeStatusForm.setAttribute("hidden", " " );
+            },
+            complete: function () {
+                alert("Статус задачи изменён");
             }
         })
     })

@@ -42,6 +42,8 @@ function implementsList(task_id){
             d_i.appendChild(p_f_d);
 
             elTaskDiv.appendChild(d_i);
+            elTaskDiv.classList.add("imp-open");
+            elTaskDiv.classList.remove("imp-close");
         },
     });
 
@@ -112,25 +114,27 @@ function implementsList(task_id){
             // P "Скрыть"
             // Прикрепляем к параграфу функцию скрытия списка реализаций
             addEvent(p_close, 'click', function (e) {
-                // Делаем активной кнопку "Реализации"
-                var implements_button_id = "task-statement-button_" + task_id;
-                var elImplementsButton = document.getElementById(implements_button_id);
-                elImplementsButton.removeAttribute("disabled");
 
                 // Очищаем div со списком реализаций
                 elTaskDiv.removeChild(elDivImplements);
+                elTaskDiv.classList.remove("imp-open");
+                elTaskDiv.classList.add("imp-close");
             })
         }
     })
 }
 
 // Выводим список реализаций задачи
-$(".task-statement-button").on('click', function () {
+$(".div-task-span").on('click', function () {
     var task_id = this.id.split('_')[1]; // Получаем id задачи из id кнопки
 
-    $(this).attr("disabled", true);
-
-    implementsList(task_id);
+    if (!event.currentTarget.classList.contains("imp-open")) {
+        if (event.target.tagName !== "BUTTON") {
+            if (event.target.tagName !== "P") {
+                implementsList(task_id);
+            }
+        }
+    }
 })
 
 function coverImplement(implement_id) {
@@ -159,7 +163,6 @@ function coverImplement(implement_id) {
             elSpanIsCovered.textContent = "Выполнение подтверждено";
 
             elImplementLiItem.replaceChild(elSpanIsCovered, elImplementButton);
-
         }
     });
 }

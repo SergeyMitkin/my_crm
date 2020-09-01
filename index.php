@@ -350,10 +350,12 @@ if(!($db===false)){
                 </div>
             </div>
 
+            <!-- Модальное окно задачи -->
             <div class="modal" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModal" aria-hidden="true">
-                <div class="modal-dialog modal-md" role="document">
+                <div id="modal-w" class="modal-dialog modal-md" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <!-- id задачи -->
                             <span id="task_modal_id" hidden></span>
 
@@ -374,6 +376,9 @@ if(!($db===false)){
 
                         <div class="modal-footer">
                             <p id="task-modal-status-p"></p>
+                            <div id="implements-modal-row">
+
+                            </div>
 
                             <!-- Форма изменения статуса -->
                             <form class="edit-form" id="edit-task-modal-status-form" hidden>

@@ -94,24 +94,10 @@ $(document).ready(function() {
                     elLastTaskSpan.setAttribute("id", created_task_id);
                     elLastTaskSpan.textContent = obj['task_title'];
 
-                    // Добавляем кнопку "Реализации"
-                    var elLastTaskImplementButton = document.createElement("button");
-                    elLastTaskImplementButton.setAttribute("type", "button");
-                    elLastTaskImplementButton.setAttribute("class", "btn btn-secondary col-md-2 task-statement-button");
-                    var implementButtionId = "task-statement-button_" + obj['task_id'];
-                    elLastTaskImplementButton.setAttribute("id", implementButtionId);
-                    elLastTaskImplementButton.textContent = "Реализации";
-
-                    // Выводим список реализаций
-                    addEvent(elLastTaskImplementButton, 'click', function (e) {
-                        var task_id = obj['task_id'];
-                        implementsList(task_id);
-                    })
-
                     // Добавляем кнопку "Редактировать"
                     var div_edit_buttons_id = "task-edit-buttons_" + obj['task_id'];
                     elDivTaskEditButtons.setAttribute("id", div_edit_buttons_id);
-                    elDivTaskEditButtons.setAttribute("class", "col-md-6");
+                    elDivTaskEditButtons.setAttribute("align", "right");
 
                     var elLastTaskEditButton = document.createElement("button");
                     elLastTaskEditButton.setAttribute("type", "button");
@@ -144,9 +130,20 @@ $(document).ready(function() {
                     elDivTaskEditButtons.appendChild(elLastTaskDeleteButton);
 
                     elLastTaskDiv.appendChild(elLastTaskSpan);
-                    elLastTaskDiv.appendChild(elLastTaskImplementButton);
                     elLastTaskDiv.appendChild(elDivTaskEditButtons);
 
+                    // По клику на задачу, выводим статистику
+                    elLastTaskDiv.addEventListener("click", function () {
+                        console.log(event.currentTarget.classList);
+                        if (!event.currentTarget.classList.contains("imp-open")) {
+                            if (event.target.tagName !== "BUTTON") {
+                                if (event.target.tagName !== "P") {
+                                    implementsList(obj['task_id']);
+                                }
+                            }
+                        }
+
+                    })
                     elTaskRow.appendChild(elLastTaskDiv);
                 }
             },

@@ -659,7 +659,7 @@ if(!($db===false)){
                         <div id="manager-task-raw">
                             <?
                             foreach($tasks as $task){ ?>
-                                    <div id="div-task-span_<?=$task['task_id']?>" class="div-task-span col-md-12"
+                                    <div id="div-task-span_<?=$task['task_id']?>" class="div-task-span imp-close col-md-12"
                                          data-filter-type="<?=$task['type_id']?>"
                                          data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
                                          data-filter-status="<?
@@ -681,10 +681,7 @@ if(!($db===false)){
                                     ">
                                         <span id="task_span_<?=$task['task_id']?>" class="task-span col-md-4" value="<?=$task['task_id']?>"><?=$task['task_title']?></span>
 
-                                        <button type="button" class="btn btn-secondary col-md-2 task-statement-button"
-                                            id="task-statement-button_<?=$task['task_id']?>">Реализации</button>
-
-                                        <div id="task-edit-buttons_<?=$task['task_id']?>" class="col-md-6">
+                                        <div id="task-edit-buttons_<?=$task['task_id']?>" align="right">
                                             <button type="button" class="btn btn-primary task-edit-button"
                                                 id="edit-task-button_<?=$task['task_id']?>">Редактировать</button>
 

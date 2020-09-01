@@ -36,7 +36,7 @@ $(document).ready(function () {
                 var elTaskModalDescription = document.getElementById("task-modal-description");
                 elTaskModalDescription.textContent = task_description;
             }
-        })
+        });
     }
 
 // Список задач
