@@ -53,6 +53,21 @@
     margin-top: 20px;
 }
 
+.task-filter-input{
+    height: 35px;
+    border-radius: 0px;
+    border: 1px solid gray;
+    width: 150px;
+}
+
+#div-task-marketer-filter, #div-task-store-filter, #div-task-status-filter, #div-task-date-filter{
+    margin-left: -1px;
+}
+
+.form-group label{
+    margin-bottom: 4px;
+}
+
 
 
 

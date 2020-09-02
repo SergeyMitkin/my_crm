@@ -137,6 +137,7 @@ $(".div-task-span").on('click', function () {
     }
 })
 
+// менеджер подтверждает выполнение задачи
 function coverImplement(implement_id) {
 
     // ajax-запрос

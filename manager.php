@@ -495,61 +495,64 @@ if(!($db===false)){
                 </div>
             </div>
         </div>
+
             <!-- Вкладка "Задачи" -->
             <div id="tab-4" class="tab">
                 <div class="row" id="manager-task-page">
 
                     <div id="div-task-create-button">
-                    <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
+                        <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     </div>
 
                         <!-- Форма создания новой задачи -->
-                    <div id="div-task-create-form" class="col-md-11 div-edit-form" hidden>
+                    <div id="div-task-create-form" class="col-md-11 div-edit-form container" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
                             <div class="group">
                                 <input type="hidden" id="form-create-task_id" name="task_id" value="0">
                             </div>
 
-                            <label for="task-title" class="control-label">Краткое содержание задачи</label>
-                            <div class="group">
+                            <div class="form-group col-md-11">
+                                <label for="task-title">Краткое содержание задачи</label>
                                 <input required type="text" class="form-control" id="task-title-input"
                                        placeholder="Краткое содержание задачи" name="task_title">
                             </div>
 
-                            <div class="group">
-                                <label for="task_type">Выберете тип задачи</label>
-                                <select class="form-control" id="task-type-select" name="task_type">
-                                    <?
-                                    foreach($task_types_data as $task_type) {
-                                        echo '<option class="task-type-option" value="option_type_' . $task_type['task_type_id'] . '">'
-                                            . $task_type['task_type_name'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <div class="group">
-                                <label for="deadline">Срок выполнения: </label>
-                                <input class="form-control" type="date" id="deadline-input" name="deadline" required/>
-                            </div>
-
-                            <div class="col-md-12" id="group-for-select-store">
-                            <label for="store">Выберите магазин</label>
-                                <div id="div-for-select-store">
-                                    <select required multiple class="form-control mul-select" name="store[]" id="select-store">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <label for="task_type">Выберете тип задачи</label>
+                                    <select class="form-control" id="task-type-select" name="task_type">
                                         <?
-                                        foreach ($stores_data as $store) {
-                                            echo '<option class="selected-stores" value="' . $store['id'] . '">'
-                                                . $store['name'] . '</option>';
+                                        foreach($task_types_data as $task_type) {
+                                            echo '<option class="task-type-option" value="option_type_' . $task_type['task_type_id'] . '">'
+                                                . $task_type['task_type_name'] . '</option>';
                                         }
                                         ?>
                                     </select>
                                 </div>
-                                <input type="checkbox" id="checkbox-store" >Выбрать все
+
+                                <div class="col-md-1"></div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="deadline">Срок выполнения: </label>
+                                    <input class="form-control" type="date" id="deadline-input" name="deadline" required/>
+                                </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-11 form-group" id="group-for-select-store">
+                            <label for="store">Выберите магазин</label>
+                                <select required multiple class="form-control mul-select" name="store[]" id="select-store">
+                                    <?
+                                    foreach ($stores_data as $store) {
+                                        echo '<option class="selected-stores" value="' . $store['id'] . '">'
+                                            . $store['name'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                                <input type="checkbox" id="checkbox-store"> Выбрать все
+                            </div>
+
+                            <div class="form-group col-md-11">
                                 <label for="marketer">Выберите исполнителя</label>
                                 <select required multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
                                     <?
@@ -559,30 +562,29 @@ if(!($db===false)){
                                     }
                                     ?>
                                 </select>
-                                <input type="checkbox" id="checkbox-marketer" >Выбрать всех
+                                <input type="checkbox" id="checkbox-marketer" > Выбрать всех
                             </div>
 
-                            <div class="group">
+                            <div class="form-group col-md-11">
                                 <label for="description">Введите инструкцию по выполнению</label>
                                 <textarea class="form-control" id="task_description_textarea" name="task_description"
                                          placeholder="Описание задачи"></textarea>
                             </div>
 
-                            </br>
-                            <button id="task-create-post" class="btn btn-success">Отправить</button>
+                            <button id="task-create-post" class="btn btn-success col-md-2">Отправить</button>
                         </form>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="task-filters col-md-10">
+                    <div class="task-filters col-md-10 col-md-10">
                         <table>
                             <tr>
                                 <td>
                                     <!-- Фильтр по типу задачи -->
-                                    <div id="div-task-type-filter">
+                                    <div id="div-task-type-filter" class="task-filter-item">
                                         <label for="select-task-type-filter">Тип задачи</label>
-                                        <select id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
+                                        <select class="task-filter-input" id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
                                             <option class="select-task-type-option" value="all">Все типы</option>
                                             <?
                                             foreach($task_types_data as $task_type) {
@@ -596,9 +598,9 @@ if(!($db===false)){
 
                                 <td>
                                     <!-- Фильтр по исполнителю задачи -->
-                                    <div id="div-task-marketer-filter">
-                                        <label for="select-marketer-filter">Исполнители</label>
-                                        <select id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
+                                    <div id="div-task-marketer-filter" class="task-filter-item">
+                                        <label for="select-marketer-filter">Исполнитель</label>
+                                        <select class="task-filter-input" id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
                                             <option value="all">Все исполнители</option>
                                             <?
                                             foreach ($marketers_data as $marketer) {
@@ -612,9 +614,9 @@ if(!($db===false)){
 
                                 <td>
                                     <!-- Фильтр по магазину -->
-                                    <div id="div-task-store-filter">
-                                        <label for="select-store-filter">Магазины</label>
-                                        <select id="select-store-filter" onchange="onStoreSelectionChange (this)">
+                                    <div id="div-task-store-filter" class="task-filter-item">
+                                        <label for="select-store-filter">Магазин</label>
+                                        <select class="task-filter-input" id="select-store-filter" onchange="onStoreSelectionChange (this)">
                                             <option value="all">Все магазины</option>
                                             <?
                                             foreach ($stores_data as $store) {
@@ -628,9 +630,9 @@ if(!($db===false)){
 
                                 <td>
                                     <!-- Фильтр по статусу -->
-                                    <div id="div-task-status-filter">
-                                        <label for="select-status-filter">Статусы</label>
-                                        <select id="select-status-filter" onchange="onStatusSelectionChange (this)">
+                                    <div id="div-task-status-filter" class="task-filter-item">
+                                        <label for="select-status-filter">Статус</label>
+                                        <select class="task-filter-input" id="select-status-filter" onchange="onStatusSelectionChange (this)">
                                             <option value="all">Все статусы</option>
                                             <?
                                             foreach ($statuses as $status) {
@@ -644,9 +646,9 @@ if(!($db===false)){
 
                                 <td>
                                     <!-- Фильтр по дате -->
-                                    <div id="div-task-date-filter">
+                                    <div id="div-task-date-filter" class="task-filter-item">
                                         <label for="select-date-filter">Срок исполнения</label>
-                                        <input class="form-control" type="date" id="select-date-filter" name="deadline"
+                                        <input class="form-control task-filter-input" type="date" id="select-date-filter" name="deadline"
                                                onchange="onDateSelectionChange (this)"/>
                                     </div>
                                 </td>

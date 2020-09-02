@@ -30,6 +30,11 @@ function taskEdit(task_id){
             alert('Что-то пошло не так!');
         },
         success: function (response) {
+
+            // Делаем неактивной функцию вывода списка реализаций
+            elDivTaskSpan.classList.add("imp-open");
+            elDivTaskSpan.classList.remove("imp-close");
+
             var obj = jQuery.parseJSON(response); // Данные задачи
 
             var task_title = obj[0][0]['task_title'];
@@ -84,7 +89,7 @@ function taskEdit(task_id){
 
 // Редактируем задачу
 $(".task-edit-button").on('click', function () {
-    var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
 
-    taskEdit(task_id); // Функция редактирования
+    var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
+    taskEdit(task_id);
 })
