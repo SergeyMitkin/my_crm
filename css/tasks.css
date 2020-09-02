@@ -42,11 +42,15 @@
 }
 
 .p-close{
-    width: 50px;
+    margin-top: 15px;
+    padding: 5px;
+    text-align: center;
+    width: 70px;
 }
 .p-close:hover{
     cursor: pointer;
     text-decoration: underline;
+    background-color: whitesmoke;
 }
 
 .task-filters{

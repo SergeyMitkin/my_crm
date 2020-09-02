@@ -93,3 +93,8 @@ $(".task-edit-button").on('click', function () {
     var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
     taskEdit(task_id);
 })
+
+// Скрываем форму создания или редактирования
+$("#p-close-create-form").on("click", function () {
+    $("#div-task-create-form").attr("hidden", "");
+})

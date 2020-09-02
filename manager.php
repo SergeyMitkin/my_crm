@@ -504,7 +504,7 @@ if(!($db===false)){
                         <button type="button" class="btn btn-success" id="task-create-form-button">Создать задачу</button>
                     </div>
 
-                        <!-- Форма создания новой задачи -->
+                        <!-- Форма создания/редактирования задачи -->
                     <div id="div-task-create-form" class="col-md-11 div-edit-form container" hidden>
                         <form role="form" action="" method="post"class="form-horizontal" id="task-create-form">
 
@@ -571,7 +571,10 @@ if(!($db===false)){
                                          placeholder="Описание задачи"></textarea>
                             </div>
 
-                            <button id="task-create-post" class="btn btn-success col-md-2">Отправить</button>
+                            <div id="crete-form-footer" class="col-md-2 ">
+                                <button id="task-create-post" class="btn btn-success">Отправить</button>
+                                <p class="p-close" id="p-close-create-form">Скрыть</p>
+                            </div>
                         </form>
                     </div>
                 </div>
