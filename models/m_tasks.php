@@ -53,7 +53,6 @@ function getStatusesByTask($task_id){
     }
 
     return $sql;
-
 }
 
 // Получаем реализации
@@ -77,18 +76,18 @@ function getImplements($task_id){
 
 
 // Добавляем или редактируем задачу
-function setTask($task_id = 0){
+function setTask($task_id = 0, $task_title, $type_id, $deadline, $author, $task_description, $marketer_array, $store_array){
     $response = '';
 
     // Добавляем данные в таблицу tasks
     try {
         $t = 'tasks';
         $v = array(
-            'task_title' => $_POST['task_title'],
-            'type_id' => $_POST['task_type_id'],
-            'deadline' => $_POST['deadline'],
-            'author' => 'менеджер',
-            'task_description' => $_POST['task_description']
+            'task_title' => $task_title,
+            'type_id' => $type_id,
+            'deadline' => $deadline,
+            'author' => $author,
+            'task_description' => $task_description
         );
 
         // Если Id задачи больше 0, значит задача редактируется
@@ -115,12 +114,12 @@ function setTask($task_id = 0){
 
         // Добавляем данные в таблицу task-marketers
         $t= 'task_marketers';
-        $marketers_count = count($_POST['marketer']);
+        $marketers_count = count($marketer_array);
 
         for ($i=0; $i<$marketers_count; $i++){
             $v = array(
                 'task_id' => $task_id,
-                'marketer_id' => $_POST['marketer'][$i],
+                'marketer_id' => $marketer_array[$i],
             );
             SQL::getInstance()->Insert($t, $v);
         }
@@ -134,12 +133,12 @@ function setTask($task_id = 0){
 
         // Добавляем данные в таблицу task-marketers
         $t = 'task_stores';
-        $marketers_count = count($_POST['store']);
+        $marketers_count = count($store_array);
 
         for ($i=0; $i<$marketers_count; $i++){
             $v = array(
                 'task_id' => $task_id,
-                'store_id' => $_POST['store'][$i],
+                'store_id' => $store_array[$i],
             );
             SQL::getInstance()->Insert($t, $v);
         }
@@ -166,8 +165,6 @@ function getTaskTypes(){
 }
 
 $task_types_data = getTaskTypes();
-
-// Получаем исполнителей задачи
 
 // Получаем список задач
 function getTasks(){

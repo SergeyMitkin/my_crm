@@ -3,7 +3,7 @@ session_start(); // Открываем сессию
 require_once('db.conf.php'); // Подключаемся к БД через mysqli
 require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
-require_once ('madals/m_tasks.php');
+require_once('models/m_tasks.php');
 
 $db = false;
 $shop_id = false;
@@ -26,8 +26,20 @@ if (isset($_POST['manager_exit'])) {
 $tasks = getTasks();
 $statuses = getStatuses();
 
+// Создаём задачу
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
-    $last_inserted_task_id = setTask($_POST['task_id']);
+
+    $task_id = $_POST['task_id'];
+    $task_title = $_POST['task_title'];
+    $type_id = $_POST['type_id'];
+    $deadline = $_POST['deadline'];
+    $author = 'менеджер';
+    $task_description = $_POST['task_description'];
+
+    $marketer_array = $_POST['marketer'];
+    $store_array = $_POST['store'];
+
+    $last_inserted_task_id = setTask($task_id, $task_title, $type_id, $deadline, $author, $task_description, $marketer_array, $store_array);
     if ($last_inserted_task_id !== false){
         $last_inserted_task = getTask($last_inserted_task_id);
         echo json_encode($last_inserted_task);
