@@ -49,7 +49,12 @@ $(document).ready(function () {
         if (day < 10) {
             day = "0" + day;
         }
-        var month = myDate.getMonth()+1;
+        var month_l = myDate.getMonth();
+        if (month_l == 12){
+            var month = 0;
+        } else {
+            var month = month_l + 1;
+        }
         if (month < 10) {
             month = "0" + month;
         }
@@ -57,8 +62,13 @@ $(document).ready(function () {
         var today = year + '-' + month + '-' + day;
 
         // Показываем текущую дату
+        var today_string = day + '-' + month + '-' + year;
+
         var elTaskDateSpan = document.getElementById("task-date-span");
-        elTaskDateSpan.textContent = day + '-' + month + '-' + year;
+        elTaskDateSpan.textContent = today_string;
+
+        var elTaskTodaySpan = document.getElementById("task-today-span");
+        elTaskTodaySpan.textContent = today_string;
 
         getTasksByDate(today);
     })

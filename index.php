@@ -328,12 +328,44 @@ if(!($db===false)){
             </form>
         </div>
 
-
         <!-- Вкладка "Задачи" -->
         <div id="tab-3" class="tab">
 
             <div class="row" id="marketer-task-page">
-                <h4>Список задач на <span id="task-date-span"></span>: </h4>
+                <h4>Список задач на </h4>
+
+                <div id="div-task-adjacent-dates" class="col-md-12">
+                    <nav id="nav-date-pagination" class="nav-date-pagination col-md-3" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li id="li-previous-task-date" class="page-item">
+                                <a id="a-previous-date-page" class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li id="li-current-task-date" class="page-item disabled">
+                                <span id="task-date-span" tabindex="-1"></span>
+                            </li>
+                            <li id="li-next-task-date" class="page-item">
+                                <a id="a-next-date-page" class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <nav id="nav-today-pagination" class="nav-date-pagination col-md-6" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li id="li-current-date-page" class="page-item">
+                                <a id="a-current-date-page" class="page-link" href="#" aria-label="Current">
+                                    <span>Текущая дата &#40<span id="task-today-span" tabindex="-1"></span>&#41</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
 
                 <div class="col-md-8" id="marketer-tasks-row">
                     <?
