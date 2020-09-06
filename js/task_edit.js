@@ -1,19 +1,19 @@
 // Функция редактирования задачи
-function taskEdit(task_id){
+function taskEdit(id){
 
     var elCreateForm = document.getElementById('div-task-create-form');
 
-    var div_task_span_id = "div-task-span_" + task_id;
+    var div_task_span_id = "div-task-span_" + id;
     var elDivTaskSpan = document.getElementById(div_task_span_id);
     elDivTaskSpan.appendChild(elCreateForm);
 
-    $("#select-store").empty(); // Очищаем <select> для выбора магазинов
+    $("#select-retailpoint").empty(); // Очищаем <select> для выбора магазинов
     $("#select-marketer").empty(); // Очищаем <select> для выбора исполнителей
 
     elCreateForm.removeAttribute("hidden");
 
     // Помещаем id задачи в скрытый input
-    $("#form-create-task_id").val(task_id);
+    $("#form-create-task_id").val(id);
 
     // ajax-запрос для получения данных выбранной задачи
     var url = "auth.php";
@@ -24,7 +24,7 @@ function taskEdit(task_id){
         type: "GET",
         data: {
             ajax: action,
-            task_id: task_id,
+            id: id,
         },
         error: function () {
             alert('Что-то пошло не так!');
@@ -40,19 +40,19 @@ function taskEdit(task_id){
             var task_title = obj[0][0]['task_title'];
             var deadline = obj[0][0]['deadline'].split(" ")[0];
             var task_description = obj[0][0]['task_description'];
-            var task_type_id = obj[0][0]['task_type_id'];
-            var stores_data = obj[1]; // Все магазины
-            var selected_stores = obj[2]; // Выбранные магизины
+            var type = obj[0][0]['type'];
+            var retailpoint_data = obj[1]; // Все магазины
+            var selected_retailpoints = obj[2]; // Выбранные магизины
             var marketers_data = obj[3]; // Все исполнители
             var selected_marketers = obj[4]; // Выбранные исполнители
 
             // Помещаем в <select> <option> c данными магазинов
-            var s = document.getElementById("select-store");
+            var s = document.getElementById("select-retailpoint");
             var o = document.createElement("option");
-            for (var i = 0; i < stores_data.length; i++) {
-                o.classList="selected-stores";
-                o.value=stores_data[i]['id'];
-                o.textContent=stores_data[i]['name'];
+            for (var i = 0; i < retailpoint_data.length; i++) {
+                o.classList="selected-retailpoints";
+                o.value=retailpoint_data[i]['id'];
+                o.textContent=retailpoint_data[i]['name'];
                 s.appendChild(o.cloneNode(true));
             }
 
@@ -68,15 +68,19 @@ function taskEdit(task_id){
 
             // Заполняем значения по умолчанию в полях формы
             $("#task-title-input").val(task_title); // Краткое описание
-            $('option[value|=option_type_' + task_type_id + ']').attr("selected", "selected"); // Тип
+
+            $("#task-type-select option").filter(function () {
+                return this.textContent == type;
+            }).prop('selected', true);
+
             $("#deadline-input").val(deadline); // Срок выполнения
             $("#task_description_textarea").val(task_description); // Инструкция
 
             // Магазины
-            for (var i = 0; i < selected_stores.length; i++) {
-                $('option[class|=selected-stores][value|=' + selected_stores[i]['store_id'] + ']').attr("selected", "selected");
+            for (var i = 0; i < selected_retailpoints.length; i++) {
+                $('option[class|=selected-retailpoints][value|=' + selected_retailpoints[i]['retailpoint_id'] + ']').attr("selected", "selected");
             }
-            selectStore();
+            selectRetailpoint();
 
             // Исполнители
             for (var i = 0; i < selected_marketers.length; i++) {
@@ -89,6 +93,13 @@ function taskEdit(task_id){
 
 // Редактируем задачу
 $(".task-edit-button").on('click', function () {
+
+    var elTypeSelect = document.getElementById("task-type-select");
+    var type_options = '<option class="task-type-option" value="type_1">type 1</option>\n' +
+        '<option class="task-type-option" value="type_2">type 2</option>\n' +
+        '<option class="task-type-option" value="type_3">type 3</option>\n' +
+        '<option class="task-type-option" value="type_4">type 4</option>'
+    elTypeSelect.innerHTML = type_options;
 
     var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
     taskEdit(task_id);

@@ -4,15 +4,15 @@ require_once ('db.php'); // Подключаемся к БД через PDO
 require_once('settings.php');
 
 // Добавляем реализацию
-function setImplement($task_id, $marketer_id, $store_id, $status_id)
+function setImplementation($task_id, $marketer_id, $retailpoint_id, $status)
 {
     try {
-        $t = 'implements';
+        $t = 'taskimplementations';
         $v = array(
             'task_id' => $task_id,
             'marketer_id' => $marketer_id,
-            'store_id' => $store_id,
-            'status_id' => $status_id
+            'retailpoint_id' => $retailpoint_id,
+            'status' => $status
         );
 
         $sql = SQL::getInstance()->Insert($t, $v);
@@ -24,14 +24,14 @@ function setImplement($task_id, $marketer_id, $store_id, $status_id)
     return $response;
 }
 
-function coverImplement($implement_id){
+function coverImplementation($id){
 
     try {
-        $t = 'implements';
+        $t = 'taskimplementations';
         $v = array(
             'is_covered' => 1,
         );
-        $w = "implement_id =" . $implement_id;
+        $w = "id =" . $id;
 
         $sql = SQL::getInstance()->Update($t, $v, $w);
         $response = 1;
@@ -45,7 +45,7 @@ function coverImplement($implement_id){
 function getStatusesByTask($task_id){
 
     try {
-        $q = "SELECT DISTINCT status_id FROM implements WHERE task_id = " . $task_id;
+        $q = "SELECT DISTINCT status FROM taskimplementations WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q);
     }
     catch(PDOException $e){
@@ -56,15 +56,14 @@ function getStatusesByTask($task_id){
 }
 
 // Получаем реализации
-function getImplements($task_id){
+function getImplementations($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT implements.implement_id, implements.created_at, implements.status_id, is_covered, marketers.name AS marketer_name,
-        stores.name AS store_name, status_name
-        FROM implements 
-        LEFT JOIN marketers ON implements.marketer_id = marketers.id
-        LEFT JOIN stores ON implements.store_id = stores.id
-        LEFT JOIN task_statuses ON implements.status_id = task_statuses.status_id
+        $q = "SELECT taskimplementations.id, taskimplementations.created_at, taskimplementations.`status`, is_covered, marketers.name AS marketer_name,
+        retailpoints.name AS retailpoint_name
+        FROM taskimplementations 
+        LEFT JOIN marketers ON taskimplementations.marketer_id = marketers.id
+        LEFT JOIN retailpoints ON taskimplementations.retailpoint_id = retailpoints.id
         WHERE task_id = " . $task_id;
 
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
@@ -76,7 +75,7 @@ function getImplements($task_id){
 
 
 // Добавляем или редактируем задачу
-function setTask($task_id = 0, $task_title, $type_id, $deadline, $author, $task_description, $marketer_array, $store_array){
+function setTask($id = 0, $task_title, $type, $deadline, $author, $task_description, $marketer_array, $retailpoint_array){
     $response = '';
 
     // Добавляем данные в таблицу tasks
@@ -84,61 +83,61 @@ function setTask($task_id = 0, $task_title, $type_id, $deadline, $author, $task_
         $t = 'tasks';
         $v = array(
             'task_title' => $task_title,
-            'type_id' => $type_id,
+            'type' => $type,
             'deadline' => $deadline,
             'author' => $author,
             'task_description' => $task_description
         );
 
         // Если Id задачи больше 0, значит задача редактируется
-        if($task_id > 0) {
-            $w = "task_id =" . $task_id; // Id редактируемой задачи
+        if($id > 0) {
+            $w = "id =" . $id; // Id редактируемой задачи
             // Обращаемся к БД
             $sql = SQL::getInstance()->Update($t, $v, $w);
-            $response = $task_id;
+            $response = $id;
         }
 
         // Иаче добавляем новую задачу
         else {
             $sql = SQL::getInstance()->Insert($t, $v);
-            $task_id = $sql;
+            $id = $sql;
             $response = $sql;
         }
 
         // Если задача редактируется, удаляем предыдущих пользователей
-        if($task_id > 0){
+        if($id > 0){
             $table = 'task_marketers';
-            $where = "task_id = " . $task_id;
+            $where = "task_id = " . $id;
             $sql = SQL::getInstance()->Delete($table, $where);
         }
 
         // Добавляем данные в таблицу task-marketers
         $t= 'task_marketers';
-        $marketers_count = count($marketer_array);
+        $marketer_count = count($marketer_array);
 
-        for ($i=0; $i<$marketers_count; $i++){
+        for ($i=0; $i<$marketer_count; $i++){
             $v = array(
-                'task_id' => $task_id,
+                'task_id' => $id,
                 'marketer_id' => $marketer_array[$i],
             );
             SQL::getInstance()->Insert($t, $v);
         }
 
         // Если задача редактируется, удаляем предыдущие магазины
-        if($task_id > 0){
-            $table = 'task_stores';
-            $where = "task_id = " . $task_id;
+        if($id > 0){
+            $table = 'task_retailpoints';
+            $where = "task_id = " . $id;
             $sql = SQL::getInstance()->Delete($table, $where);
         }
 
         // Добавляем данные в таблицу task-marketers
-        $t = 'task_stores';
-        $marketers_count = count($store_array);
+        $t = 'task_retailpoints';
+        $retailpoint_count = count($retailpoint_array);
 
-        for ($i=0; $i<$marketers_count; $i++){
+        for ($i=0; $i<$retailpoint_count; $i++){
             $v = array(
-                'task_id' => $task_id,
-                'store_id' => $store_array[$i],
+                'task_id' => $id,
+                'retailpoint_id' => $retailpoint_array[$i],
             );
             SQL::getInstance()->Insert($t, $v);
         }
@@ -150,21 +149,6 @@ function setTask($task_id = 0, $task_title, $type_id, $deadline, $author, $task_
 
     return $response;
 }
-
-// Получаем типы задач
-function getTaskTypes(){
-    try {
-        $q = "SELECT * FROM task_types";
-        $sql = SQL::getInstance()->Select($q);
-    }
-    catch(PDOException $e){
-        die("Error: ".$e->getMessage());
-    }
-
-    return $sql;
-}
-
-$task_types_data = getTaskTypes();
 
 // Получаем список задач
 function getTasks(){
@@ -206,12 +190,11 @@ function getTasksByMarketer($marketer_id){
     return $sql;
 }
 
-function getTask($task_id){
+function getTask($id){
     try {
         // Подготовленное выражение
         $q = "SELECT * FROM tasks
-        LEFT JOIN task_types ON tasks.type_id = task_types.task_type_id
-        WHERE task_id = " . $task_id;
+        WHERE id = " . $id;
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -219,11 +202,11 @@ function getTask($task_id){
     return $sql;
 }
 
-function getTaskCreateAndDisplayDate($task_id){
+function getTaskCreateAndDisplayDate($id){
     try {
         // Подготовленное выражение
         $q = "SELECT created_at, first_display FROM tasks
-        WHERE task_id = " . $task_id;
+        WHERE id = " . $id;
         $sql = SQL::getInstance()->Select($q); // Обращение к БД
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -231,14 +214,14 @@ function getTaskCreateAndDisplayDate($task_id){
     return $sql;
 }
 
-function deleteTask($task_id){
+function deleteTask($id){
     $response = '';
-    $task_id = (int)$task_id;
+    $task_id = (int)$id;
 
     // Удаляем задачу из таблицы tasks
     try{
         $table = 'tasks';
-        $where = "task_id = " . $task_id;
+        $where = "id = " . $id;
         $sql = SQL::getInstance()->Delete($table, $where);
         $response = 'Задача удалена';
     }
@@ -248,8 +231,8 @@ function deleteTask($task_id){
 
     // Удаляем магазины из таблицы task_stores
     try{
-        $table = 'task_stores';
-        $where = "task_id = " . $task_id;
+        $table = 'task_retailpoint';
+        $where = "task_id = " . $id;
         $sql = SQL::getInstance()->Delete($table, $where);
     }
     catch(PDOException $e){
@@ -259,7 +242,7 @@ function deleteTask($task_id){
     // Удаляем иполнителей из таблицы task_marketers
     try{
         $table = 'task_marketers';
-        $where = "task_id = " . $task_id;
+        $where = "task_id = " . $id;
         $sql = SQL::getInstance()->Delete($table, $where);
     }
     catch(PDOException $e){
@@ -282,26 +265,13 @@ function getSelectedMarketers($task_id){
 }
 
 // Функция выбора магазинов задачи
-function getSelectedStores($task_id){
+function getSelectedRetailpoints($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT store_id FROM task_stores WHERE task_id = " . $task_id;
+        $q = "SELECT retailpoint_id FROM task_retailpoints WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q);
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
     return $sql;
 }
-
-// Данные таблицы task_statuses
-function getStatuses(){
-    try {
-        // Подготовленное выражение
-        $q = "SELECT * FROM task_statuses";
-        $sql = SQL::getInstance()->Select($q);
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
-    }
-    return $sql;
-}
-

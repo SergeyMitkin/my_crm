@@ -1,5 +1,5 @@
 // Выводим список реализаций
-function implementsList(task_id){
+function implementationList(task_id){
     // Div задачи
     var div_task_span_id = "div-task-span_" + task_id;
     var elTaskDiv = document.getElementById(div_task_span_id);
@@ -12,7 +12,7 @@ function implementsList(task_id){
         type: "GET",
         data: {
             ajax: action,
-            task_id: task_id
+            id: task_id
         },
         error: function () {
             alert('Что-то пошло не так!');
@@ -23,7 +23,7 @@ function implementsList(task_id){
 
             // Создаём элементы вывода статистики
             var d_i = document.createElement("div");
-            d_i.id = "div-implements_" + task_id;
+            d_i.id = "div-implementations_" + task_id;
             d_i.classList = "col-md-12";
 
             var p_c_a = document.createElement("p");
@@ -50,7 +50,7 @@ function implementsList(task_id){
     // ajax-запрос для поучения списка реализаций
 
     var url = "auth.php";
-    var action = "getImplements";
+    var action = "getImplementations";
     $.ajax({
         url: url,
         type: "GET",
@@ -65,49 +65,49 @@ function implementsList(task_id){
             var obj = jQuery.parseJSON(data); // Получаем данные таблицы реализаций
 
             // Создаём элементы для вывода списка реализаций
-            var div_implements_id = "div-implements_" + task_id;
-            var elDivImplements = document.getElementById(div_implements_id);
+            var div_implementations_id = "div-implementations_" + task_id;
+            var elDivImplementations = document.getElementById(div_implementations_id);
 
             var elOlTitleP = document.createElement("p");
             elOlTitleP.classList = "col-md-12";
-            var elTaskImplementOl = document.createElement("ol");
-            elTaskImplementOl.classList= "col-md-12 implements-ol";
+            var elTaskImplementationOl = document.createElement("ol");
+            elTaskImplementationOl.classList= "col-md-12 implementations-ol";
 
             var li = '';
             // Помещаем в <li> реализации
             for (var i = 0; i < obj.length; i++) {
-                li += '<li class="col-md-12 implement-li" id="implement-li_' + + obj[i]['implement_id'] + '">' +
-                    'Магазин: ' + obj[i]['store_name'] + '</br>' +
+                li += '<li class="col-md-12 implementation-li" id="implementation-li_' + + obj[i]['id'] + '">' +
+                    'Магазин: ' + obj[i]['retailpoint_name'] + '</br>' +
                     'Исполнитель: ' +obj[i]['marketer_name'] + '</br>' +
-                    'Статус: ' + obj[i]['status_name'] + '</br>' +
+                    'Статус: ' + obj[i]['status'] + '</br>' +
                     'Дата: ' + obj[i]['created_at']
                 '</li>';
-                if (obj[i]['status_id'] == 4){
+                if (obj[i]['status'] == 'Выполнена'){
                     if (obj[i]['is_covered'] == 0){
-                        li += '</br><button class="button-cover-implement" id="button-cover-implement_' + obj[i]['implement_id'] + '">Подтвердить выполнение</button>'
+                        li += '</br><button class="button-cover-implementation" id="button-cover-implementation_' + obj[i]['id'] + '">Подтвердить выполнение</button>'
                     }else {
                         li += '</br><u>Выполнение подтверждено</u>'
                     }
                 }
             }
 
-            elTaskImplementOl.innerHTML = li;
-            elDivImplements.appendChild(elOlTitleP);
+            elTaskImplementationOl.innerHTML = li;
+            elDivImplementations.appendChild(elOlTitleP);
             elOlTitleP.textContent = "Реализации: "
-            elDivImplements.appendChild(elTaskImplementOl);
+            elDivImplementations.appendChild(elTaskImplementationOl);
 
             // P "Cкрыть"
             var p_close = document.createElement("p");
             p_close.textContent = "Скрыть";
             p_close.classList = "p-close";
-            elDivImplements.appendChild(p_close);
+            elDivImplementations.appendChild(p_close);
 
-            elTaskDiv.appendChild(elDivImplements);
+            elTaskDiv.appendChild(elDivImplementations);
 
-            var elCoverButtons = document.querySelectorAll(".button-cover-implement");
+            var elCoverButtons = document.querySelectorAll(".button-cover-implementation");
             elCoverButtons.forEach( elem => {
                 elem.addEventListener('click', event =>{
-                coverImplement(elem.attributes["id"].value.split("_")[1])
+                coverImplementation(elem.attributes["id"].value.split("_")[1])
                })
             })
 
@@ -116,7 +116,7 @@ function implementsList(task_id){
             addEvent(p_close, 'click', function (e) {
 
                 // Очищаем div со списком реализаций
-                elTaskDiv.removeChild(elDivImplements);
+                elTaskDiv.removeChild(elDivImplementations);
                 elTaskDiv.classList.remove("imp-open");
                 elTaskDiv.classList.add("imp-close");
             })
@@ -131,39 +131,39 @@ $(".div-task-span").on('click', function () {
     if (!event.currentTarget.classList.contains("imp-open")) {
         if (event.target.tagName !== "BUTTON") {
             if (event.target.tagName !== "P") {
-                implementsList(task_id);
+                implementationList(task_id);
             }
         }
     }
 })
 
 // менеджер подтверждает выполнение задачи
-function coverImplement(implement_id) {
+function coverImplementation(id) {
 
     // ajax-запрос
-    var action = "coverImplement";
+    var action = "coverImplementation";
 
     $.ajax({
         url: 'auth.php',
         type: "POST",
         data: {
             ajax: action,
-            implement_id: implement_id,
+            id: id,
         },
         error: function () {
             alert('Что-то пошло не так!');
         },
         success: function (response) {
-            var implement_li_item = "implement-li_" + implement_id;
-            var elImplementLiItem = document.getElementById(implement_li_item);
+            var implementation_li_item = "implementation-li_" + id;
+            var elImplementationLiItem = document.getElementById(implementation_li_item);
 
-            var implement_cover_button = "button-cover-implement_" + implement_id;
-            var elImplementButton = document.getElementById(implement_cover_button);
+            var implementation_cover_button = "button-cover-implementation_" + id;
+            var elImplementationButton = document.getElementById(implementation_cover_button);
 
             var elSpanIsCovered = document.createElement("u");
             elSpanIsCovered.textContent = "Выполнение подтверждено";
 
-            elImplementLiItem.replaceChild(elSpanIsCovered, elImplementButton);
+            elImplementationLiItem.replaceChild(elSpanIsCovered, elImplementationButton);
         }
     });
 }

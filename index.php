@@ -371,10 +371,10 @@ if(!($db===false)){
                     <?
                     foreach($tasks as $task){
                         echo
-                            '<div id="div-task-span_'.$task['task_id'].'" class="div-task-span col-md-12"
-                            data-toggle="modal" data-target="#taskModal"
-                            >'.
-                            '<span id="task-span_'.$task['task_id'].'" class="task-span col-md-6" value="'.$task['task_id'].'">'.$task['task_title'].'</span>' .
+                            '<div id="div-task-span_'.$task['id'].'" class="div-task-span col-md-12"
+                                data-toggle="modal" data-target="#taskModal"
+                                >'.
+                                '<span id="task-span_'.$task['id'].'" class="task-span col-md-6" value="'.$task['id'].'">'.$task['task_title'].'</span>' .
                             '</div>'
                         ;
                     }
@@ -408,9 +408,6 @@ if(!($db===false)){
 
                         <div class="modal-footer">
                             <p id="task-modal-status-p"></p>
-                            <div id="implements-modal-row">
-
-                            </div>
 
                             <!-- Форма изменения статуса -->
                             <form class="edit-form" id="edit-task-modal-status-form" hidden>
@@ -427,19 +424,14 @@ if(!($db===false)){
                                     <select id="task-modal-status-select" name="task-modal-status-select"></select>
                                 </div>
 
-                                <input id="hidden-marketer-id" name="hidden-marketer-id" type="hidden">
-                                <input id="hidden-status-id" name="hidden-status-id" type="hidden">
-
                                 <div class="group" align="center">
                                     <button id="edit-user-post" class="btn btn-outline-light">Отправить</button>
                                 </div>
                             </form>
-                            <button class="btn btn-outline-light" id="edit-task-modal-status-button" hidden>Изменить статус</button>
+                            <button class="btn btn-outline-light" id="edit-task-modal-status-button">Изменить статус</button>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

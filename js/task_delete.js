@@ -10,7 +10,7 @@ function taskDelete(task_id){
         type: "POST",
         data: {
             ajax: action,
-            task_id: task_id,
+            id: task_id,
         },
         error: function () {
             alert('Что-то пошло не так!');

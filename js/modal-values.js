@@ -5,6 +5,7 @@ $(document).ready(function () {
         // Получаем id задачи из атрибута id
         var task_id = e.target.id.split("_")[1];
 
+
         // Помещаем id задачи в скрытый элемент
         var elTaskModalId = document.getElementById("task_modal_id");
         elTaskModalId.textContent = task_id;
@@ -20,7 +21,7 @@ $(document).ready(function () {
             type: "GET",
             data: {
                 ajax: action,
-                task_id: task_id,
+                id: task_id,
             },
             error: function () {
                 alert('Что-то пошло не так!');

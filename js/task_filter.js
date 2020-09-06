@@ -9,9 +9,9 @@ function onTypeSelectionChange(select) {
         elem.classList.remove('t-h');
 
         if (!elem.classList.contains("m-h")){
-            if (!elem.classList.contains("s-h")){
-                if (!elem.classList.contains("st-h")){
-                    if (!elem.classList.contains("st-h")) {
+            if (!elem.classList.contains("r-h")){
+                if (!elem.classList.contains("s-h")){
+                    if (!elem.classList.contains("d-h")) {
                         elem.classList.remove('hide');
                     }
                 }
@@ -35,8 +35,8 @@ function onMarketerSelectionChange(select) {
         elem.classList.remove("m-h");
 
         if (!elem.classList.contains("t-h")){
-            if(!elem.classList.contains("s-h")){
-                if (!elem.classList.contains("st-h")){
+            if(!elem.classList.contains("r-h")){
+                if (!elem.classList.contains("s-h")){
                     if (!elem.classList.contains("d-h")){
                         elem.classList.remove('hide');
                     }
@@ -51,18 +51,18 @@ function onMarketerSelectionChange(select) {
     });
 }
 
-function onStoreSelectionChange(select){
+function onRetailpointSelectionChange(select){
 
     var selectedOption = select.options[select.selectedIndex].value;
     var str = ' ' + selectedOption + ' ';
 
     filterBox.forEach( elem => {
 
-        elem.classList.remove("s-h");
+        elem.classList.remove("r-h");
 
         if (!elem.classList.contains("t-h")){
             if (!elem.classList.contains("m-h")){
-                if (!elem.classList.contains("st-h")){
+                if (!elem.classList.contains("s-h")){
                     if (!elem.classList.contains("d-h")){
                         elem.classList.remove('hide');
                     }
@@ -72,7 +72,7 @@ function onStoreSelectionChange(select){
 
         if (!elem.attributes["data-filter-store"].value.includes(str) && selectedOption !== 'all'){
             elem.classList.add('hide');
-            elem.classList.add('s-h');
+            elem.classList.add('r-h');
         }
     });
 }
@@ -84,11 +84,11 @@ function onStatusSelectionChange(select){
 
     filterBox.forEach( elem => {
 
-        elem.classList.remove("st-h");
+        elem.classList.remove("s-h");
 
         if (!elem.classList.contains("t-h")){
             if (!elem.classList.contains("m-h")){
-                if (!elem.classList.contains("s-h")){
+                if (!elem.classList.contains("r-h")){
                     if (!elem.classList.contains("d-h")) {
                         elem.classList.remove('hide');
                     }
@@ -98,7 +98,7 @@ function onStatusSelectionChange(select){
 
         if (!elem.attributes["data-filter-status"].value.includes(str) && selectedOption !== 'all'){
             elem.classList.add('hide');
-            elem.classList.add('st-h');
+            elem.classList.add('s-h');
         }
     });
 }
@@ -113,8 +113,8 @@ function onDateSelectionChange(select){
 
     if (!elem.classList.contains("t-h")){
         if (!elem.classList.contains("m-h")){
-            if (!elem.classList.contains("s-h")){
-                if (!elem.classList.contains("st-h")) {
+            if (!elem.classList.contains("r-h")){
+                if (!elem.classList.contains("s-h")) {
                     elem.classList.remove('hide');
                 }
             }

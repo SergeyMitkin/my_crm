@@ -10,12 +10,18 @@ $(document).ready(function () {
 
         $('#task-create-form')[0].reset(); // Очищаем значения инпутов формы
         $('#form-create-task_id').val(0); // Id задачи устанавливаем 0
-        $('option[value|=option_type_1]').attr("selected", "selected"); // Устанавливаем тип задачи по умолчанию
 
-        $("#select-store").val(''); // Очищаем <select> для выбора магазинов
+        var elTypeSelect = document.getElementById("task-type-select");
+        var type_options = '<option class="task-type-option" value="type_1">type 1</option>\n' +
+                            '<option class="task-type-option" value="type_2">type 2</option>\n' +
+                            '<option class="task-type-option" value="type_3">type 3</option>\n' +
+                            '<option class="task-type-option" value="type_4">type 4</option>'
+        elTypeSelect.innerHTML = type_options;
+
+        $("#select-retailpoint").val(''); // Очищаем <select> для выбора магазинов
         $("#select-marketer").val(''); // Очищаем <select> для выбора исполнителей
 
-        selectStore(); // Множественный выбор магазинов
+        selectRetailpoint(); // Множественный выбор магазинов
         selectMarketer(); // Множественный выбор исполнителей
     })
 })
@@ -23,21 +29,21 @@ $(document).ready(function () {
 // Создаём или редактируем задачу
 $(document).ready(function() {
     var elCreateTaskForm = document.getElementById("task-create-form"); // Форма создания задачи
-    selectStore();
+    selectRetailpoint();
     selectMarketer();
 
     addEvent(elCreateTaskForm, 'submit', function (e) {
         e.preventDefault(); // Останавливаем отправку
         var elements = this.elements; // Элементы формы
-        var task_id = elements.task_id.value; // Id задачи
+        var id = elements.id.value; // Id задачи
         var task_title = elements.task_title.value; // Краткое описание
-        var task_type_id = elements.task_type.value.split("_")[2]; // Id типа задачи
+        var selected_type_option = elements.task_type.selectedIndex;
+        var task_type = elements.task_type.options[selected_type_option].textContent; // Тип задачи
         var deadline = elements.deadline.value; // Срок исполнения
 
-        var store = $("#select-store").val(); // Получаем массив с id выбранных магазинов
+        var retailpoint = $("#select-retailpoint").val(); // Получаем массив с id выбранных магазинов
         var marketer = $("#select-marketer").val(); // Получаем массив с id выбранных пользователей
         var task_description = elements.task_description.value; // Инструкция по выполнению
-
 
         var action = "taskCreate"
         $.ajax({
@@ -45,11 +51,11 @@ $(document).ready(function() {
             type: "POST",
             data: {
                 ajax: action,
-                task_id: task_id,
+                id: id,
                 task_title: task_title,
-                task_type_id: task_type_id,
+                task_type: task_type,
                 deadline: deadline,
-                store: store,
+                retailpoint: retailpoint,
                 marketer: marketer,
                 task_description: task_description
             },
@@ -64,51 +70,54 @@ $(document).ready(function() {
                 var elTaskRow = document.getElementById("tasks-row");
                 var elLastTaskDiv = document.createElement("div"); // Div для новой задачи
                 var elLastTaskSpan = document.createElement("span"); // Выводим имя задачи
-                var elDivTaskEditButtons = document.createElement("div"); //
+                var elDivTaskEditButtons = document.createElement("div");
+
 
                 var obj = jQuery.parseJSON(response)[0]; // Данные новой задачи
 
                 // Если задача редактировалась выводим новое описание задачи
-                if (task_id>0){
-                    var task_span_id = "task_span_" + task_id;
+                if (id>0){
+                    var task_span_id = "task_span_" + id;
                     document.getElementById(task_span_id).textContent = obj['task_title'];
                 }
                 // Если создана новая, помещаем её в конец списка
                 else {
                     // Добавляем атрибуты в div новой задачи
-                    var last_task_div_id = "div-task-span_" + obj['task_id'];
+                    var last_task_div_id = "div-task-span_" + obj['id'];
                     elLastTaskDiv.setAttribute("id", last_task_div_id);
                     elLastTaskDiv.setAttribute("class", "div-task-span col-md-12");
                     var selected_marketers_string = ' ' + marketer.join(' ') + ' ';
                     elLastTaskDiv.setAttribute("data-filter-marketers", selected_marketers_string);
-                    var selected_stores_string = ' ' + store.join(' ') + ' ';
-                    elLastTaskDiv.setAttribute("data-filter-store", selected_stores_string);
-                    elLastTaskDiv.setAttribute("data-filter-type", task_type_id);
+                    var selected_retailpoints_string = ' ' + retailpoint.join(' ') + ' ';
+                    elLastTaskDiv.setAttribute("data-filter-retailpoint", selected_retailpoints_string);
+                    elLastTaskDiv.setAttribute("data-filter-type", obj['type']);
                     var task_filter_date = obj['deadline'].substr(0, 10);
                     elLastTaskDiv.setAttribute("data-filter-date", task_filter_date);
 
+                    console.log(obj['type']);
+
                     // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
-                    var created_task_id = "task_span_" + obj['task_id'];
-                    elLastTaskSpan.setAttribute("value", obj['task_id']);
+                    var created_task_id = "task_span_" + obj['id'];
+                    elLastTaskSpan.setAttribute("value", obj['id']);
                     elLastTaskSpan.setAttribute("class", "task-span col-md-4");
                     elLastTaskSpan.setAttribute("id", created_task_id);
                     elLastTaskSpan.textContent = obj['task_title'];
 
                     // Добавляем кнопку "Редактировать"
-                    var div_edit_buttons_id = "task-edit-buttons_" + obj['task_id'];
+                    var div_edit_buttons_id = "task-edit-buttons_" + obj['id'];
                     elDivTaskEditButtons.setAttribute("id", div_edit_buttons_id);
                     elDivTaskEditButtons.setAttribute("align", "right");
 
                     var elLastTaskEditButton = document.createElement("button");
                     elLastTaskEditButton.setAttribute("type", "button");
                     elLastTaskEditButton.setAttribute("class", "btn btn-primary task-edit-button");
-                    var editButtonId = "edit-task-button_" + obj['task_id'];
+                    var editButtonId = "edit-task-button_" + obj['id'];
                     elLastTaskEditButton.setAttribute("id", editButtonId);
                     elLastTaskEditButton.textContent = "Редактировать";
 
                     // Прикрепляем к кнопке функцию редактирования
                     addEvent(elLastTaskEditButton, 'click', function (e) {
-                        var task_id = obj['task_id'];
+                        var task_id = obj['id'];
                         taskEdit(task_id);
                     })
 
@@ -116,13 +125,13 @@ $(document).ready(function() {
                     var elLastTaskDeleteButton = document.createElement("button");
                     elLastTaskDeleteButton.setAttribute("type", "button");
                     elLastTaskDeleteButton.setAttribute("class", "btn btn-danger task-delete-button");
-                    var deleteButtonId = "delete-task-button_" + obj['task_id'];
+                    var deleteButtonId = "delete-task-button_" + obj['id'];
                     elLastTaskDeleteButton.setAttribute("id", deleteButtonId);
                     elLastTaskDeleteButton.textContent = "Удалить";
 
                     // Прикрепляем к кнопке функцию удаления
                     addEvent(elLastTaskDeleteButton, 'click', function (e) {
-                        var task_id = obj['task_id'];
+                        var task_id = obj['id'];
                         taskDelete(task_id);
                     })
 
@@ -138,7 +147,7 @@ $(document).ready(function() {
                         if (!event.currentTarget.classList.contains("imp-open")) {
                             if (event.target.tagName !== "BUTTON") {
                                 if (event.target.tagName !== "P") {
-                                    implementsList(obj['task_id']);
+                                    implementationList(obj['id']);
                                 }
                             }
                         }
@@ -149,7 +158,7 @@ $(document).ready(function() {
             },
             complete: function () {
                 // После выполнения запроса, выводим информацию о добавлении задачи
-                if (task_id>0){
+                if (id>0){
                     alert("Задача отредактирована");
                 } else
                 {
@@ -162,13 +171,13 @@ $(document).ready(function() {
 
 // Функция множественного выбора в <select>
 function multiselect() {
-    $("#checkbox-store").click(function(){
-        if($("#checkbox-store").is(':checked') ){
-            $("#select-store > option").prop("selected","selected");// Select All Options
-            $("#select-store").trigger("change");// Trigger change to select 2
+    $("#checkbox-retailpoint").click(function(){
+        if($("#checkbox-retailpoint").is(':checked') ){
+            $("#select-retailpoint > option").prop("selected","selected");// Select All Options
+            $("#select-retailpoint").trigger("change");// Trigger change to select 2
         }else{
-            $("#select-store > option").removeAttr("selected");
-            $("#select-store").trigger("change");// Trigger change to select 2
+            $("#select-retailpoint > option").removeAttr("selected");
+            $("#select-retailpoint").trigger("change");// Trigger change to select 2
         }
     });
 
@@ -184,10 +193,10 @@ function multiselect() {
 }
 
 // Множественный выбор магазинов
-function selectStore(){
-    $("#select-store").select2();
+function selectRetailpoint(){
+    $("#select-retailpoint").select2();
     multiselect();
-    $("#select-store").select2({
+    $("#select-retailpoint").select2({
         placeholder: "Выберите магазин", //placeholder
         tags: true,
         tokenSeparators: ['/',',',';'," "],

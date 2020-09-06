@@ -24,22 +24,21 @@ if (isset($_POST['manager_exit'])) {
 }
 
 $tasks = getTasks();
-$statuses = getStatuses();
 
 // Создаём задачу
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
 
-    $task_id = $_POST['task_id'];
+    $id = $_POST['id'];
     $task_title = $_POST['task_title'];
-    $type_id = $_POST['type_id'];
+    $type = $_POST['task_type'];
     $deadline = $_POST['deadline'];
     $author = 'менеджер';
     $task_description = $_POST['task_description'];
 
     $marketer_array = $_POST['marketer'];
-    $store_array = $_POST['store'];
+    $retailpoint_array = $_POST['retailpoint'];
 
-    $last_inserted_task_id = setTask($task_id, $task_title, $type_id, $deadline, $author, $task_description, $marketer_array, $store_array);
+    $last_inserted_task_id = setTask($id, $task_title, $type, $deadline, $author, $task_description, $marketer_array, $retailpoint_array);
     if ($last_inserted_task_id !== false){
         $last_inserted_task = getTask($last_inserted_task_id);
         echo json_encode($last_inserted_task);
@@ -49,21 +48,21 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
    $task_id = $_POST['task_id'];
    $marketer_id = $_POST['marketer_id'];
-   $store_id = $_POST['store_id'];
-   $status_id = $_POST['status_id'];
+   $retailpoint_id = $_POST['retailpoint_id'];
+   $status = $_POST['status'];
 
-   echo json_encode(setImplement($task_id, $marketer_id, $store_id, $status_id));
+   echo json_encode(setImplementation($task_id, $marketer_id, $retailpoint_id, $status));
 }
 
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskDelete'){
-    $task_id = $_POST['task_id'];
-    $response = deleteTask($task_id);
+    $id = $_POST['id'];
+    $response = deleteTask($id);
     echo json_encode($response);
 }
 
-if (isset($_POST['ajax']) && $_POST['ajax'] == 'coverImplement'){
-    $implement_id = $_POST['implement_id'];
-    $response = coverImplement($implement_id);
+if (isset($_POST['ajax']) && $_POST['ajax'] == 'coverImplementation'){
+    $id = $_POST['id'];
+    $response = coverImplementation($id);
     echo json_encode($response);
 }
 
@@ -80,12 +79,12 @@ function getMarketers(){
     return $sql;
 }
 
-$marketers_data = getMarketers();
+$marketer_data = getMarketers();
 
 // Получаем магазины
-function getStores(){
+function getRetailpoints(){
     try {
-        $q = "SELECT id, `name` FROM stores";
+        $q = "SELECT id, `name` FROM retailpoints";
         $sql = SQL::getInstance()->Select($q);
     }
     catch(PDOException $e){
@@ -94,29 +93,30 @@ function getStores(){
     return $sql;
 }
 
-$stores_data = getStores();
+$retailpoint_data = getRetailpoints();
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskCreateAndDisplayDate'){
-    $task_id = $_GET['task_id'];
-    $task_data = getTaskCreateAndDisplayDate($task_id);
+    $id = $_GET['id'];
+    $task_data = getTaskCreateAndDisplayDate($id);
 
     echo json_encode($task_data);
 }
 
-if (isset($_GET['ajax']) && $_GET['ajax'] == 'getImplements'){
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getImplementations'){
     $task_id = $_GET['task_id'];
-    $task_data = getImplements($task_id);
+    $task_data = getImplementations($task_id);
 
     echo json_encode($task_data);
 }
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTask'){
     $response = array();
+    $id = $_GET['id'];
 
-    $task_data = getTask($_GET['task_id']);
-    $selected_stores = getSelectedStores($_GET['task_id']);
-    $selected_marketers = getSelectedMarketers($_GET['task_id']);
-    array_push($response, $task_data, $stores_data, $selected_stores, $marketers_data, $selected_marketers);
+    $task_data = getTask($id);
+    $selected_retailpoints = getSelectedRetailpoints($id);
+    $selected_marketers = getSelectedMarketers($id);
+    array_push($response, $task_data, $retailpoint_data, $selected_retailpoints, $marketer_data, $selected_marketers);
     echo json_encode($response);
 }
 
@@ -135,11 +135,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByMarketer'){
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasks'){
     $tasks = getTasks();
     echo json_encode($tasks);
-}
-
-if (isset($_GET['ajax']) && $_GET['ajax'] == 'getStatuses'){
-    $statuses = getStatuses();
-    echo json_encode($statuses);
 }
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getMarketers'){

@@ -30,9 +30,9 @@ function getTasksByDate(task_date) {
             s.classList="task-span col-md-6";
 
             for (var i = 0; i < obj.length; i++) {
-                d_t.id="div-task-span_" + obj[i]['task_id'];
+                d_t.id="div-task-span_" + obj[i]['id'];
                 s.textContent=obj[i]['task_title'];
-                s.id="task-span_" + obj[i]['task_id'];
+                s.id="task-span_" + obj[i]['id'];
                 d.appendChild(d_t.cloneNode(true));
             }
         }
