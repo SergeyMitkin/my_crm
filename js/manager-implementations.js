@@ -99,7 +99,7 @@ function implementationList(task_id){
             // P "Cкрыть"
             var p_close = document.createElement("p");
             p_close.textContent = "Скрыть";
-            p_close.classList = "p-close";
+            p_close.classList = "p-implementation-close";
             elDivImplementations.appendChild(p_close);
 
             elTaskDiv.appendChild(elDivImplementations);

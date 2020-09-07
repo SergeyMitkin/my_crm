@@ -1,24 +1,24 @@
-var filterBox = document.querySelectorAll(".div-task-span");
-
 function onTypeSelectionChange(select) {
+    var filterBox = document.querySelectorAll(".div-task-span");
 
-    var selectedOption = select.options[select.selectedIndex].value;
+    var selectedOption = select.options[select.selectedIndex].text;
 
-    filterBox.forEach( elem => {
+     filterBox.forEach( elem => {
 
-        elem.classList.remove('t-h');
+       elem.classList.remove('t-h');
 
         if (!elem.classList.contains("m-h")){
             if (!elem.classList.contains("r-h")){
                 if (!elem.classList.contains("s-h")){
                     if (!elem.classList.contains("d-h")) {
-                        elem.classList.remove('hide');
+                       elem.classList.remove('hide');
                     }
                 }
             }
         }
 
-        if (elem.attributes["data-filter-type"].value !== selectedOption && selectedOption !== 'all'){
+        if (elem.attributes["data-filter-type"].value !== selectedOption && selectedOption !== 'Все типы'){
+
             elem.classList.add('t-h');
             elem.classList.add('hide');
         }
@@ -26,6 +26,7 @@ function onTypeSelectionChange(select) {
 }
 
 function onMarketerSelectionChange(select) {
+    var filterBox = document.querySelectorAll(".div-task-span");
 
     var selectedOption = select.options[select.selectedIndex].value;
     var str = ' ' + selectedOption + ' ';
@@ -44,7 +45,7 @@ function onMarketerSelectionChange(select) {
             }
         }
 
-        if (!elem.attributes["data-filter-marketers"].value.includes(str) && selectedOption !== 'all'){
+        if (!elem.attributes["data-filter-marketer"].value.includes(str) && selectedOption !== 'all'){
             elem.classList.add('hide');
             elem.classList.add('m-h');
         }
@@ -52,6 +53,7 @@ function onMarketerSelectionChange(select) {
 }
 
 function onRetailpointSelectionChange(select){
+    var filterBox = document.querySelectorAll(".div-task-span");
 
     var selectedOption = select.options[select.selectedIndex].value;
     var str = ' ' + selectedOption + ' ';
@@ -70,7 +72,7 @@ function onRetailpointSelectionChange(select){
             }
         }
 
-        if (!elem.attributes["data-filter-store"].value.includes(str) && selectedOption !== 'all'){
+        if (!elem.attributes["data-filter-retailpoint"].value.includes(str) && selectedOption !== 'all'){
             elem.classList.add('hide');
             elem.classList.add('r-h');
         }
@@ -78,9 +80,9 @@ function onRetailpointSelectionChange(select){
 }
 
 function onStatusSelectionChange(select){
+    var filterBox = document.querySelectorAll(".div-task-span");
 
-    var selectedOption = select.options[select.selectedIndex].value;
-    var str = ' ' + selectedOption + ' ';
+    var selectedOption = select.options[select.selectedIndex].text;
 
     filterBox.forEach( elem => {
 
@@ -96,7 +98,7 @@ function onStatusSelectionChange(select){
             }
         }
 
-        if (!elem.attributes["data-filter-status"].value.includes(str) && selectedOption !== 'all'){
+        if (elem.attributes["data-filter-status"].value !==selectedOption && selectedOption !== 'Все статусы'){
             elem.classList.add('hide');
             elem.classList.add('s-h');
         }
@@ -104,6 +106,7 @@ function onStatusSelectionChange(select){
 }
 
 function onDateSelectionChange(select){
+    var filterBox = document.querySelectorAll(".div-task-span");
 
     var selectedDate = select.value;
 

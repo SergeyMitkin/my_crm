@@ -581,7 +581,7 @@ if(!($db===false)){
                                 <div id="div-task-type-filter" class="task-filter-item">
                                     <label for="select-task-type-filter">Тип задачи</label>
                                     <select class="task-filter-input" id="select-task-type-filter" onchange="onTypeSelectionChange (this)">
-                                        <option class="select-task-type-option" value="all">Все типы</option>
+                                        <option class="task-type-option" value="all">Все типы</option>
                                         <option class="task-type-option" value="type_1">type 1</option>
                                         <option class="task-type-option" value="type_2">type 2</option>
                                         <option class="task-type-option" value="type_3">type 3</option>
@@ -597,7 +597,7 @@ if(!($db===false)){
                                     <select class="task-filter-input" id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
                                         <option value="all">Все исполнители</option>
                                         <?
-                                        foreach ($marketers_data as $marketer) {
+                                        foreach ($marketer_data as $marketer) {
                                             echo '<option value="' . $marketer['id'] . '">'
                                                 . $marketer['name'] . '</option>';
                                         }
@@ -610,12 +610,12 @@ if(!($db===false)){
                                 <!-- Фильтр по магазину -->
                                 <div id="div-task-retailpoint-filter" class="task-filter-item">
                                     <label for="select-retailpoint-filter">Магазин</label>
-                                    <select class="task-filter-input" id="select-ratailpoint-filter" onchange="onRetailpointSelectionChange (this)">
+                                    <select class="task-filter-input" id="select-retailpoint-filter" onchange="onRetailpointSelectionChange (this)">
                                         <option value="all">Все магазины</option>
                                         <?
-                                        foreach ($ratailpoint_data as $ratailpoint) {
-                                            echo '<option value="' . $ratailpoint['id'] . '">'
-                                                . $ratailpoint['name'] . '</option>';
+                                        foreach ($retailpoint_data as $retailpoint) {
+                                            echo '<option value="' . $retailpoint['id'] . '">'
+                                                . $retailpoint['name'] . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -628,10 +628,10 @@ if(!($db===false)){
                                     <label for="select-status-filter">Статус</label>
                                     <select class="task-filter-input" id="select-status-filter" onchange="onStatusSelectionChange (this)">
                                         <option value="all">Все статусы</option>
-                                        <option class="task-status-option" value="new">type 1</option>
-                                        <option class="task-status-option" value="accepted">type 2</option>
-                                        <option class="task-status-option" value="clarification">type 3</option>
-                                        <option class="task-status-option" value="completed">type 4</option>
+                                        <option class="task-status-option" value="new">Новая</option>
+                                        <option class="task-status-option" value="accepted">Принята</option>
+                                        <option class="task-status-option" value="clarification">Требует пояснения</option>
+                                        <option class="task-status-option" value="completed">Выполнена</option>
                                     </select>
                                 </div>
                             </td>
@@ -658,7 +658,7 @@ if(!($db===false)){
                                  data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
                                  data-filter-status="<?
                                  foreach (getStatusesByTask($task['id']) as $status) {
-                                     echo ' ' . $status['status'] . ' ';
+                                     echo $status['status'];
                                  }
                                  ?>"
                                  data-filter-marketer="<?
@@ -669,7 +669,7 @@ if(!($db===false)){
                                  data-filter-retailpoint="
                                     <?
                                  foreach (getSelectedRetailpoints($task['id']) as $retailpoint){
-                                     echo ' ' . $ratailpoint['retailpoint_id'] . ' ';
+                                     echo ' ' . $retailpoint['retailpoint_id'] . ' ';
                                  }
                                  ?>
                                     ">

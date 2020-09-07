@@ -6,7 +6,7 @@
     width: 300px !important;
 }
 
-.task-span, .task-edit-buttons, .task-edit-button, task-delete-button{
+.task-span, .task-edit-buttons, .task-edit-button, .task-delete-button{
     display: inline-block;
 }
 .task-edit-button{
@@ -36,17 +36,23 @@
     padding: 15px;
 }
 
-.implement-li{
+.implementation-li{
     margin-left: 20px;
     margin-bottom: 10px;
 }
 
-.p-close{
+.p-close, .p-implementation-close{
     margin-top: 15px;
     padding: 5px;
     text-align: center;
     width: 70px;
 }
+
+.p-implementation-close:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .p-close:hover{
     cursor: pointer;
     text-decoration: underline;
@@ -64,7 +70,7 @@
     width: 150px;
 }
 
-#div-task-marketer-filter, #div-task-store-filter, #div-task-status-filter, #div-task-date-filter{
+#div-task-marketer-filter, #div-task-retailpoint-filter, #div-task-status-filter, #div-task-date-filter{
     margin-left: -1px;
 }
 

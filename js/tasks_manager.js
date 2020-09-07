@@ -85,16 +85,15 @@ $(document).ready(function() {
                     // Добавляем атрибуты в div новой задачи
                     var last_task_div_id = "div-task-span_" + obj['id'];
                     elLastTaskDiv.setAttribute("id", last_task_div_id);
-                    elLastTaskDiv.setAttribute("class", "div-task-span col-md-12");
+                    elLastTaskDiv.setAttribute("class", "div-task-span col-md-12 imp-close");
                     var selected_marketers_string = ' ' + marketer.join(' ') + ' ';
-                    elLastTaskDiv.setAttribute("data-filter-marketers", selected_marketers_string);
+                    elLastTaskDiv.setAttribute("data-filter-marketer", selected_marketers_string);
                     var selected_retailpoints_string = ' ' + retailpoint.join(' ') + ' ';
                     elLastTaskDiv.setAttribute("data-filter-retailpoint", selected_retailpoints_string);
                     elLastTaskDiv.setAttribute("data-filter-type", obj['type']);
                     var task_filter_date = obj['deadline'].substr(0, 10);
                     elLastTaskDiv.setAttribute("data-filter-date", task_filter_date);
 
-                    console.log(obj['type']);
 
                     // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
                     var created_task_id = "task_span_" + obj['id'];
