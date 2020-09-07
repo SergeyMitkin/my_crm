@@ -1,5 +1,4 @@
 // Удаляем задачу
-
 function taskDelete(task_id){
 
     // ajax-запрос

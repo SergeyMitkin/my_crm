@@ -99,7 +99,7 @@ function implementationList(task_id){
             // P "Cкрыть"
             var p_close = document.createElement("p");
             p_close.textContent = "Скрыть";
-            p_close.classList = "p-implementation-close";
+            p_close.classList = "p-close";
             elDivImplementations.appendChild(p_close);
 
             elTaskDiv.appendChild(elDivImplementations);
@@ -111,7 +111,6 @@ function implementationList(task_id){
                })
             })
 
-            // P "Скрыть"
             // Прикрепляем к параграфу функцию скрытия списка реализаций
             addEvent(p_close, 'click', function (e) {
 
@@ -137,7 +136,7 @@ $(".div-task-span").on('click', function () {
     }
 })
 
-// менеджер подтверждает выполнение задачи
+// Менеджер подтверждает выполнение задачи
 function coverImplementation(id) {
 
     // ajax-запрос

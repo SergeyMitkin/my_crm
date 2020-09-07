@@ -75,7 +75,7 @@ if(!($db===false)){
 
    </head>
 <body>
-	<!-- <div class="logo"><img src="images/logo.png"></div> -->
+	<div class="logo"><img src="images/logo.png"></div>
 	<div class="container-fluid main-wrapper">
 
         <!-- Форма авторизации менеджера -->
@@ -542,7 +542,7 @@ if(!($db===false)){
                                 }
                                 ?>
                             </select>
-                            <input type="checkbox" id="checkbox-store"> Выбрать все
+                            <input type="checkbox" id="checkbox-retailpoint"> Выбрать все
                         </div>
 
                         <div class="form-group col-md-11">
@@ -652,38 +652,41 @@ if(!($db===false)){
                     <h4>Список задач: </h4>
                     <div id="manager-task-raw">
                         <?
-                        foreach($tasks as $task){ ?>
-                            <div id="div-task-span_<?=$task['id']?>" class="div-task-span imp-close col-md-12"
-                                 data-filter-type="<?=$task['type']?>"
-                                 data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
-                                 data-filter-status="<?
-                                 foreach (getStatusesByTask($task['id']) as $status) {
-                                     echo $status['status'];
-                                 }
-                                 ?>"
-                                 data-filter-marketer="<?
-                                 foreach (getSelectedMarketers($task['id']) as $marketer){
-                                     echo ' ' . $marketer['marketer_id'] . ' ';
-                                 }
-                                 ?>"
-                                 data-filter-retailpoint="
-                                    <?
-                                 foreach (getSelectedRetailpoints($task['id']) as $retailpoint){
-                                     echo ' ' . $retailpoint['retailpoint_id'] . ' ';
-                                 }
-                                 ?>
-                                    ">
-                                <span id="task_span_<?=$task['id']?>" class="task-span col-md-4" value="<?=$task['id']?>"><?=$task['task_title']?></span>
+                        if (!empty($tasks)){
+                            foreach($tasks as $task){ ?>
+                                <div id="div-task-span_<?=$task['id']?>" class="div-task-span imp-close col-md-12"
+                                     data-filter-type="<?=$task['type']?>"
+                                     data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
+                                     data-filter-status="<?
+                                     foreach (getStatusesByTask($task['id']) as $status) {
+                                         echo $status['status'];
+                                     }
+                                     ?>"
+                                     data-filter-marketer="<?
+                                     foreach (getSelectedMarketers($task['id']) as $marketer){
+                                         echo ' ' . $marketer['marketer_id'] . ' ';
+                                     }
+                                     ?>"
+                                     data-filter-retailpoint="
+                                        <?
+                                     foreach (getSelectedRetailpoints($task['id']) as $retailpoint){
+                                         echo ' ' . $retailpoint['retailpoint_id'] . ' ';
+                                     }
+                                     ?>
+                                        ">
+                                    <span id="task_span_<?=$task['id']?>" class="task-span col-md-4" value="<?=$task['id']?>"><?=$task['task_title']?></span>
 
-                                <div id="task-edit-buttons_<?=$task['id']?>" align="right">
-                                    <button type="button" class="btn btn-primary task-edit-button"
-                                            id="edit-task-button_<?=$task['id']?>">Редактировать</button>
+                                    <div id="task-edit-buttons_<?=$task['id']?>" align="right">
+                                        <button type="button" class="btn btn-primary task-edit-button"
+                                                id="edit-task-button_<?=$task['id']?>">Редактировать</button>
 
-                                    <button type="button" class="btn btn-danger task-delete-button"
-                                            id="delete-task-button_<?=$task['id']?>">Удалить</button>
+                                        <button type="button" class="btn btn-danger task-delete-button"
+                                                id="delete-task-button_<?=$task['id']?>">Удалить</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <?
+                            <?}
+                        }else{
+                            echo '';
                         }
                         ?>
                     </div>

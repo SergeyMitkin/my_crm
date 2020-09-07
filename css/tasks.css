@@ -41,22 +41,16 @@
     margin-bottom: 10px;
 }
 
-.p-close, .p-implementation-close{
+.p-close{
     margin-top: 15px;
     padding: 5px;
     text-align: center;
     width: 70px;
 }
 
-.p-implementation-close:hover{
-    cursor: pointer;
-    text-decoration: underline;
-}
-
 .p-close:hover{
     cursor: pointer;
     text-decoration: underline;
-    background-color: whitesmoke;
 }
 
 .task-filters{

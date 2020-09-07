@@ -24,7 +24,7 @@ function getTasksByDate(task_date) {
             var d_t = document.createElement("div");
 
             d_t.appendChild(s);
-            d_t.classList="div-task-span col-md-12";
+            d_t.classList="div-task-span col-md-12 imp-close";
             d_t.setAttribute("data-toggle", "modal");
             d_t.setAttribute("data-target", "#taskModal");
             s.classList="task-span col-md-6";

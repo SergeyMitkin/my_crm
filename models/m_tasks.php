@@ -216,7 +216,7 @@ function getTaskCreateAndDisplayDate($id){
 
 function deleteTask($id){
     $response = '';
-    $task_id = (int)$id;
+    $id = (int)$id;
 
     // Удаляем задачу из таблицы tasks
     try{
@@ -231,7 +231,7 @@ function deleteTask($id){
 
     // Удаляем магазины из таблицы task_stores
     try{
-        $table = 'task_retailpoint';
+        $table = 'task_retailpoints';
         $where = "task_id = " . $id;
         $sql = SQL::getInstance()->Delete($table, $where);
     }

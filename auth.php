@@ -66,7 +66,6 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'coverImplementation'){
     echo json_encode($response);
 }
 
-
 // Получаем исполнителей
 function getMarketers(){
     try {
