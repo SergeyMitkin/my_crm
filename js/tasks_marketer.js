@@ -2,7 +2,7 @@
 function getTasksByDate(task_date) {
 
     // ajax-запрос для получения данных выбранной задачи
-    var url = "auth.php";
+    var url = "tasks.php";
     var action = "getTasksByDate";
 
     $.ajax({

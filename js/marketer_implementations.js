@@ -6,7 +6,7 @@ $(document).ready(function () {
         elEditStatusForm.removeAttribute("hidden");
 
         // ajax-запрос для получения исполнителей
-        var url = "auth.php";
+        var url = "tasks.php";
         var action = "getMarketers";
         $.ajax({
             url: url,
@@ -65,7 +65,7 @@ $(document).ready(function() {
         var action = "changeStatus";
 
         $.ajax({
-            url: 'auth.php',
+            url: 'tasks.php',
             type: "POST",
             data: {
                 ajax: action,

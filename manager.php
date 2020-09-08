@@ -1,5 +1,6 @@
 <?php
 require_once('auth.php');
+require_once ('tasks.php');
 include_once ('operations.php');
 include_once ('ReportManager.php');
 
@@ -535,7 +536,7 @@ if(!($db===false)){
                         <div class="col-md-11 form-group" id="group-for-select-retailpoint">
                             <label for="retailpoint">Выберите магазин</label>
                             <select required multiple class="form-control mul-select" name="retailpoint[]" id="select-retailpoint">
-                                <?
+                                <?php
                                 foreach ($retailpoint_data as $retailpoint) {
                                     echo '<option class="selected-ratailpoints" value="' . $retailpoint['id'] . '">'
                                         . $retailpoint['name'] . '</option>';
@@ -548,7 +549,7 @@ if(!($db===false)){
                         <div class="form-group col-md-11">
                             <label for="marketer">Выберите исполнителя</label>
                             <select required multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
-                                <?
+                                <?php
                                 foreach ($marketer_data as $marketer) {
                                     echo '<option class="selected-marketers" value="' . $marketer['id'] . '">'
                                         . $marketer['name'] . '</option>';
@@ -596,7 +597,7 @@ if(!($db===false)){
                                     <label for="select-marketer-filter">Исполнитель</label>
                                     <select class="task-filter-input" id="select-marketer-filter" onchange="onMarketerSelectionChange (this)">
                                         <option value="all">Все исполнители</option>
-                                        <?
+                                        <?php
                                         foreach ($marketer_data as $marketer) {
                                             echo '<option value="' . $marketer['id'] . '">'
                                                 . $marketer['name'] . '</option>';
@@ -612,7 +613,7 @@ if(!($db===false)){
                                     <label for="select-retailpoint-filter">Магазин</label>
                                     <select class="task-filter-input" id="select-retailpoint-filter" onchange="onRetailpointSelectionChange (this)">
                                         <option value="all">Все магазины</option>
-                                        <?
+                                        <?php
                                         foreach ($retailpoint_data as $retailpoint) {
                                             echo '<option value="' . $retailpoint['id'] . '">'
                                                 . $retailpoint['name'] . '</option>';
@@ -651,43 +652,45 @@ if(!($db===false)){
                 <div class="col-md-10" id="tasks-row">
                     <h4>Список задач: </h4>
                     <div id="manager-task-raw">
-                        <?
+                        <?php
                         if (!empty($tasks)){
-                            foreach($tasks as $task){ ?>
-                                <div id="div-task-span_<?=$task['id']?>" class="div-task-span imp-close col-md-12"
-                                     data-filter-type="<?=$task['type']?>"
-                                     data-filter-date="<?=substr($task['deadline'], 0, 10)?>"
-                                     data-filter-status="<?
+                            foreach($tasks as $task){
+
+                                echo '<div id="div-task-span_'. $task['id'] .'" class="div-task-span imp-close col-md-12"
+                                     data-filter-type="' . $task['type'] . '"
+                                     data-filter-date="' . substr($task['deadline'], 0, 10) . '"
+                                     data-filter-status="';
+
                                      foreach (getStatusesByTask($task['id']) as $status) {
                                          echo $status['status'];
                                      }
-                                     ?>"
-                                     data-filter-marketer="<?
+
+                                     echo '" data-filter-marketer="';
+
                                      foreach (getSelectedMarketers($task['id']) as $marketer){
                                          echo ' ' . $marketer['marketer_id'] . ' ';
                                      }
-                                     ?>"
-                                     data-filter-retailpoint="
-                                        <?
+
+                                     echo '" data-filter-retailpoint="';
+
                                      foreach (getSelectedRetailpoints($task['id']) as $retailpoint){
                                          echo ' ' . $retailpoint['retailpoint_id'] . ' ';
                                      }
-                                     ?>
-                                        ">
-                                    <span id="task_span_<?=$task['id']?>" class="task-span col-md-4" value="<?=$task['id']?>"><?=$task['task_title']?></span>
 
-                                    <div id="task-edit-buttons_<?=$task['id']?>" align="right">
+                                     echo '"> <span id="task_span_' . $task['id'] .
+                                     '" class="task-span col-md-4" value="' . $task['id'] .
+                                     '">' . $task['task_title'] . '</span>                          
+                                     <div id="task-edit-buttons_' . $task['id'] . '" align="right">
                                         <button type="button" class="btn btn-primary task-edit-button"
-                                                id="edit-task-button_<?=$task['id']?>">Редактировать</button>
-
+                                                id="edit-task-button_' . $task['id'] . '">Редактировать</button>
                                         <button type="button" class="btn btn-danger task-delete-button"
-                                                id="delete-task-button_<?=$task['id']?>">Удалить</button>
+                                                id="delete-task-button_' . $task['id'] . '">Удалить</button>
                                     </div>
-                                </div>
-                            <?}
-                        }else{
+                                </div>';
+                                }
+                            }else{
                             echo '';
-                        }
+                            }
                         ?>
                     </div>
                 </div>

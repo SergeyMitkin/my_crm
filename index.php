@@ -1,6 +1,7 @@
 <?php
 
 require_once('auth.php');
+require_once ('tasks.php');
 include_once ('operations.php');
 include_once ('ReportManager.php');
 

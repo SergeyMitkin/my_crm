@@ -16,7 +16,7 @@ function taskEdit(id){
     $("#form-create-task_id").val(id);
 
     // ajax-запрос для получения данных выбранной задачи
-    var url = "auth.php";
+    var url = "tasks.php";
     var action = "getTask";
 
     $.ajax({

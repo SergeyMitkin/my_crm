@@ -5,7 +5,7 @@ function implementationList(task_id){
     var elTaskDiv = document.getElementById(div_task_span_id);
 
     // ajax-запрос для получения данных задачи
-    var url = "auth.php";
+    var url = "tasks.php";
     var action = "getTaskCreateAndDisplayDate";
     $.ajax({
         url: url,
@@ -49,7 +49,7 @@ function implementationList(task_id){
 
     // ajax-запрос для поучения списка реализаций
 
-    var url = "auth.php";
+    var url = "tasks.php";
     var action = "getImplementations";
     $.ajax({
         url: url,
@@ -143,7 +143,7 @@ function coverImplementation(id) {
     var action = "coverImplementation";
 
     $.ajax({
-        url: 'auth.php',
+        url: 'tasks.php',
         type: "POST",
         data: {
             ajax: action,

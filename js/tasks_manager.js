@@ -47,7 +47,7 @@ $(document).ready(function() {
 
         var action = "taskCreate"
         $.ajax({
-            url: 'auth.php',
+            url: 'tasks.php',
             type: "POST",
             data: {
                 ajax: action,
@@ -63,6 +63,7 @@ $(document).ready(function() {
                 alert('Что-то пошло не так!');
             },
             success: function (response) {
+
                 var elDivTaskCreateForm = document.getElementById("div-task-create-form"); // Div с формой создания задачи
                 elDivTaskCreateForm.setAttribute("hidden", ""); // Скрываем форму создания задачи
 

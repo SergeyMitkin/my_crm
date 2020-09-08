@@ -5,7 +5,7 @@ function taskDelete(task_id){
     var action = "taskDelete";
 
     $.ajax({
-        url: 'auth.php',
+        url: 'tasks.php',
         type: "POST",
         data: {
             ajax: action,

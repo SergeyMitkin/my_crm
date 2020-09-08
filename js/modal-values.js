@@ -13,7 +13,7 @@ $(document).ready(function () {
         var elTaskChangeStatusId= document.getElementById("form-change-status-task_id");
         elTaskChangeStatusId.value = task_id;
 
-        var url = "auth.php";
+        var url = "tasks.php";
         var action = "getTask";
 
         $.ajax({
