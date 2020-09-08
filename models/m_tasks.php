@@ -6,6 +6,7 @@ require_once('settings.php');
 // Добавляем реализацию
 function setImplementation($task_id, $marketer_id, $retailpoint_id, $status)
 {
+
     try {
         $t = 'taskimplementations';
         $v = array(
@@ -42,10 +43,10 @@ function coverImplementation($id){
     return $response;
 }
 
-function getStatusesByTask($task_id){
+function getTaskStatuses($task_id){
 
     try {
-        $q = "SELECT DISTINCT status FROM taskimplementations WHERE task_id = " . $task_id;
+        $q = "SELECT `status` FROM taskimplementations WHERE task_id = " . $task_id . " ORDER BY created_at DESC LIMIT 1";
         $sql = SQL::getInstance()->Select($q);
     }
     catch(PDOException $e){

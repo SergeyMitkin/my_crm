@@ -661,7 +661,7 @@ if(!($db===false)){
                                      data-filter-date="' . substr($task['deadline'], 0, 10) . '"
                                      data-filter-status="';
 
-                                     foreach (getStatusesByTask($task['id']) as $status) {
+                                     foreach (getTaskStatuses($task['id']) as $status) {
                                          echo $status['status'];
                                      }
 
