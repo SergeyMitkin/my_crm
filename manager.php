@@ -111,7 +111,7 @@ if(!($db===false)){
 							<li><a href="#tab-1">Касса</a></li>
 							<li><a href="#tab-2">Перемещения</a></li>
 							<li><a href="#tab-3">Отчеты</a></li>
-                            <li><a href="#tab-4">Задачи</a></li>
+                            <li><a id="href-tab-4" href="#tab-4">Задачи</a></li>
 						</ul>
 					</div>
 				</div>
@@ -626,6 +626,7 @@ if(!($db===false)){
                             <td>
                                 <!-- Фильтр по статусу -->
                                 <div id="div-task-status-filter" class="task-filter-item">
+                                    <span id="hidden-task-marketers"></span>
                                     <label for="select-status-filter">Статус</label>
                                     <select class="task-filter-input" id="select-status-filter" onchange="onStatusSelectionChange (this)">
                                         <option value="all">Все статусы</option>
@@ -651,7 +652,7 @@ if(!($db===false)){
 
                 <div class="col-md-10" id="tasks-row">
                     <h4>Список задач: </h4>
-                    <div id="manager-task-raw">
+                    <div id="manager-task-row">
                         <?php
                         if (!empty($tasks)){
                             foreach($tasks as $task){
@@ -661,9 +662,7 @@ if(!($db===false)){
                                      data-filter-date="' . substr($task['deadline'], 0, 10) . '"
                                      data-filter-status="';
 
-                                     foreach (getTaskStatuses($task['id']) as $status) {
-                                         echo $status['status'];
-                                     }
+                                     echo getTaskStatuses($task['id']);
 
                                      echo '" data-filter-marketer="';
 
@@ -1412,6 +1411,7 @@ if(!($db===false)){
 </body>
 
 <script src="js/tasks_manager.js"></script> <!-- JS на странице "Задачи" -->
+<script src="js/task_create.js"></script> <!-- JS создания задачи -->
 <script src="js/task_edit.js"></script> <!-- JS редактирования задачи -->
 <script src="js/task_delete.js"></script> <!-- JS удаления задачи -->
 <script src="js/manager-implementations.js"></script> <!-- JS удаления задачи -->

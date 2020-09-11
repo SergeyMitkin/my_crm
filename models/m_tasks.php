@@ -43,10 +43,40 @@ function coverImplementation($id){
     return $response;
 }
 
+// Получаем актуальные статусы задачи
 function getTaskStatuses($task_id){
 
+    $data_status_string = ''; // Строка для параметра фильтра по статаусу
+
     try {
-        $q = "SELECT `status` FROM taskimplementations WHERE task_id = " . $task_id . " ORDER BY created_at DESC LIMIT 1";
+        $q = "SELECT `status`, `marketer_id` from taskimplementations where task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    // Если у задачиесть реализации, определяем их исполнителей и актуальные статусы
+    if (!empty($sql)){
+
+        $marketers = [];
+
+        for ($i=0; $i<count($sql); $i++){
+                $s = $sql[$i]['marketer_id'];
+                $marketers[$s] = $sql[$i]['status'];
+        }
+
+        $actual_statuses = array_unique($marketers);
+
+        $data_status_string = implode(' ', $actual_statuses);
+    }
+
+    return $data_status_string;
+}
+
+function getTaskMarketers($task_id){
+    try {
+        $q = "SELECT distinct marketer_id FROM taskimplementations WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q);
     }
     catch(PDOException $e){
