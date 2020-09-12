@@ -111,24 +111,28 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasksByMarketer'){
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatuses'){
     $task_id = $_GET['task_id'];
-    $marketers = $_GET['marketers'];
+    $statuses = getTaskStatuses($task_id);
 
-    if(is_array($marketers) && !empty($marketers)){
-        $statuses = getTaskStatuses($task_id, 1);
-//$tasks = getTaskMarketers($task_id);
-        echo json_encode(count($_GET['marketers']));
-    }
-
-
+    echo json_encode($statuses);
 }
 
-
-if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskMarketers'){
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedRetailpoints'){
     $task_id = $_GET['task_id'];
-    $tasks = getTaskMarketers($task_id);
-    echo json_encode($tasks);
+    $is_ajax = $_GET['action'];
+
+    $retailpoint_string = getSelectedRetailpoints($task_id, $is_ajax);
+
+    echo json_encode($retailpoint_string);
 }
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedMarketers'){
+    $task_id = $_GET['task_id'];
+    $is_ajax = $_GET['action'];
+
+    $marketer_string = getSelectedMarketers($task_id, $is_ajax);
+
+    echo json_encode($marketer_string);
+}
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTasks'){
     $tasks = getTasks();

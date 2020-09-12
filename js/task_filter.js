@@ -83,6 +83,7 @@ function onStatusSelectionChange(select){
     var filterBox = document.querySelectorAll(".div-task-span");
 
     var selectedOption = select.options[select.selectedIndex].text;
+    var str = selectedOption;
 
     filterBox.forEach( elem => {
 
@@ -98,7 +99,7 @@ function onStatusSelectionChange(select){
             }
         }
 
-        if (elem.attributes["data-filter-status"].value !==selectedOption && selectedOption !== 'Все статусы'){
+        if (!elem.attributes["data-filter-status"].value.includes(str) && selectedOption !== 'Все статусы'){
             elem.classList.add('hide');
             elem.classList.add('s-h');
         }

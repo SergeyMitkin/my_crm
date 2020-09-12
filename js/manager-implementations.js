@@ -128,6 +128,7 @@ $(".div-task-span").on('click', function () {
     var task_id = this.id.split('_')[1]; // Получаем id задачи из id кнопки
 
     if (!event.currentTarget.classList.contains("imp-open")) {
+        // Список не выводится, если кликнули на кнопку или на P
         if (event.target.tagName !== "BUTTON") {
             if (event.target.tagName !== "P") {
                 implementationList(task_id);

@@ -61,7 +61,7 @@
     height: 35px;
     border-radius: 0px;
     border: 1px solid gray;
-    width: 150px;
+    width: 100%;
 }
 
 #div-task-marketer-filter, #div-task-retailpoint-filter, #div-task-status-filter, #div-task-date-filter{

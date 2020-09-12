@@ -1,6 +1,13 @@
 // Функция редактирования задачи
 function taskEdit(id){
 
+    var elTypeSelect = document.getElementById("task-type-select");
+    var type_options = '<option class="task-type-option" value="type_1">type 1</option>\n' +
+        '<option class="task-type-option" value="type_2">type 2</option>\n' +
+        '<option class="task-type-option" value="type_3">type 3</option>\n' +
+        '<option class="task-type-option" value="type_4">type 4</option>'
+    elTypeSelect.innerHTML = type_options;
+
     var elCreateForm = document.getElementById('div-task-create-form');
 
     var div_task_span_id = "div-task-span_" + id;
@@ -93,13 +100,6 @@ function taskEdit(id){
 
 // Редактируем задачу
 $(".task-edit-button").on('click', function () {
-
-    var elTypeSelect = document.getElementById("task-type-select");
-    var type_options = '<option class="task-type-option" value="type_1">type 1</option>\n' +
-        '<option class="task-type-option" value="type_2">type 2</option>\n' +
-        '<option class="task-type-option" value="type_3">type 3</option>\n' +
-        '<option class="task-type-option" value="type_4">type 4</option>'
-    elTypeSelect.innerHTML = type_options;
 
     var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
     taskEdit(task_id);
