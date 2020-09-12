@@ -662,7 +662,9 @@ if(!($db===false)){
                                      data-filter-date="' . substr($task['deadline'], 0, 10) . '"
                                      data-filter-status="';
 
-                                     echo getTaskStatuses($task['id']);
+                                     foreach (getTaskStatuses($task['id']) as $status) {
+                                         echo $status['status'];
+                                     }
 
                                      echo '" data-filter-marketer="';
 

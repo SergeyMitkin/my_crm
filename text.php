@@ -91,3 +91,32 @@ SELECT `status` from taskimplementstions where task_id = 323 AND user_id = 1 ord
 
 
 
+
+
+
+
+function getTaskStatuses($task_id){
+
+try {
+$q = "SELECT `status` from taskimplementations where task_id = " . $task_id . " AND marketer_id = 1 order by created_at desc limit 1";
+$sql = SQL::getInstance()->Select($q);
+}
+catch(PDOException $e){
+die("Error: ".$e->getMessage());
+}
+
+return $sql;
+}
+
+function getTaskMarketers($task_id){
+try {
+$q = "SELECT distinct marketer_id FROM taskimplementations WHERE task_id = " . $task_id;
+$sql = SQL::getInstance()->Select($q);
+}
+catch(PDOException $e){
+die("Error: ".$e->getMessage());
+}
+
+return $sql;
+}
+
