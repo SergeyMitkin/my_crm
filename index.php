@@ -369,7 +369,7 @@ if(!($db===false)){
             </div>
 
                 <div class="col-md-8" id="marketer-tasks-row">
-                    <?
+                    <?php
                     if (!empty($tasks)){
                         foreach($tasks as $task){
                             echo
