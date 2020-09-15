@@ -76,29 +76,7 @@ function getTasks() {
              var obj = jQuery.parseJSON(response); // Задачи
 
             // Выводим задачи на страницу
-            var d = document.getElementById("manager-task-row");
-            var s = document.createElement("span");
-            var d_t = document.createElement("div"); // div задачи
-
-            var d_b_e = document.createElement("div") // div с кнопаками редактирования
-            d_b_e.setAttribute("align", "right");
-            var b_e = document.createElement("button") // Кнопка "Редактировать"
-            b_e.classList = "btn btn-primary task-edit-button";
-            b_e.type = "button";
-            b_e.textContent = "Редактировать";
-            var b_d = document.createElement("button"); // Кнопка "Удалить"
-            b_d.classList = "btn btn-danger task-delete-button";
-            b_d.type = "button";
-            b_d.textContent = "Удалить";
-
-            d_b_e.appendChild(b_e);
-            d_b_e.appendChild(b_d);
-
-            d_t.appendChild(s);
-            d_t.appendChild(d_b_e);
-            d_t.classList="div-task-span col-md-12 imp-close";
-
-            s.classList="task-span col-md-6";
+            var elDivTaskRow = document.getElementById("manager-task-row");
 
             for (var i = 0; i < obj.length; i++) {
 
@@ -107,18 +85,30 @@ function getTasks() {
                 var type = obj[i]['type'];
                 var deadline = obj[i]['deadline'].substr(0, 10);
 
-                d_t.id="div-task-span_" + id;
-                d_t.setAttribute("data-filter-type", type);
-                d_t.setAttribute("data-filter-date", deadline);
+                elDivTaskRow.innerHTML += '<div id="div-task-span_' + id
+                + '" class="div-task-span imp-close col-md-12"'
+                + 'data-filter-type="' +  type
+                +'" data-filter-date="' + deadline
+                +'" data-filter-status=""'
+                + '" data-filter-marketer=""'
+                + '" data-filter-retailpoint=""'
+                + '">'
+                    + '<span id="task_span_' + id
+                    + '" class="task-span col-md-4" value="' + id
+                    + '">' + title
+                    + '</span>'
 
-                s.textContent=title;
-                s.id="task-span_" + id;
+                    + '<div id="task-edit-buttons_' + id
+                    + '" align="right">'
+                        + '<button type="button" class="btn btn-primary task-edit-button"'
+                        + ' id="edit-task-button_' + id
+                        + '">Редактировать</button>'
+                        + '<button type="button" class="btn btn-danger task-delete-button"'
+                        + ' id="delete-task-button_' + id
+                        + '">Удалить</button>'
+                    +'</div>'
+                +'</div>';
 
-                d_b_e.id="task-edit-buttons_" + id;
-                b_e.id="edit-task-button_" + id;
-                b_d.id="delete-task-button_" + id;
-
-                d.appendChild(d_t.cloneNode(true));
                 var data_status_string = getTaskStatuses(id);
                 var data_retailpoint_string = getSelectedRetailpoints(id);
                 var data_marketer_string = getSelectedMarketers(id);

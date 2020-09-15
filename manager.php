@@ -653,44 +653,7 @@ if(!($db===false)){
                 <div class="col-md-10" id="tasks-row">
                     <h4>Список задач: </h4>
                     <div id="manager-task-row">
-                        <?php
-                        if (!empty($tasks)){
-                            foreach($tasks as $task){
-
-                                echo '<div id="div-task-span_'. $task['id'] .'" class="div-task-span imp-close col-md-12"
-                                     data-filter-type="' . $task['type'] . '"
-                                     data-filter-date="' . substr($task['deadline'], 0, 10) . '"
-                                     data-filter-status="';
-
-                                     echo getTaskStatuses($task['id']);
-
-                                     echo '" data-filter-marketer="';
-
-                                     foreach (getSelectedMarketers($task['id']) as $marketer){
-                                         echo ' ' . $marketer['marketer_id'] . ' ';
-                                     }
-
-                                     echo '" data-filter-retailpoint="';
-
-                                     foreach (getSelectedRetailpoints($task['id']) as $retailpoint){
-                                         echo ' ' . $retailpoint['retailpoint_id'] . ' ';
-                                     }
-
-                                     echo '"> <span id="task_span_' . $task['id'] .
-                                     '" class="task-span col-md-4" value="' . $task['id'] .
-                                     '">' . $task['task_title'] . '</span>                          
-                                     <div id="task-edit-buttons_' . $task['id'] . '" align="right">
-                                        <button type="button" class="btn btn-primary task-edit-button"
-                                                id="edit-task-button_' . $task['id'] . '">Редактировать</button>
-                                        <button type="button" class="btn btn-danger task-delete-button"
-                                                id="delete-task-button_' . $task['id'] . '">Удалить</button>
-                                    </div>
-                                </div>';
-                                }
-                            }else{
-                            echo '';
-                            }
-                        ?>
+                        <!-- Задачи выводятся через ajax -->
                     </div>
                 </div>
             </div>
