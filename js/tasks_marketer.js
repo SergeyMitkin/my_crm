@@ -19,21 +19,20 @@ function getTasksByDate(task_date) {
             var obj = jQuery.parseJSON(response); // Задачи
 
             // Выводим задачи на страницу
-            var d = document.getElementById("marketer-tasks-row");
-            var s = document.createElement("span");
-            var d_t = document.createElement("div");
-
-            d_t.appendChild(s);
-            d_t.classList="div-task-span col-md-12 imp-close";
-            d_t.setAttribute("data-toggle", "modal");
-            d_t.setAttribute("data-target", "#taskModal");
-            s.classList="task-span col-md-6";
+            var elDivTaskRow = document.getElementById("marketer-tasks-row");
 
             for (var i = 0; i < obj.length; i++) {
-                d_t.id="div-task-span_" + obj[i]['id'];
-                s.textContent=obj[i]['task_title'];
-                s.id="task-span_" + obj[i]['id'];
-                d.appendChild(d_t.cloneNode(true));
+                var task_id = obj[i]['id'];
+                var task_title = obj[i]['task_title'];
+
+                elDivTaskRow.innerHTML += '<div id="div-task-span_' + task_id
+                + '" class="div-task-span col-md-12" '
+                + ' data-toggle="modal" data-target="#taskModal">'
+                    + '<span id="task-span_' + task_id
+                    + '" class="task-span col-md-6" value="' + task_id
+                    + '">' + task_title
+                    + '</span>'
+                + '</div>'
             }
         }
     })

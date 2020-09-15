@@ -90,4 +90,18 @@ SELECT `status` from taskimplementstions where task_id = 323 AND user_id = 1 ord
 (SELECT marketer_id FROM taskimplementations AS t GROUP BY marketer_id HAVING COUNT( marketer_id ) > 1)
 
 
-
+<?php
+if (!empty($tasks)){
+    foreach($tasks as $task){
+        echo
+            '<div id="div-task-span_'.$task['id'].'" class="div-task-span col-md-12"
+                                data-toggle="modal" data-target="#taskModal"
+                                >'.
+            '<span id="task-span_'.$task['id'].'" class="task-span col-md-6" value="'.$task['id'].'">'.$task['task_title'].'</span>' .
+            '</div>'
+        ;
+    }
+} else {
+    echo '';
+}
+?>
