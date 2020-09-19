@@ -87,9 +87,9 @@ function getTasks() {
 
                 elDivTaskRow.innerHTML += '<div id="div-task-span_' + id
                 + '" class="div-task-span imp-close col-md-12"'
-                + 'data-filter-type="' +  type
-                +'" data-filter-date="' + deadline
-                +'" data-filter-status=""'
+                + ' data-filter-type="' +  type
+                + '" data-filter-date="' + deadline
+                + '" data-filter-status=""'
                 + '" data-filter-marketer=""'
                 + '" data-filter-retailpoint=""'
                 + '">'

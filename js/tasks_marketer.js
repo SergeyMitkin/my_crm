@@ -1,3 +1,26 @@
+// Получаем статусы с именами исполнителей
+function getTaskStatusesWithMarketerNames(task_id) {
+
+    return jQuery.ajax({
+        type: "GET",
+        url: "tasks.php",
+        data: {
+            ajax: "getTaskStatusesWithMarketerNames",
+            task_id: task_id
+        },
+    })
+        .done(function (response) {
+            var obj = jQuery.parseJSON(response);
+
+            var olId = "task-marketer-statuses_" + task_id;
+
+            $.each(obj, function(index, value) {
+                $('#' + olId).append('<li>' + index + ': ' + value +
+                    '</li>')
+            });
+        })
+}
+
 // Получаем задачи по дате
 function getTasksByDate(task_date) {
 
@@ -24,16 +47,36 @@ function getTasksByDate(task_date) {
             for (var i = 0; i < obj.length; i++) {
                 var task_id = obj[i]['id'];
                 var task_title = obj[i]['task_title'];
+                var deadline = obj[i]['deadline'].substr(0, 10);
+                var type = obj[i]['type'];
 
                 elDivTaskRow.innerHTML += '<div id="div-task-span_' + task_id
-                + '" class="div-task-span col-md-12" '
+                + '" class="div-task-span col-md-12 task-marketer" '
                 + ' data-toggle="modal" data-target="#taskModal">'
                     + '<span id="task-span_' + task_id
                     + '" class="task-span col-md-6" value="' + task_id
                     + '">' + task_title
                     + '</span>'
+                    + '</br>'
+                    + '<span class="col-md-6">Тип: <span>' + type + '</span></span>'
+                    + '</br>'
+                    + '<p class="col-md-6">Статусы: </p>'
+                    + '<ol id="task-marketer-statuses_' + task_id + '"></ol>'
+                    + '<span class="col-md-6">Срок выполнения: <span>' + deadline + '</span></span>'
                 + '</div>'
+
+                // Выводим аткуальные статусы с именами исполнителей
+               var statuses = getTaskStatusesWithMarketerNames(task_id);
             }
+
+            // Прикрепляем функцию подстановки переменныхв модальное окно заадчи
+            var elTaskDiv = document.querySelectorAll(".div-task-span");
+            elTaskDiv.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                getTaskValues(elem.attributes["id"].value.split("_")[1])
+                })
+            })
+
         }
     })
 }

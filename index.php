@@ -406,12 +406,12 @@ if(!($db===false)){
                                 <input type="hidden" id="form-change-status-task_id" name="task_id" value="0">
 
                                 <div class="group">
-                                    <label for="task-modal-marketer-select">Выберете исполнителя</label>
+                                    <label for="task-modal-marketer-select">Выберите исполнителя</label>
                                     <select id="task-modal-marketer-select" name="task-modal-marketer-select"></select>
                                 </div>
 
                                 <div class="group">
-                                    <label for="task-modal-status-select">Выберете статус</label>
+                                    <label for="task-modal-status-select">Выберите статус</label>
                                     <select id="task-modal-status-select" name="task-modal-status-select"></select>
                                 </div>
 

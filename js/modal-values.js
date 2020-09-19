@@ -1,50 +1,38 @@
 // Выводим данные задачи в модальном окне
-$(document).ready(function () {
 
-    function getTaskValues(e) {
-        // Получаем id задачи из атрибута id
-        var task_id = e.target.id.split("_")[1];
+function getTaskValues(task_id) {
 
+    // Помещаем id задачи в скрытый элемент
+    var elTaskModalId = document.getElementById("task_modal_id");
+    elTaskModalId.textContent = task_id;
 
-        // Помещаем id задачи в скрытый элемент
-        var elTaskModalId = document.getElementById("task_modal_id");
-        elTaskModalId.textContent = task_id;
+    var elTaskChangeStatusId= document.getElementById("form-change-status-task_id");
+    elTaskChangeStatusId.value = task_id;
 
-        var elTaskChangeStatusId= document.getElementById("form-change-status-task_id");
-        elTaskChangeStatusId.value = task_id;
+    var url = "tasks.php";
+    var action = "getTask";
 
-        var url = "tasks.php";
-        var action = "getTask";
+    $.ajax({
+        url: url,
+        type: "GET",
+        data: {
+            ajax: action,
+            id: task_id,
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function (response) {
+            var obj = jQuery.parseJSON(response); // Данные задачи
 
-        $.ajax({
-            url: url,
-            type: "GET",
-            data: {
-                ajax: action,
-                id: task_id,
-            },
-            error: function () {
-                alert('Что-то пошло не так!');
-            },
-            success: function (response) {
-                var obj = jQuery.parseJSON(response); // Данные задачи
-                var task_title = obj[0][0]['task_title'];
-                var task_description = obj[0][0]['task_description'];
+            var task_title = obj[0][0]['task_title'];
+            var task_description = obj[0][0]['task_description'];
 
-                var elTaskModalTitle = document.getElementById("task-modal-title");
-                elTaskModalTitle.textContent = task_title;
+            var elTaskModalTitle = document.getElementById("task-modal-title");
+            elTaskModalTitle.textContent = task_title;
 
-                var elTaskModalDescription = document.getElementById("task-modal-description");
-                elTaskModalDescription.textContent = task_description;
-            }
-        });
-    }
-
-// Список задач
-    var taskRow = document.getElementById("marketer-tasks-row");
-
-// При клике на задачу, вызываем фукцию подставляющую переменные в модальное окно с карточкой задачи
-    taskRow.addEventListener('click', function (e) {
-        getTaskValues(e);
-    }, true);
-})
+            var elTaskModalDescription = document.getElementById("task-modal-description");
+            elTaskModalDescription.textContent = task_description;
+        }
+    });
+}

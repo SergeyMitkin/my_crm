@@ -28,6 +28,10 @@
     cursor: pointer;
     background-color: whitesmoke;
 }
+.task-marketer:hover{
+    cursor: pointer;
+    background-color: whitesmoke;
+}
 
 .div-edit-form, .edit-form{
     border: gray 1px solid;
