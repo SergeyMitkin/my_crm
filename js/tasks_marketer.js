@@ -1,3 +1,64 @@
+function changeStatusClarification(id) {
+
+    var action = "changeStatus";
+
+    var retailpoint_id = 80198; // Магазин по умолчанию
+
+    // Определяем исполнителя
+    var selectAssignedMarketer = document.getElementById("select-assigned-marketer_" + id);
+    console.log(selectAssignedMarketer);
+
+    var elSelectedMarketer = document.getElementById("select-assigned-marketer_" + id).options.selectedIndex;
+    var marketer_id = document.getElementById("select-assigned-marketer_" + id).options[elSelectedMarketer].value;
+
+    var status = 'clarification';
+
+    $.ajax({
+        url: 'tasks.php',
+        type: "POST",
+        data: {
+            ajax: action,
+            task_id: id,
+            marketer_id: marketer_id,
+            retailpoint_id: retailpoint_id,
+            status: status
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function () {
+        },
+        complete: function () {
+            alert("Статус задачи изменён");
+        }
+    })
+
+}
+
+function getAssignedMarketers(id) {
+
+    return jQuery.ajax({
+        type: "GET",
+        url: "tasks.php",
+        data: {
+            action: "ajax",
+            ajax: "getSelectedMarketerNames",
+            task_id: id
+        },
+    })
+        .done(function (response) {
+            var obj = jQuery.parseJSON(response);
+
+            var selectAssignedMarketer = document.getElementById("select-assigned-marketer_" + id);
+
+            for (i=0; i<obj.length; i++){
+
+                selectAssignedMarketer.innerHTML +=
+                    '<option value="' + obj[i]['marketer_id'] + '">' + obj[i]['name'] + '</option>'
+            }
+        })
+}
+
 // Получаем статусы с именами исполнителей
 function getTaskStatusesWithMarketerNames(task_id) {
 
@@ -51,7 +112,7 @@ function getTasksByDate(task_date) {
 
                 elDivTaskRow.innerHTML += '<div id="div-task-span_' + task_id
                 + '" class="div-task-span col-md-12 task-marketer" '
-                + ' data-toggle="modal" data-target="#taskModal">'
+                //+ ' data-toggle="modal" data-target="#taskModal">'
                     + '<span id="task-span_' + task_id
                     + '" class="task-span col-md-6" value="' + task_id
                     + '">' + task_title
@@ -61,18 +122,33 @@ function getTasksByDate(task_date) {
                     + '</br>'
                     + '<p class="col-md-6">Статусы: </p>'
                     + '<ol id="task-marketer-statuses_' + task_id + '"></ol>'
-                    + '<span class="col-md-6">Срок выполнения: <span>' + deadline + '</span></span>'
+                    + '<span class="col-md-12">Срок выполнения: <span>' + deadline + '</span></span>'
+                    + '<div class="change-status-div col-md-12">'
+                        + '<select id="select-assigned-marketer_' + task_id + '" class="choose-assigned-marketer"></select>'
+                        + '<button id="clarification-button_' + task_id + '" class="btn btn-warning clarification-button">Требует пояснения</button>'
+                    + '</div>'
                 + '</div>'
 
+                // Помещаем в select назначенных исполнителей
+                var assigned_marketers = getAssignedMarketers(task_id);
+
                 // Выводим аткуальные статусы с именами исполнителей
-               var statuses = getTaskStatusesWithMarketerNames(task_id);
+                var statuses = getTaskStatusesWithMarketerNames(task_id);
             }
 
-            // Прикрепляем функцию подстановки переменныхв модальное окно заадчи
+            // Прикрепляем функцию подстановки переменных в модальное окно заадчи
             var elTaskDiv = document.querySelectorAll(".div-task-span");
             elTaskDiv.forEach( elem => {
                 elem.addEventListener('click', event =>{
                 getTaskValues(elem.attributes["id"].value.split("_")[1])
+                })
+            })
+
+            // Прикрепляем функцию изменения статуса на "Требует пояснения"
+            var elClarificationButton = document.querySelectorAll(".clarification-button");
+            elClarificationButton.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                changeStatusClarification(elem.attributes["id"].value.split("_")[1])
                 })
             })
 

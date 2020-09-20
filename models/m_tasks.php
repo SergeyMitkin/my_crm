@@ -312,7 +312,7 @@ function getTaskStatuses($task_id){
 function getSelectedMarketerNames($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT `name` FROM task_marketers 
+        $q = "SELECT marketer_id, `name` FROM task_marketers 
               LEFT JOIN marketers ON task_marketers.marketer_id = marketers.id 
               WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q);
@@ -325,7 +325,7 @@ function getSelectedMarketerNames($task_id){
 function getSelectedRetailpointNames($task_id){
     try {
         // Подготовленное выражение
-        $q = "SELECT `name` FROM task_retailpoints 
+        $q = "SELECT retailpoint_id, `name` FROM task_retailpoints 
               LEFT JOIN retailpoints ON task_retailpoints.retailpoint_id = retailpoints.id 
               WHERE task_id = " . $task_id;
         $sql = SQL::getInstance()->Select($q);

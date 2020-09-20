@@ -28,7 +28,13 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
     $task_id = $_POST['task_id'];
     $marketer_id = $_POST['marketer_id'];
     $retailpoint_id = $_POST['retailpoint_id'];
-    $status = $_POST['status'];
+    $status_value = $_POST['status'];
+
+    switch ($status_value){
+        case 'clarification':
+            $status = 'Требует пояснения';
+            break;
+    }
 
     echo json_encode(setImplementation($task_id, $marketer_id, $retailpoint_id, $status));
 }
