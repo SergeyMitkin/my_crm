@@ -123,6 +123,16 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatuses'){
     echo json_encode($statuses);
 }
 
+
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedRetailpointNames'){
+    $task_id = $_GET['task_id'];
+
+    $retailpoint_names = getSelectedRetailpointNames($task_id);
+
+    echo json_encode($retailpoint_names);
+}
+
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedRetailpoints'){
     $task_id = $_GET['task_id'];
     $is_ajax = $_GET['action'];

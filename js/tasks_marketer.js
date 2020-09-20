@@ -11,7 +11,6 @@ function getTaskStatusesWithMarketerNames(task_id) {
     })
         .done(function (response) {
             var obj = jQuery.parseJSON(response);
-
             var olId = "task-marketer-statuses_" + task_id;
 
             $.each(obj, function(index, value) {

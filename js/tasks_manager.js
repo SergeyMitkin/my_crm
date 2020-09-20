@@ -18,7 +18,33 @@ function getTaskStatuses(id) {
         })
 }
 
+function getSelectedRetailpointNames(id) {
+
+    return jQuery.ajax({
+        type: "GET",
+        url: "tasks.php",
+        data: {
+            action: "ajax",
+            ajax: "getSelectedRetailpointNames",
+            task_id: id
+        },
+    })
+        .done(function (response) {
+            var obj = jQuery.parseJSON(response);
+
+            var elSpanRetailpointNames = document.getElementById("selected-retailpoint-names_" + id);
+
+            var retailpointNameString = '';
+            for (i=0; i<obj.length; i++){
+                retailpointNameString +=  ' ' + obj[i]['name'] + ',';
+            }
+
+            elSpanRetailpointNames.innerText = retailpointNameString.substring(0, retailpointNameString.length - 1);
+        })
+}
+
 function getSelectedRetailpoints(id) {
+
     return jQuery.ajax({
         type: "GET",
         url: "tasks.php",
@@ -97,7 +123,12 @@ function getTasks() {
                     + '" class="task-span col-md-4" value="' + id
                     + '">' + title
                     + '</span>'
-
+                    + '</br>'
+                    + '<span class="col-md-6">Тип: <span>' + type + '</span></span>'
+                    + '</br>'
+                    + '<p class="col-md-8">Магазины: <span id="selected-retailpoint-names_' + id + '"></span></p>'
+                    + '</br>'
+                    + '<span class="col-md-6">Срок выполнения: <span>' + deadline + '</span></span>'
                     + '<div id="task-edit-buttons_' + id
                     + '" align="right">'
                         + '<button type="button" class="btn btn-primary task-edit-button"'
@@ -108,6 +139,8 @@ function getTasks() {
                         + '">Удалить</button>'
                     +'</div>'
                 +'</div>';
+
+                var selectedRetailpointNames = getSelectedRetailpointNames(id);
 
                 var data_status_string = getTaskStatuses(id);
                 var data_retailpoint_string = getSelectedRetailpoints(id);

@@ -309,6 +309,19 @@ function getTaskStatuses($task_id){
     return $data_status_string;
 }
 
+function getSelectedRetailpointNames($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT `name` FROM task_retailpoints 
+              LEFT JOIN retailpoints ON task_retailpoints.retailpoint_id = retailpoints.id 
+              WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
 // Функция выбора магазинов задачи
 function getSelectedRetailpoints($task_id, $is_ajax = ''){
 
