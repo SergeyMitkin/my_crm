@@ -123,7 +123,13 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatuses'){
     echo json_encode($statuses);
 }
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedMarketerNames'){
+    $task_id = $_GET['task_id'];
 
+    $marketer_names = getSelectedMarketerNames($task_id);
+
+    echo json_encode($marketer_names);
+}
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedRetailpointNames'){
     $task_id = $_GET['task_id'];

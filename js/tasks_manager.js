@@ -43,6 +43,31 @@ function getSelectedRetailpointNames(id) {
         })
 }
 
+function getSelectedMarketerNames(id) {
+
+    return jQuery.ajax({
+        type: "GET",
+        url: "tasks.php",
+        data: {
+            action: "ajax",
+            ajax: "getSelectedMarketerNames",
+            task_id: id
+        },
+    })
+        .done(function (response) {
+            var obj = jQuery.parseJSON(response);
+
+            var elSpanMarketerNames = document.getElementById("selected-marketer-names_" + id);
+
+            var marketerNameString = '';
+            for (i=0; i<obj.length; i++){
+                marketerNameString +=  ' ' + obj[i]['name'] + ',';
+            }
+
+            elSpanMarketerNames.innerText = marketerNameString.substring(0, marketerNameString.length - 1);
+        })
+}
+
 function getSelectedRetailpoints(id) {
 
     return jQuery.ajax({
@@ -126,10 +151,12 @@ function getTasks() {
                     + '</br>'
                     + '<span class="col-md-6">Тип: <span>' + type + '</span></span>'
                     + '</br>'
-                    + '<p class="col-md-8">Магазины: <span id="selected-retailpoint-names_' + id + '"></span></p>'
+                    + '<p class="col-md-12">Исполнители: <span id="selected-marketer-names_' + id + '"></span></p>'
+                    + '</br>'
+                    + '<p class="col-md-12">Магазины: <span id="selected-retailpoint-names_' + id + '"></span></p>'
                     + '</br>'
                     + '<span class="col-md-6">Срок выполнения: <span>' + deadline + '</span></span>'
-                    + '<div id="task-edit-buttons_' + id
+                    + '<div class="col-md-12" id="task-edit-buttons_' + id
                     + '" align="right">'
                         + '<button type="button" class="btn btn-primary task-edit-button"'
                         + ' id="edit-task-button_' + id
@@ -141,6 +168,7 @@ function getTasks() {
                 +'</div>';
 
                 var selectedRetailpointNames = getSelectedRetailpointNames(id);
+                var selectedMarketerNames = getSelectedMarketerNames(id);
 
                 var data_status_string = getTaskStatuses(id);
                 var data_retailpoint_string = getSelectedRetailpoints(id);

@@ -309,6 +309,19 @@ function getTaskStatuses($task_id){
     return $data_status_string;
 }
 
+function getSelectedMarketerNames($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT `name` FROM task_marketers 
+              LEFT JOIN marketers ON task_marketers.marketer_id = marketers.id 
+              WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
 function getSelectedRetailpointNames($task_id){
     try {
         // Подготовленное выражение
