@@ -57,6 +57,20 @@
     text-decoration: underline;
 }
 
+.choose-assigned-marketer{
+    height: 35px;
+    border-radius: 0px;
+    border: 1px solid gray;
+}
+
+.clarification-button{
+    margin-left: 20px;
+}
+
+.accepted-button, .completed-button{
+    margin-left: 5px;
+}
+
 .task-filters{
     margin-top: 20px;
 }

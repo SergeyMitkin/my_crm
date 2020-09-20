@@ -1,3 +1,36 @@
+function changeStatusCompleted(id) {
+
+    var action = "changeStatus";
+
+    var retailpoint_id = 80198; // Магазин по умолчанию
+
+    // Определяем исполнителя
+    var elSelectedMarketer = document.getElementById("select-assigned-marketer_" + id).options.selectedIndex;
+    var marketer_id = document.getElementById("select-assigned-marketer_" + id).options[elSelectedMarketer].value;
+
+    var status = 'completed';
+
+    $.ajax({
+        url: 'tasks.php',
+        type: "POST",
+        data: {
+            ajax: action,
+            task_id: id,
+            marketer_id: marketer_id,
+            retailpoint_id: retailpoint_id,
+            status: status
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function () {
+        },
+        complete: function () {
+            alert("Статус задачи изменён");
+        }
+    })
+}
+
 function changeStatusClarification(id) {
 
     var action = "changeStatus";
@@ -5,13 +38,43 @@ function changeStatusClarification(id) {
     var retailpoint_id = 80198; // Магазин по умолчанию
 
     // Определяем исполнителя
-    var selectAssignedMarketer = document.getElementById("select-assigned-marketer_" + id);
-    console.log(selectAssignedMarketer);
-
     var elSelectedMarketer = document.getElementById("select-assigned-marketer_" + id).options.selectedIndex;
     var marketer_id = document.getElementById("select-assigned-marketer_" + id).options[elSelectedMarketer].value;
 
     var status = 'clarification';
+
+    $.ajax({
+        url: 'tasks.php',
+        type: "POST",
+        data: {
+            ajax: action,
+            task_id: id,
+            marketer_id: marketer_id,
+            retailpoint_id: retailpoint_id,
+            status: status
+        },
+        error: function () {
+            alert('Что-то пошло не так!');
+        },
+        success: function () {
+        },
+        complete: function () {
+            alert("Статус задачи изменён");
+        }
+    })
+}
+
+function changeStatusAccepted(id) {
+
+    var action = "changeStatus";
+
+    var retailpoint_id = 80198; // Магазин по умолчанию
+
+    // Определяем исполнителя
+    var elSelectedMarketer = document.getElementById("select-assigned-marketer_" + id).options.selectedIndex;
+    var marketer_id = document.getElementById("select-assigned-marketer_" + id).options[elSelectedMarketer].value;
+
+    var status = 'accepted';
 
     $.ajax({
         url: 'tasks.php',
@@ -42,7 +105,7 @@ function getAssignedMarketers(id) {
         url: "tasks.php",
         data: {
             action: "ajax",
-            ajax: "getSelectedMarketerNames",
+            ajax: "getAssignedMarketers",
             task_id: id
         },
     })
@@ -52,9 +115,8 @@ function getAssignedMarketers(id) {
             var selectAssignedMarketer = document.getElementById("select-assigned-marketer_" + id);
 
             for (i=0; i<obj.length; i++){
-
                 selectAssignedMarketer.innerHTML +=
-                    '<option value="' + obj[i]['marketer_id'] + '">' + obj[i]['name'] + '</option>'
+                '<option value="' + obj[i]['id'] + '">' + obj[i]['name'] + '</option>'
             }
         })
 }
@@ -114,18 +176,22 @@ function getTasksByDate(task_date) {
                 + '" class="div-task-span col-md-12 task-marketer" '
                 //+ ' data-toggle="modal" data-target="#taskModal">'
                     + '<span id="task-span_' + task_id
-                    + '" class="task-span col-md-6" value="' + task_id
+                    + '" class="task-span col-md-12" value="' + task_id
                     + '">' + task_title
                     + '</span>'
                     + '</br>'
-                    + '<span class="col-md-6">Тип: <span>' + type + '</span></span>'
+                    + '<span class="col-md-12">Тип: <span>' + type + '</span></span>'
                     + '</br>'
-                    + '<p class="col-md-6">Статусы: </p>'
+                    + '<p class="col-md-12">Статусы: </p>'
                     + '<ol id="task-marketer-statuses_' + task_id + '"></ol>'
                     + '<span class="col-md-12">Срок выполнения: <span>' + deadline + '</span></span>'
+                    + '</br></br>'
                     + '<div class="change-status-div col-md-12">'
+                        + '<p>Изменить статус</p>'
                         + '<select id="select-assigned-marketer_' + task_id + '" class="choose-assigned-marketer"></select>'
                         + '<button id="clarification-button_' + task_id + '" class="btn btn-warning clarification-button">Требует пояснения</button>'
+                        + '<button id="accepted-button_' + task_id + '" class="btn btn-primary accepted-button">Принята</button>'
+                        + '<button id="completed-button_' + task_id + '" class="btn btn-success completed-button">Выполнена</button>'
                     + '</div>'
                 + '</div>'
 
@@ -152,6 +218,21 @@ function getTasksByDate(task_date) {
                 })
             })
 
+            // Прикрепляем функцию изменения статуса на "Принята"
+            var elAcceptedButton = document.querySelectorAll(".accepted-button");
+            elAcceptedButton.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                changeStatusAccepted(elem.attributes["id"].value.split("_")[1])
+                })
+            })
+
+            // Прикрепляем функцию изменения статуса на "Выполнена"
+            var elAcceptedButton = document.querySelectorAll(".completed-button");
+            elAcceptedButton.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                changeStatusCompleted(elem.attributes["id"].value.split("_")[1])
+                })
+            })
         }
     })
 }

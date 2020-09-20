@@ -195,13 +195,10 @@ function getTasks() {
             var elTaskDiv = document.querySelectorAll(".div-task-span");
             elTaskDiv.forEach( elem => {
                 elem.addEventListener('click', event =>{
-
                     if (!event.currentTarget.classList.contains("imp-open")) {
-                        // Список не выводится, если кликнули на кнопку или на P
+                        // Список не выводится, если кликнули на кнопку
                         if (event.target.tagName !== "BUTTON") {
-                            if (event.target.tagName !== "P") {
-                                implementationList(elem.attributes["id"].value.split("_")[1]);
-                            }
+                            implementationList(elem.attributes["id"].value.split("_")[1]);
                         }
                     }
                 })

@@ -34,6 +34,14 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
         case 'clarification':
             $status = 'Требует пояснения';
             break;
+
+        case 'accepted':
+            $status = 'Принята';
+            break;
+
+        case 'completed':
+            $status = 'Выполнена';
+            break;
     }
 
     echo json_encode(setImplementation($task_id, $marketer_id, $retailpoint_id, $status));
@@ -127,6 +135,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatuses'){
     $statuses = getTaskStatuses($task_id);
 
     echo json_encode($statuses);
+}
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'getAssignedMarketers'){
+    $task_id = $_GET['task_id'];
+
+    $assigned_marketers = getAssignedMarketers($task_id);
+
+    echo json_encode($assigned_marketers);
 }
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getSelectedMarketerNames'){

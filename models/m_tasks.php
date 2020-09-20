@@ -309,6 +309,33 @@ function getTaskStatuses($task_id){
     return $data_status_string;
 }
 
+// Получаем назначенных пользователей, кроме тех у кого статус задачи "Выполнена"
+function getAssignedMarketers($task_id){
+    try {
+        // Подготовленное выражение
+        $q = "SELECT id, `name` FROM marketers WHERE id IN 
+              (SELECT DISTINCT taskimplementations.marketer_id 
+              FROM task_marketers
+              LEFT JOIN taskimplementations ON task_marketers.task_id = taskimplementations.task_id
+              WHERE task_marketers.task_id = " . $task_id . " 
+              AND taskimplementations.marketer_id NOT IN 
+              (SELECT DISTINCT taskimplementations.marketer_id 
+              FROM task_marketers
+              LEFT JOIN taskimplementations ON task_marketers.task_id = taskimplementations.task_id
+              WHERE task_marketers.task_id = " . $task_id . " AND `status` = 'Выполнена')
+              UNION
+              SELECT DISTINCT marketer_id FROM task_marketers WHERE task_id = " . $task_id . " 
+              AND marketer_id NOT IN (SELECT DISTINCT taskimplementations.marketer_id 
+              FROM task_marketers
+              LEFT JOIN taskimplementations ON task_marketers.task_id = taskimplementations.task_id
+              WHERE task_marketers.task_id = " . $task_id . " AND `status` = 'Выполнена'))";
+        $sql = SQL::getInstance()->Select($q);
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+    return $sql;
+}
+
 function getSelectedMarketerNames($task_id){
     try {
         // Подготовленное выражение
