@@ -71,6 +71,30 @@
     margin-left: 5px;
 }
 
+.implementation-new{
+    background-color: pink;
+}
+
+.implementation-clarification{
+    background-color: #ffff7a;
+}
+
+.implementation-accepted{
+    background-color: lightblue;
+}
+
+.implementation-completed{
+    background-color: lightgreen;
+}
+
+.task-completed{
+    background-color: lightgreen;
+}
+
+.task-completed:hover{
+    background-color: #00db6a;
+}
+
 .task-filters{
     margin-top: 20px;
 }
@@ -101,6 +125,10 @@
 .nav-date-pagination{
     margin-top: -20px;
     margin-bottom: -15px;
+}
+
+.lightgreen-hover:hover{
+    background-color: lightgreen;
 }
 
 

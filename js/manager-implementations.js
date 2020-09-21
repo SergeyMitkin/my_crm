@@ -64,7 +64,28 @@ function implementationList(task_id){
                         var li = '';
                         // Помещаем в <li> реализации
                         for (var i = 0; i < obj.length; i++) {
-                            li += '<li class="col-md-12 implementation-li" id="implementation-li_' + + obj[i]['id'] + '">' +
+
+                            var status_colour = '';
+
+                            switch (obj[i]['status']) {
+
+                                case 'Новая':
+                                    status_colour = 'implementation-new';
+                                    break;
+
+                                case 'Требует пояснения':
+                                    status_colour = 'implementation-clarification';
+                                    break;
+
+                                case 'Принята':
+                                    status_colour = 'implementation-accepted';
+                                    break;
+
+                                case 'Выполнена':
+                                    status_colour = 'implementation-completed';
+                            }
+
+                            li += '<li class="col-md-12 implementation-li '+ status_colour +'" id="implementation-li_' + + obj[i]['id'] + '">' +
                                 'Магазин: ' + obj[i]['retailpoint_name'] + '</br>' +
                                 'Исполнитель: ' +obj[i]['marketer_name'] + '</br>' +
                                 'Статус: ' + obj[i]['status'] + '</br>' +
@@ -104,17 +125,19 @@ function implementationList(task_id){
                             // Очищаем div со списком реализаций
                             elDivImplementations.classList.add("hide");
                             elTaskDiv.classList.remove("imp-open");
+                            elTaskDiv.classList.remove("lightgreen-hover");
                             elTaskDiv.classList.add("imp-close");
                         })
                     }
                 })
-
-
             }
         },
     });
 
     elTaskDiv.classList.remove("imp-close");
+    if (elTaskDiv.classList.contains("task-completed")){
+        elTaskDiv.classList.add("lightgreen-hover");
+    }
 }
 
 // Менеджер подтверждает выполнение задачи

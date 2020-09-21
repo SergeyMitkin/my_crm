@@ -252,6 +252,27 @@ function deleteTask($id){
     return $response;
 }
 
+function isCompleted($task_id){
+
+    try {
+        $q = "SELECT `status` FROM taskimplementations 
+              WHERE task_id = " . $task_id;
+        $sql = SQL::getInstance()->Select($q);
+    }
+    catch(PDOException $e){
+        die("Error: ".$e->getMessage());
+    }
+
+    for ($i=0; $i<count($sql); $i++){
+        if ($sql[$i]['status'] !== 'Выполнена'){
+            return false;
+        }
+    }
+
+    //return $sql;
+    return true;
+}
+
 function getTaskStatusesWithMarketerNames($task_id){
 
     try {
@@ -401,7 +422,6 @@ function getSelectedMarketers($task_id, $is_ajax = ''){
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
-
 
     // Если запрос пришёл через ajax, возвращаем строку с id исполнителей
     if ($is_ajax == 'ajax'){

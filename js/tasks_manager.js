@@ -1,3 +1,24 @@
+// Узнаём если все реализации выполнены
+function isCompleted(id) {
+
+    return jQuery.ajax({
+        type: "GET",
+        url: "tasks.php",
+        data: {
+            ajax: "isCompleted",
+            task_id: id
+        },
+    })
+        .done(function (response) {
+            var obj = jQuery.parseJSON(response);
+
+            if (obj == 'Выполнена'){
+                var d_t = document.getElementById("div-task-span_" + id);
+                d_t.classList.add('task-completed');
+            }
+        })
+}
+
 // Получаем статусы задачи
 function getTaskStatuses(id) {
 
@@ -173,6 +194,8 @@ function getTasks() {
                 var data_status_string = getTaskStatuses(id);
                 var data_retailpoint_string = getSelectedRetailpoints(id);
                 var data_marketer_string = getSelectedMarketers(id);
+
+                var is_completed = isCompleted(id);
             }
 
             // Прикрепляем функцию редактирования
@@ -209,9 +232,6 @@ function getTasks() {
 
 $(document).ready(function () {
     $("#href-tab-4").on('click', function () {
-
-        $("#manager-task-row").empty(); // Очищаем div с задачами
-
         getTasks();
     })
 })

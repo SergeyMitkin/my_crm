@@ -130,6 +130,13 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatusesWithMarketerNames')
     echo json_encode($statuses);
 }
 
+if (isset($_GET['ajax']) && $_GET['ajax'] == 'isCompleted'){
+    $task_id = $_GET['task_id'];
+    $is_completed = getTaskStatuses($task_id);
+
+    echo json_encode($is_completed);
+}
+
 if (isset($_GET['ajax']) && $_GET['ajax'] == 'getTaskStatuses'){
     $task_id = $_GET['task_id'];
     $statuses = getTaskStatuses($task_id);
