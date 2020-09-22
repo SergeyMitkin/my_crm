@@ -4,6 +4,11 @@ function implementationList(task_id){
     var div_task_span_id = "div-task-span_" + task_id;
     var elTaskDiv = document.getElementById(div_task_span_id);
 
+    var elTaskEditButton = document.getElementById("edit-task-button_" + task_id);
+    elTaskEditButton.setAttribute("disabled", "");
+    var elTaskDeleteButton = document.getElementById("delete-task-button_" + task_id);
+    elTaskDeleteButton.setAttribute("disabled", "");
+
    var elDivImplementations = document.getElementById("div-implementations_" + task_id);
    if (elDivImplementations !== null) {
        elDivImplementations.classList.remove("hide");
@@ -127,6 +132,18 @@ function implementationList(task_id){
                             elTaskDiv.classList.remove("imp-open");
                             elTaskDiv.classList.remove("lightgreen-hover");
                             elTaskDiv.classList.add("imp-close");
+
+                            var elEditButton = document.getElementById("edit-task-button_" + task_id);
+                            elEditButton.removeAttribute("disabled");
+                            elEditButton.addEventListener('click', event =>{
+                                taskEdit(task_id)
+                            })
+
+                            var elDeleteButton = document.getElementById("delete-task-button_" + task_id);
+                            elDeleteButton.removeAttribute('disabled');
+                            elDeleteButton.addEventListener('click', event =>{
+                                taskDelete(task_id)
+                            })
                         })
                     }
                 })

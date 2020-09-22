@@ -535,7 +535,7 @@ if(!($db===false)){
 
                         <div class="col-md-11 form-group" id="group-for-select-retailpoint">
                             <label for="retailpoint">Выберите магазин</label>
-                            <select required multiple class="form-control mul-select" name="retailpoint[]" id="select-retailpoint">
+                            <select required multiple class="form-control mul-select" id="select-retailpoint">
                                 <?php
                                 foreach ($retailpoint_data as $retailpoint) {
                                     echo '<option class="selected-ratailpoints" value="' . $retailpoint['id'] . '">'
@@ -565,9 +565,9 @@ if(!($db===false)){
                                       placeholder="Описание задачи"></textarea>
                         </div>
 
-                        <div id="crete-form-footer" class="col-md-2 ">
-                            <button id="task-create-post" class="btn btn-success">Отправить</button>
-                            <p class="p-close" id="p-close-create-form">Скрыть</p>
+                        <div id="crete-form-footer" class="col-md-12">
+                            <button id="task-create-post" class="btn btn-success task-edit-button">Отправить</button>
+                            <button type="button" class="btn btn-secondary close-button b-close" id="b-close-create-form_0">Скрыть</button>
                         </div>
                     </form>
                 </div>

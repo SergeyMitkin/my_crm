@@ -1,6 +1,9 @@
 // Функция редактирования задачи
 function taskEdit(id){
 
+    var elButtonClose = document.querySelector(".close-button");
+    elButtonClose.setAttribute("id", "b-close-create-form_" + id);
+
     var elTypeSelect = document.getElementById("task-type-select");
     var type_options = '<option class="task-type-option" value="type_1">type 1</option>\n' +
         '<option class="task-type-option" value="type_2">type 2</option>\n' +
@@ -53,24 +56,25 @@ function taskEdit(id){
             var marketers_data = obj[3]; // Все исполнители
             var selected_marketers = obj[4]; // Выбранные исполнители
 
+            console.log(obj[2]);
+
             // Помещаем в <select> <option> c данными магазинов
             var s = document.getElementById("select-retailpoint");
-            var o = document.createElement("option");
+
             for (var i = 0; i < retailpoint_data.length; i++) {
-                o.classList="selected-retailpoints";
-                o.value=retailpoint_data[i]['id'];
-                o.textContent=retailpoint_data[i]['name'];
-                s.appendChild(o.cloneNode(true));
+                s.innerHTML +=
+                    '<option class="selected-retailpoints" value="' + retailpoint_data[i]['id'] + '">'
+                    + retailpoint_data[i]['name'] + '</option>'
             }
 
             // Помещаем в <select> <option> c данными исполнителей
             var s_m = document.getElementById("select-marketer");
-            var o_m = document.createElement("option");
             for (var i = 0; i < marketers_data.length; i++) {
-                o_m.classList="selected-marketers";
-                o_m.value=marketers_data[i]['id'];
-                o_m.textContent=marketers_data[i]['name'];
-                s_m.appendChild(o_m.cloneNode(true));
+
+                s_m.innerHTML +=
+                    '<option class="selected-marketers" value="' + marketers_data[i]['id'] + '">' +
+                        marketers_data[i]['name']+
+                    '</option>>'
             }
 
             // Заполняем значения по умолчанию в полях формы
@@ -98,14 +102,14 @@ function taskEdit(id){
     })
 }
 
-// Редактируем задачу
-$(".task-edit-button").on('click', function () {
-
-    var task_id = this.id.split('_')[1]; // Получаем id задачи из атрибута id кнопки
-    taskEdit(task_id);
-})
-
 // Скрываем форму создания или редактирования
-$("#p-close-create-form").on("click", function () {
+$(".close-button").on("click", function () {
+
+    var elDivTaskSpan = document.getElementById("div-task-span_" + this.id.split("_", 2)[1]);
+    if (elDivTaskSpan.classList.contains("imp-open")){
+        elDivTaskSpan.classList.add("imp-close");
+        elDivTaskSpan.classList.remove("imp-open");
+    }
+
     $("#div-task-create-form").attr("hidden", "");
 })

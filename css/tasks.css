@@ -6,7 +6,7 @@
     width: 300px !important;
 }
 
-.task-span, .task-edit-buttons, .task-edit-button, .task-delete-button{
+.task-span, .task-edit-buttons, .task-edit-button, .task-delete-button, .close-button{
     display: inline-block;
 }
 .task-edit-button{
@@ -92,7 +92,7 @@
 }
 
 .task-completed:hover{
-    background-color: #00db6a;
+    background-color: #5fd07f;
 }
 
 .task-filters{
