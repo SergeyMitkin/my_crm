@@ -28,6 +28,16 @@
     cursor: pointer;
     background-color: whitesmoke;
 }
+
+.task-completed{
+    background-color: lightgreen;
+}
+
+.task-completed:hover{
+    background-color: #5fd07f;
+}
+
+
 .task-marketer:hover{
     cursor: pointer;
     background-color: whitesmoke;
@@ -85,14 +95,6 @@
 
 .implementation-completed{
     background-color: lightgreen;
-}
-
-.task-completed{
-    background-color: lightgreen;
-}
-
-.task-completed:hover{
-    background-color: #5fd07f;
 }
 
 .task-filters{

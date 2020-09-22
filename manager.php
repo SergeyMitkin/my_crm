@@ -546,9 +546,9 @@ if(!($db===false)){
                             <input type="checkbox" id="checkbox-retailpoint"> Выбрать все
                         </div>
 
-                        <div class="form-group col-md-11">
+                        <div class="form-group col-md-11" id="group-for-select-marketer">
                             <label for="marketer">Выберите исполнителя</label>
-                            <select required multiple="multiple" name="marketer[]" id="select-marketer" class="mul-select">
+                            <select required multiple="multiple" id="select-marketer" class="mul-select">
                                 <?php
                                 foreach ($marketer_data as $marketer) {
                                     echo '<option class="selected-marketers" value="' . $marketer['id'] . '">'
