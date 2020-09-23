@@ -24,6 +24,9 @@ function changeStatusCompleted(id) {
             alert('Что-то пошло не так!');
         },
         success: function () {
+            var statuses = getTaskStatusesWithMarketerNames(id);
+            $("#select-assigned-marketer_" + id).empty();
+            var assigned_marketers = getAssignedMarketers(id);
         },
         complete: function () {
             alert("Статус задачи изменён");
@@ -57,6 +60,7 @@ function changeStatusClarification(id) {
             alert('Что-то пошло не так!');
         },
         success: function () {
+           var statuses = getTaskStatusesWithMarketerNames(id);
         },
         complete: function () {
             alert("Статус задачи изменён");
@@ -90,6 +94,7 @@ function changeStatusAccepted(id) {
             alert('Что-то пошло не так!');
         },
         success: function () {
+            var statuses = getTaskStatusesWithMarketerNames(id);
         },
         complete: function () {
             alert("Статус задачи изменён");
@@ -135,11 +140,15 @@ function getTaskStatusesWithMarketerNames(task_id) {
         .done(function (response) {
             var obj = jQuery.parseJSON(response);
             var olId = "task-marketer-statuses_" + task_id;
+            var elOl = document.getElementById(olId);
+            elOl.innerHTML = "";
 
-            $.each(obj, function(index, value) {
-                $('#' + olId).append('<li>' + index + ': ' + value +
-                    '</li>')
-            });
+            if (obj !== null){
+                $.each(obj, function(index, value) {
+                    $('#' + olId).append('<li>' + index + ': ' + value +
+                        '</li>')
+                });
+            }
         })
 }
 

@@ -129,28 +129,34 @@ $(document).ready(function() {
 
                     var is_completed = isCompleted(task_id);
 
-                    // Прикрепляем к кнопке функцию редактирования
-                    var elLastTaskEditButton = document.getElementById("edit-task-button_" + task_id);
-                    addEvent(elLastTaskEditButton, 'click', function (e) {
-                        //var task_id = obj['id'];
-                        taskEdit(task_id);
+
+                    // Прикрепляем функцию редактирования
+                    var elEditButtons = document.querySelectorAll(".task-edit-button");
+                    elEditButtons.forEach( elem => {
+                        elem.addEventListener('click', event =>{
+                        taskEdit(elem.attributes["id"].value.split("_")[1])
+                        })
                     })
 
-                    // Прикрепляем к кнопке функцию удаления
-                    var elLastTaskDeleteButton = document.getElementById("delete-task-button_" + task_id);
-                    addEvent(elLastTaskDeleteButton, 'click', function (e) {
-                        //var task_id = obj['id'];
-                        taskDelete(task_id);
+                    // Прикрепляем функцию удаления
+                    var elDeleteButtons = document.querySelectorAll(".task-delete-button");
+                    elDeleteButtons.forEach( elem => {
+                        elem.addEventListener('click', event =>{
+                        taskDelete(elem.attributes["id"].value.split("_")[1])
+                        })
                     })
 
-                    // По клику на задачу, выводим статистику
-                    var elLastTaskDiv = document.getElementById("div-task-span_" + task_id);
-                    elLastTaskDiv.addEventListener("click", function () {
+                    // Прикрепляем функцию вывода списка реализаций
+                    var elTaskDiv = document.querySelectorAll(".div-task-span");
+                    elTaskDiv.forEach( elem => {
+                        elem.addEventListener('click', event =>{
                         if (!event.currentTarget.classList.contains("imp-open")) {
+                            // Список не выводится, если кликнули на кнопку
                             if (event.target.tagName !== "BUTTON") {
-                                implementationList(task_id);
+                                implementationList(elem.attributes["id"].value.split("_")[1]);
+                                }
                             }
-                        }
+                        })
                     })
                 }
             },

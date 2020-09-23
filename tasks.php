@@ -27,6 +27,7 @@ if (isset($_POST['ajax']) && $_POST['ajax'] == 'taskCreate'){
 if (isset($_POST['ajax']) && $_POST['ajax'] == 'changeStatus'){
     $task_id = $_POST['task_id'];
     $marketer_id = $_POST['marketer_id'];
+    $marketer_name = $_POST['marketer_name'];
     $retailpoint_id = $_POST['retailpoint_id'];
     $status_value = $_POST['status'];
 

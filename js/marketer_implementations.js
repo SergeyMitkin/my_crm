@@ -54,6 +54,7 @@ $(document).ready(function() {
         // Определяем исполнителя
         var elSelectedMarketer = document.getElementById("task-modal-marketer-select").options.selectedIndex;
         var marketer_id = document.getElementById("task-modal-marketer-select").options[elSelectedMarketer].value;
+        var marketer_name = document.getElementById("task-modal-marketer-select").options[elSelectedMarketer].text;
 
         // Определяем статус
         var elSelectedStatus = document.getElementById("task-modal-status-select").options.selectedIndex;
@@ -64,6 +65,7 @@ $(document).ready(function() {
 
         var action = "changeStatus";
 
+
         $.ajax({
             url: 'tasks.php',
             type: "POST",
@@ -71,14 +73,17 @@ $(document).ready(function() {
                 ajax: action,
                 task_id: task_id,
                 marketer_id: marketer_id,
+                marketer_name: marketer_name,
                 retailpoint_id: retailpoint_id,
                 status: status
             },
             error: function () {
                 alert('Что-то пошло не так!');
             },
-            success: function () {
-                elChangeStatusForm.setAttribute("hidden", " " );
+            success: function (response) {
+                console.log(response);
+
+               // elChangeStatusForm.setAttribute("hidden", " " );
             },
             complete: function () {
                 alert("Статус задачи изменён");
