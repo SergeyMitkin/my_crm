@@ -399,27 +399,6 @@ if(!($db===false)){
 
                         <div class="modal-footer">
                             <p id="task-modal-status-p"></p>
-
-                            <!-- Форма изменения статуса -->
-                            <form class="edit-form" id="edit-task-modal-status-form" hidden>
-
-                                <input type="hidden" id="form-change-status-task_id" name="task_id" value="0">
-
-                                <div class="group">
-                                    <label for="task-modal-marketer-select">Выберите исполнителя</label>
-                                    <select id="task-modal-marketer-select" name="task-modal-marketer-select"></select>
-                                </div>
-
-                                <div class="group">
-                                    <label for="task-modal-status-select">Выберите статус</label>
-                                    <select id="task-modal-status-select" name="task-modal-status-select"></select>
-                                </div>
-
-                                <div class="group" align="center">
-                                    <button id="edit-user-post" class="btn btn-outline-light">Отправить</button>
-                                </div>
-                            </form>
-                            <button class="btn btn-outline-light" id="edit-task-modal-status-button">Изменить статус</button>
                         </div>
                     </div>
                 </div>

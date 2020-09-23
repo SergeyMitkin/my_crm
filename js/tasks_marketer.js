@@ -183,7 +183,8 @@ function getTasksByDate(task_date) {
 
                 elDivTaskRow.innerHTML += '<div id="div-task-span_' + task_id
                 + '" class="div-task-span col-md-12 task-marketer" '
-                //+ ' data-toggle="modal" data-target="#taskModal">'
+                //+ ' data-toggle="modal" data-target="#taskModal"' +
+                  +  '>'
                     + '<span id="task-span_' + task_id
                     + '" class="task-span col-md-12" value="' + task_id
                     + '">' + task_title
@@ -195,11 +196,11 @@ function getTasksByDate(task_date) {
                     + '<ol id="task-marketer-statuses_' + task_id + '"></ol>'
                     + '<span class="col-md-12">Срок выполнения: <span>' + deadline + '</span></span>'
                     + '</br></br>'
-                    + '<div class="change-status-div col-md-12">'
+                    + '<div id="change-status-div_' + task_id + '" class="col-md-12 change-status-div">'
                         + '<p>Изменить статус</p>'
                         + '<select id="select-assigned-marketer_' + task_id + '" class="choose-assigned-marketer"></select>'
                         + '<button id="clarification-button_' + task_id + '" class="btn btn-warning clarification-button">Требует пояснения</button>'
-                        + '<button id="accepted-button_' + task_id + '" class="btn btn-primary accepted-button">Принята</button>'
+                        + '<button id="accepted-button_' + task_id + '" class="btn btn-primary accepted-button ">Принята</button>'
                         + '<button id="completed-button_' + task_id + '" class="btn btn-success completed-button">Выполнена</button>'
                     + '</div>'
                 + '</div>'
@@ -210,6 +211,23 @@ function getTasksByDate(task_date) {
                 // Выводим аткуальные статусы с именами исполнителей
                 var statuses = getTaskStatusesWithMarketerNames(task_id);
             }
+
+            //var elChangeStatusDiv = document.querySelectorAll(".change-status-div");
+            var elModalShow = document.querySelectorAll(".div-task-span");
+
+            elModalShow.forEach( elem => {
+                elem.addEventListener('click', event =>{
+                    // Модальное окно не выводится, если кликнули на кнопку, select или option
+                    if (event.target.tagName !== "BUTTON") {
+                        if (event.target.tagName !== "SELECT") {
+                            if (event.target.tagName !== "OPTION") {
+                                console.log($("#taskModal"));
+                                $("#taskModal").modal('show');
+                            }
+                        }
+                    }
+                })
+            })
 
             // Прикрепляем функцию подстановки переменных в модальное окно заадчи
             var elTaskDiv = document.querySelectorAll(".div-task-span");
@@ -278,6 +296,9 @@ $(document).ready(function () {
         elTaskTodaySpan.textContent = today_string;
 
         getTasksByDate(today);
+    })
+    $(".change-status-div").click(function(){
+        $("#taskModal").modal('show');
     })
 })
 
