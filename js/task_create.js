@@ -73,13 +73,6 @@ $(document).ready(function() {
                 var elDivTaskCreateForm = document.getElementById("div-task-create-form"); // Div с формой создания задачи
                 elDivTaskCreateForm.setAttribute("hidden", ""); // Скрываем форму создания задачи
 
-                // Создаём атрибуты для вывода новой задачи
-                var elTaskRow = document.getElementById("tasks-row");
-                var elLastTaskDiv = document.createElement("div"); // Div для новой задачи
-                var elLastTaskSpan = document.createElement("span"); // Выводим имя задачи
-                
-                var elDivTaskEditButtons = document.createElement("div");
-
                 // Если задача редактировалась выводим новые данные
                 if (id>0){
                     $("#task_span_" + id).text(title);
@@ -91,76 +84,74 @@ $(document).ready(function() {
                 }
                 // Если создана новая, помещаем её в конец списка
                 else {
-                    // Добавляем атрибуты в div новой задачи
-                    var last_task_div_id = "div-task-span_" + obj['id'];
-                    elLastTaskDiv.setAttribute("id", last_task_div_id);
-                    elLastTaskDiv.setAttribute("class", "div-task-span col-md-12 imp-close");
-                    var selected_marketers_string = ' ' + marketer.join(' ') + ' ';
-                    elLastTaskDiv.setAttribute("data-filter-marketer", selected_marketers_string);
-                    var selected_retailpoints_string = ' ' + retailpoint.join(' ') + ' ';
-                    elLastTaskDiv.setAttribute("data-filter-retailpoint", selected_retailpoints_string);
-                    elLastTaskDiv.setAttribute("data-filter-type", obj['type']);
-                    var task_filter_date = obj['deadline'].substr(0, 10);
-                    elLastTaskDiv.setAttribute("data-filter-date", task_filter_date);
 
+                    var task_id = obj['id'];
+                    // Создаём атрибуты для вывода новой задачи
+                    var elTaskRow = document.getElementById("tasks-row");
 
-                    // Добавляем атрибуты для span с кратким описанием последней добавленной задачи
-                    var created_task_id = "task_span_" + obj['id'];
-                    elLastTaskSpan.setAttribute("value", obj['id']);
-                    elLastTaskSpan.setAttribute("class", "task-span col-md-4");
-                    elLastTaskSpan.setAttribute("id", created_task_id);
-                    elLastTaskSpan.textContent = obj['task_title'];
+                    elTaskRow.innerHTML += '<div id="div-task-span_' + task_id
+                        + '" class="div-task-span imp-close col-md-12"'
+                        + ' data-filter-type="' +  type
+                        + '" data-filter-date="' + deadline
+                        + '" data-filter-status=""'
+                        + '" data-filter-marketer=""'
+                        + '" data-filter-retailpoint=""'
+                        + '">'
+                        + '<span id="task_span_' + task_id
+                        + '" class="task-span col-md-4" value="' + task_id
+                        + '">' + title
+                        + '</span>'
+                        + '</br>'
+                        + '<span class="col-md-6">Тип: <span id="task-type_' + task_id + '">' + type + '</span></span>'
+                        + '</br>'
+                        + '<p class="col-md-12">Исполнители: <span id="selected-marketer-names_' + task_id + '"></span></p>'
+                        + '</br>'
+                        + '<p class="col-md-12">Магазины: <span id="selected-retailpoint-names_' + task_id + '"></span></p>'
+                        + '</br>'
+                        + '<span class="col-md-6">Срок выполнения: <span id="task-deadline_' + task_id + '">' + deadline + '</span></span>'
+                        + '<div class="col-md-12" id="task-edit-buttons_' + task_id
+                        + '" align="right">'
+                        + '<button type="button" class="btn btn-primary task-edit-button"'
+                        + ' id="edit-task-button_' + task_id
+                        + '">Редактировать</button>'
+                        + '<button type="button" class="btn btn-danger task-delete-button"'
+                        + ' id="delete-task-button_' + task_id
+                        + '">Удалить</button>'
+                        +'</div>'
+                        +'</div>';
 
+                    var selectedRetailpointNames = getSelectedRetailpointNames(task_id);
+                    var selectedMarketerNames = getSelectedMarketerNames(task_id);
 
+                    var data_status_string = getTaskStatuses(task_id);
+                    var data_retailpoint_string = getSelectedRetailpoints(task_id);
+                    var data_marketer_string = getSelectedMarketers(task_id);
 
-                    // Добавляем кнопку "Редактировать"
-                    var div_edit_buttons_id = "task-edit-buttons_" + obj['id'];
-                    elDivTaskEditButtons.setAttribute("id", div_edit_buttons_id);
-                    elDivTaskEditButtons.setAttribute("align", "right");
-
-                    var elLastTaskEditButton = document.createElement("button");
-                    elLastTaskEditButton.setAttribute("type", "button");
-                    elLastTaskEditButton.setAttribute("class", "btn btn-primary task-edit-button");
-                    var editButtonId = "edit-task-button_" + obj['id'];
-                    elLastTaskEditButton.setAttribute("id", editButtonId);
-                    elLastTaskEditButton.textContent = "Редактировать";
+                    var is_completed = isCompleted(task_id);
 
                     // Прикрепляем к кнопке функцию редактирования
+                    var elLastTaskEditButton = document.getElementById("edit-task-button_" + task_id);
                     addEvent(elLastTaskEditButton, 'click', function (e) {
-                        var task_id = obj['id'];
+                        //var task_id = obj['id'];
                         taskEdit(task_id);
                     })
 
-                    // Добавляем кнопку "Удалить"
-                    var elLastTaskDeleteButton = document.createElement("button");
-                    elLastTaskDeleteButton.setAttribute("type", "button");
-                    elLastTaskDeleteButton.setAttribute("class", "btn btn-danger task-delete-button");
-                    var deleteButtonId = "delete-task-button_" + obj['id'];
-                    elLastTaskDeleteButton.setAttribute("id", deleteButtonId);
-                    elLastTaskDeleteButton.textContent = "Удалить";
-
                     // Прикрепляем к кнопке функцию удаления
+                    var elLastTaskDeleteButton = document.getElementById("delete-task-button_" + task_id);
                     addEvent(elLastTaskDeleteButton, 'click', function (e) {
-                        var task_id = obj['id'];
+                        //var task_id = obj['id'];
                         taskDelete(task_id);
                     })
 
-                    elDivTaskEditButtons.appendChild(elLastTaskEditButton);
-                    elDivTaskEditButtons.appendChild(elLastTaskDeleteButton);
-
-                    elLastTaskDiv.appendChild(elLastTaskSpan);
-                    elLastTaskDiv.appendChild(elDivTaskEditButtons);
-
                     // По клику на задачу, выводим статистику
+                    var elLastTaskDiv = document.getElementById("div-task-span_" + task_id);
                     elLastTaskDiv.addEventListener("click", function () {
-                        console.log(event.currentTarget.classList);
                         if (!event.currentTarget.classList.contains("imp-open")) {
                             if (event.target.tagName !== "BUTTON") {
-                                implementationList(obj['id']);
+                                implementationList(task_id);
                             }
                         }
                     })
-                    elTaskRow.appendChild(elLastTaskDiv);
                 }
             },
             complete: function () {
