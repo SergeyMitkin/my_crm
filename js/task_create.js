@@ -64,6 +64,12 @@ $(document).ready(function() {
             },
             success: function (response) {
 
+                var obj = jQuery.parseJSON(response)[0]; // Данные новой задачи
+
+                var title = obj['task_title'];
+                var type = obj['type'];
+                var deadline = obj['deadline'].substr(0, 10);
+
                 var elDivTaskCreateForm = document.getElementById("div-task-create-form"); // Div с формой создания задачи
                 elDivTaskCreateForm.setAttribute("hidden", ""); // Скрываем форму создания задачи
 
@@ -71,15 +77,17 @@ $(document).ready(function() {
                 var elTaskRow = document.getElementById("tasks-row");
                 var elLastTaskDiv = document.createElement("div"); // Div для новой задачи
                 var elLastTaskSpan = document.createElement("span"); // Выводим имя задачи
+                
                 var elDivTaskEditButtons = document.createElement("div");
 
-
-                var obj = jQuery.parseJSON(response)[0]; // Данные новой задачи
-
-                // Если задача редактировалась выводим новое описание задачи
+                // Если задача редактировалась выводим новые данные
                 if (id>0){
-                    var task_span_id = "task_span_" + id;
-                    document.getElementById(task_span_id).textContent = obj['task_title'];
+                    $("#task_span_" + id).text(title);
+                    $("#task-type_" + id).text(type);
+                    $('#task-deadline_' + id).text(deadline);
+
+                    var selectedMarketerNames = getSelectedMarketerNames(id);
+                    var selectedRetailpointNames = getSelectedRetailpointNames(id);
                 }
                 // Если создана новая, помещаем её в конец списка
                 else {
@@ -102,6 +110,8 @@ $(document).ready(function() {
                     elLastTaskSpan.setAttribute("class", "task-span col-md-4");
                     elLastTaskSpan.setAttribute("id", created_task_id);
                     elLastTaskSpan.textContent = obj['task_title'];
+
+
 
                     // Добавляем кнопку "Редактировать"
                     var div_edit_buttons_id = "task-edit-buttons_" + obj['id'];
@@ -146,12 +156,9 @@ $(document).ready(function() {
                         console.log(event.currentTarget.classList);
                         if (!event.currentTarget.classList.contains("imp-open")) {
                             if (event.target.tagName !== "BUTTON") {
-                                if (event.target.tagName !== "P") {
-                                    implementationList(obj['id']);
-                                }
+                                implementationList(obj['id']);
                             }
                         }
-
                     })
                     elTaskRow.appendChild(elLastTaskDiv);
                 }

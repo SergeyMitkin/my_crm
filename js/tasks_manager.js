@@ -170,13 +170,13 @@ function getTasks() {
                     + '">' + title
                     + '</span>'
                     + '</br>'
-                    + '<span class="col-md-6">Тип: <span>' + type + '</span></span>'
+                    + '<span class="col-md-6">Тип: <span id="task-type_' + id + '">' + type + '</span></span>'
                     + '</br>'
                     + '<p class="col-md-12">Исполнители: <span id="selected-marketer-names_' + id + '"></span></p>'
                     + '</br>'
                     + '<p class="col-md-12">Магазины: <span id="selected-retailpoint-names_' + id + '"></span></p>'
                     + '</br>'
-                    + '<span class="col-md-6">Срок выполнения: <span>' + deadline + '</span></span>'
+                    + '<span class="col-md-6">Срок выполнения: <span id="task-deadline_' + id + '">' + deadline + '</span></span>'
                     + '<div class="col-md-12" id="task-edit-buttons_' + id
                     + '" align="right">'
                         + '<button type="button" class="btn btn-primary task-edit-button"'

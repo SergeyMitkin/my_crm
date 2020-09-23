@@ -6,7 +6,7 @@ function taskEdit(id) {
     // Id предыдущей задачи, на которй была открыта форма редактирования
     var pastTaskId = $("#form-create-task_id").val();
 
-    // Делаем кликабельным предыдущую задачу, если на ней открывали форму редактирования
+    // Делаем кликабельной предыдущую задачу, если на ней открывали форму редактирования
     if (pastTaskId !== '0') {
         var elDivPastTask = document.getElementById("div-task-span_" + pastTaskId);
         if (elDivPastTask.classList.contains("imp-open")) {

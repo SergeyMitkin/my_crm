@@ -2,7 +2,11 @@
 function implementationList(task_id){
     // Div задачи
     var div_task_span_id = "div-task-span_" + task_id;
-    var elTaskDiv = document.getElementById(div_task_span_id);
+    var elTaskDiv = document.getElementById(div_task_span_id)
+
+    // Делаемнекликабельным div задачи
+    elTaskDiv.classList.remove("imp-close");
+    elTaskDiv.classList.add("imp-open");
 
     var elTaskEditButton = document.getElementById("edit-task-button_" + task_id);
     elTaskEditButton.setAttribute("disabled", "");
@@ -137,7 +141,7 @@ function implementationList(task_id){
                             taskDelete(task_id)
                         })
 
-                        // Прикрепляем функцию скрытия кнопки реализации
+                        // Прикрепляем функцию скрытия формы редактирования
                         var elButtonClose = document.querySelector(".close-button");
                         elButtonClose.addEventListener('click', event =>{
                                 var elDivTaskSpan = document.getElementById("div-task-span_" + task_id);
